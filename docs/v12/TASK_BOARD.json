@@ -1,0 +1,361 @@
+{
+  "project": "Giao Xu An Hoa V12",
+  "source": "V4-V11 existing repo",
+  "tasks": [
+    {
+      "id": "T00",
+      "title": "Audit repo & chạy baseline",
+      "priority": "P0",
+      "dependsOn": [],
+      "scope": "Inventory stack + data/API + current scene files; build/test baseline",
+      "acceptance": "Có bảng file thật, lỗi hiện tại, commit baseline, screenshot và test logs",
+      "status": "VERIFIED",
+      "kind": "code",
+      "actualFiles": [
+        "docs/v12/REPO_AUDIT.md"
+      ],
+      "evidence": [
+        "artifacts/v12/baseline.json",
+        "artifacts/v12/before/",
+        "artifacts/v12/baseline-local.txt",
+        "artifacts/v12/baseline-online.txt"
+      ]
+    },
+    {
+      "id": "T01",
+      "title": "Chuẩn hóa art pipeline & scene contracts",
+      "priority": "P0",
+      "dependsOn": [
+        "T00"
+      ],
+      "scope": "Scene manifest, art/ground/occlusion/collision/interactions/spawn/portals; asset loader",
+      "acceptance": "Có schema validated; một scene demo tách lớp, debug overlays",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T02",
+      "title": "Navigation & collision robust",
+      "priority": "P0",
+      "dependsOn": [
+        "T01"
+      ],
+      "scope": "Feet colliders, swept movement, A*, click replacement, desktop + mobile input",
+      "acceptance": "Không đi xuyên object; 10 click liên tiếp không kẹt; test corners",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T03",
+      "title": "Chung Avatar/V10 tích hợp nguồn V4",
+      "priority": "P0",
+      "dependsOn": [
+        "T00"
+      ],
+      "scope": "Avatar rig 4 hướng/poses, equip item, camera scale, UI studio",
+      "acceptance": "Male/female, outfit, reload, scene transition, không xoay đầu 360",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T04",
+      "title": "Ghế ngồi + animation + depth",
+      "priority": "P0",
+      "dependsOn": [
+        "T02",
+        "T03"
+      ],
+      "scope": "SeatId, approach point, occupancy, sit_back, occlusion",
+      "acceptance": "Ghế không chồng, không ngồi sai hướng, không double occupied",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-01",
+      "title": "Dựng lại Sân giáo xứ",
+      "priority": "P0",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Đường đá, nhà thờ kiến trúc Gothic, vườn hoa, bảng tin, NPC. Tương tác: Cổng nhà thờ; quét sân; đón khách; đi đến nhà xứ/lớp giáo lý. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-02",
+      "title": "Dựng lại Gian chính nhà thờ",
+      "priority": "P0",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03",
+        "T04"
+      ],
+      "scope": "Art: Cung thánh xa, hai dãy ghế phối cảnh, hành lang giữa, kính màu. Tương tác: Chọn ghế, quỳ/chắp tay, đọc thông tin, NPC. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-03",
+      "title": "Dựng lại Lớp giáo lý",
+      "priority": "P0",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Bàn học, bảng, kệ sách, góc quiz. Tương tác: 3 câu trắc nghiệm, xếp sách, trò chuyện với Sơ. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-04",
+      "title": "Dựng lại Khu giếng Rửa Tội",
+      "priority": "P0",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Giếng, kính màu, bảng thuyết minh, hoa, nến. Tương tác: Đọc bảng, gặp Chị Hạnh, tìm hiểu biểu tượng. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-05",
+      "title": "Dựng lại Góc Hòa Giải",
+      "priority": "P0",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Tòa giải tội, ghế chờ, ánh sáng dịu. Tương tác: Đọc kiến thức, hướng dẫn xét mình, NPC. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-06",
+      "title": "Dựng lại Tiền sảnh",
+      "priority": "P1",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Cửa gỗ, bảng lịch lễ, ghế, quầy đón khách. Tương tác: Xem lịch, hướng dẫn, portal vào gian chính. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-07",
+      "title": "Dựng lại Phòng ca đoàn",
+      "priority": "P1",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Organ, giá nhạc, ghế, kệ bài hát. Tương tác: Bài tập nhịp, sắp bản nhạc, NPC trưởng ca đoàn. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-08",
+      "title": "Dựng lại Vườn cộng đồng",
+      "priority": "P1",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Bồn hoa, lối đá, vòi nước, dụng cụ. Tương tác: Tưới hoa, nhặt lá, trồng hoa. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-09",
+      "title": "Dựng lại Nhà xứ",
+      "priority": "P1",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Bàn làm việc, tủ sách, góc tiếp khách, quà. Tương tác: Gặp cha, nhận nhiệm vụ bác ái, gói quà. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-10",
+      "title": "Dựng lại Gian trang phục",
+      "priority": "P1",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Tủ áo, gương, mannequin, góc thử đồ. Tương tác: Thử đồ, mua, mặc, lưu preset. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "MAP-11",
+      "title": "Dựng lại Quảng trường Giáng sinh",
+      "priority": "P1",
+      "dependsOn": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "scope": "Art: Cây thông, gian hàng, hang đá, sân khấu nhẹ. Tương tác: Trang trí, góc checkin, event tracking. Collider, spawn, NPC, UI, zone & camera.",
+      "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T20",
+      "title": "Tích hợp Shop & avatar persistence",
+      "priority": "P1",
+      "dependsOn": [
+        "T03"
+      ],
+      "scope": "Item ownership/equip consistency, previews, admin shop item updates",
+      "acceptance": "Không mất Xu/item trùng, inventory server authoritative",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T21",
+      "title": "NPC & người chơi thật + chat",
+      "priority": "P1",
+      "dependsOn": [
+        "T00",
+        "T01"
+      ],
+      "scope": "Replace ambient NPC gradually; preserve functional NPC, chat moderation",
+      "acceptance": "Số NPC/real users admin only; muted user cannot send",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T22",
+      "title": "Noel tickets & entitlements integration",
+      "priority": "P1",
+      "dependsOn": [
+        "MAP-11"
+      ],
+      "scope": "Use existing ticket grants/entitlements, not client flag",
+      "acceptance": "No ticket blocked; paid ticket opens; no fake payment",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T23",
+      "title": "Admin CMS cho map & costume",
+      "priority": "P1",
+      "dependsOn": [
+        "T20",
+        "T21"
+      ],
+      "scope": "Edit/update content with roles/audit logs, preview/test before publish",
+      "acceptance": "Non-admin denied, admin changes reflected, rollback possible",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T24",
+      "title": "Performance & mobile render",
+      "priority": "P1",
+      "dependsOn": [
+        "MAP-01",
+        "MAP-02",
+        "MAP-03",
+        "MAP-04",
+        "MAP-05",
+        "MAP-06",
+        "MAP-07",
+        "MAP-08",
+        "MAP-09",
+        "MAP-10",
+        "MAP-11"
+      ],
+      "scope": "Sprite atlas, cull offscreen, 30fps mobile target; UI safe area",
+      "acceptance": "Performance report desktop/mobile, no leak after repeated scene changes",
+      "status": "TODO",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    },
+    {
+      "id": "T25",
+      "title": "Regression E2E & handoff report",
+      "priority": "P0",
+      "dependsOn": [
+        "T20",
+        "T21",
+        "T22",
+        "T23",
+        "T24"
+      ],
+      "scope": "Run end-to-end tests, screenshot diffs, source docs, release checklist",
+      "acceptance": "No open P0/P1; report PASS/FAIL/BLOCKED with evidence",
+      "status": "WAITING_DEPENDENCIES",
+      "kind": "code",
+      "actualFiles": [],
+      "evidence": []
+    }
+  ],
+  "baselineCommit": "a70ca9855927ee335eadc32058306b867754fd03",
+  "phase": "P0 first; T25 waits for its P1 dependencies"
+}
