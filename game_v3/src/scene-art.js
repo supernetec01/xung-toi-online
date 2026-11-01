@@ -9,6 +9,52 @@
     stall: 'stall',
     gifts: 'gifts',
   };
+  const assetCache = new Map();
+  const v8Names = ['nave', 'foyer', 'choir', 'garden', 'office', 'shoproom'];
+  function assetList(sc) {
+    if (!sc.art) return [];
+    if (sc.art.theme === 'v12')
+      return [
+        'assets/v12/' + sc.art.background + '.webp',
+        ...new Set(
+          sc.art.props
+            .filter((p) => typeof p.sprite === 'string')
+            .map((p) => 'assets/v12/' + p.sprite + '.webp'),
+        ),
+        ...(sc.art.props.some((p) => typeof p.sprite === 'number' && !p.bench)
+          ? ['assets/v8/objects.webp']
+          : []),
+      ];
+    if (sc.art.theme === 'christmas-night')
+      return [
+        'assets/christmas/architecture.webp',
+        ...Object.values(christmasAssets).map((name) => 'assets/christmas/' + name + '.webp'),
+      ];
+    return ['assets/v8/' + v8Names[sc.art.tile] + '.webp', 'assets/v8/objects.webp'];
+  }
+  function loadAsset(url) {
+    if (assetCache.has(url)) return assetCache.get(url);
+    const ready = new Promise((resolve, reject) => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => resolve(url);
+      img.onerror = () => {
+        assetCache.delete(url);
+        reject(Error('ASSET_UNAVAILABLE'));
+      };
+      img.src = url;
+    });
+    if (assetCache.size >= 32) assetCache.delete(assetCache.keys().next().value);
+    assetCache.set(url, ready);
+    return ready;
+  }
+  async function preload(sc) {
+    const results = await Promise.allSettled(assetList(sc).map(loadAsset));
+    return {
+      ready: results.every((r) => r.status === 'fulfilled'),
+      failed: results.filter((r) => r.status === 'rejected').length,
+    };
+  }
   function lantern(side) {
     return `<svg viewBox="0 0 90 340" aria-hidden="true"><defs><linearGradient id="noel-metal-${side}" x2="1" y2="0"><stop stop-color="#171e25"/><stop offset=".5" stop-color="#817453"/><stop offset="1" stop-color="#202935"/></linearGradient><radialGradient id="noel-lamp-${side}"><stop stop-color="#fffce1"/><stop offset=".35" stop-color="#ffd783" stop-opacity=".65"/><stop offset="1" stop-color="#e6a93b" stop-opacity="0"/></radialGradient></defs><ellipse cx="45" cy="327" rx="30" ry="9" fill="#09182c" opacity=".5"/><circle cx="45" cy="54" r="43" fill="url(#noel-lamp-${side})"/><path d="M32 314h26l6 14H26Zm6-218h14v219H38Z" fill="url(#noel-metal-${side})"/><path d="M22 40h46L61 91H29Z" fill="#ffe8a3" stroke="#595444" stroke-width="4"/><path d="M17 40 31 22h28l14 18ZM45 11v13M28 91h34l-9 11H37Z" fill="url(#noel-metal-${side})" stroke="#82734e" stroke-width="2"/><path d="M45 40v51M24 51h43" stroke="#66563e" stroke-width="3"/><path d="M23 139q22 28 44 0M23 149q22 28 44 0" fill="none" stroke="#2c604e" stroke-width="10"/><path d="M45 161c-35-26-34 23 0 0 33 23 34-26 0 0l-9 36 9-7 9 7Z" fill="#a83f46" stroke="#dc8066" stroke-width="1.5"/><circle cx="34" cy="151" r="3" fill="#efd092"/><circle cx="56" cy="151" r="3" fill="#efd092"/></svg>`;
   }
@@ -30,6 +76,11 @@
     delete stage.dataset.assetWarned;
     stage.querySelectorAll('.scene-prop,.scene-light').forEach((el) => el.remove());
     stage.dataset.art = sc.artVersion || 'legacy';
+    const loadingScene = stage.dataset.scene;
+    stage.dataset.assetsReady = 'false';
+    preload(sc).then((result) => {
+      if (stage.dataset.scene === loadingScene) stage.dataset.assetsReady = String(result.ready);
+    });
     stage.closest('.game').dataset.worldTheme = sc.art?.theme || '';
     stage.parentElement.classList.toggle('layered-world', !!sc.art);
     if (!sc.art) return false;
@@ -114,5 +165,5 @@
   }
   const depth = (y) => Math.round(y * 10),
     scale = (y) => Math.max(0.6, Math.min(1.2, 0.6 + (y - 56) * 0.014));
-  window.PARISH_SCENE_ART = { mount, depth, scale };
+  window.PARISH_SCENE_ART = { mount, depth, scale, preload, assetList };
 })();

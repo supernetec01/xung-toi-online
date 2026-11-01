@@ -48,6 +48,7 @@ function validate(c) {
       }
   }
   safe(c);
+  errors.push(...require('../game_v3/src/scene-contract.js').validate(c, N));
   const validId = (id) => typeof id === 'string' && /^[a-z][a-z0-9_]{1,63}$/.test(id),
     color = (x) => typeof x === 'string' && /^#[0-9a-fA-F]{6}$/.test(x);
   for (const key of ['items', 'quests', 'actions'])

@@ -780,7 +780,12 @@ async function route(req, res) {
           'text/html; charset=utf-8',
         );
       const name = p.slice('/admin/'.length);
-      if (!['app.js', 'style.css'].includes(name)) S.fail(404, 'NOT_FOUND');
+      if (name === 'scene-debug.js') {
+        S.authorize(user, 'presence.metrics');
+        if (process.env.NODE_ENV === 'production' && process.env.FEATURE_SCENE_DEBUG !== 'true')
+          S.fail(404, 'DISABLED');
+      }
+      if (!['app.js', 'style.css', 'scene-debug.js'].includes(name)) S.fail(404, 'NOT_FOUND');
       return staticFile(
         res,
         path.join(DB.root, 'public/admin', name),

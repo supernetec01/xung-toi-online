@@ -39,3 +39,9 @@ Mỗi task cập nhật trạng thái thật, log/test/ảnh và rollback. Visua
 ## T00 thực thi
 
 Đã chụp 24 ảnh: 11 map × desktop/mobile + Avatar cũ. `npm test` và toàn bộ `test:online` baseline đạt trên DB QC riêng; 0 pageerror trong lượt chụp. Backup và restore drill đạt. Chưa thay production code trong lúc chạy baseline.
+
+## T01 thực thi
+
+Scene adapter giữ stable IDs; schema kiểm bounds/props/assets/portal và strict geometry cho contract version 1. Legacy chưa gắn version 1 vẫn đi qua adapter và cơ chế nearest spawn cũ, không tự thay catalog người dùng. 33 contract checks đạt; overlay 6 chế độ đã mở trong browser Admin, PLAYER/MODERATOR/EDITOR bị 403; guest không có panel. Asset preload dùng cache promise tối đa 32 URL, lỗi được phép retry. Debug chỉ tải khi Admin dùng `?debugScene=1`, production tắt mặc định.
+
+Audit bổ sung: spawn nguồn ở sân/lớp/giếng nằm trong collider cũ; runtime có nearest recovery nên baseline chạy được. P0 layout phải sửa nguồn spawn thật, không dựa mãi vào recovery.

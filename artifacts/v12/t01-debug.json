@@ -1,0 +1,12 @@
+{
+  "roles": {
+    "PLAYER": 403,
+    "MODERATOR": 403,
+    "CONTENT_EDITOR": 403,
+    "ADMIN": 200,
+    "SUPER_ADMIN": 200
+  },
+  "guestHasNoDebug": true,
+  "sixOverlaysWork": true,
+  "assetPreloadReady": true
+}

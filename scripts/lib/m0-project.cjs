@@ -10,7 +10,15 @@ function readJson(relative, root = ROOT) {
 function loadCatalog(root = ROOT) {
   const ctx = { window: {} };
   vm.createContext(ctx);
-  for (const name of ['data', 'activities', 'rules', 'gameplay', 'scene-layout', 'navigation']) {
+  for (const name of [
+    'data',
+    'activities',
+    'rules',
+    'gameplay',
+    'scene-contract',
+    'scene-layout',
+    'navigation',
+  ]) {
     vm.runInContext(fs.readFileSync(path.join(root, `game_v3/src/${name}.js`), 'utf8'), ctx);
   }
   return ctx.window;

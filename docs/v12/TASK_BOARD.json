@@ -30,10 +30,24 @@
       ],
       "scope": "Scene manifest, art/ground/occlusion/collision/interactions/spawn/portals; asset loader",
       "acceptance": "Có schema validated; một scene demo tách lớp, debug overlays",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/scene-contract.js",
+        "game_v3/src/scene-art.js",
+        "public/admin/scene-debug.js",
+        "server/catalog.cjs",
+        "server/main.cjs",
+        "game_v3/src/boot.js",
+        "game_v3/index.html",
+        "scripts/lib/m0-project.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/t01-contract.txt",
+        "artifacts/v12/t01-debug.txt",
+        "artifacts/v12/t01-debug-admin.jpg",
+        "artifacts/v12/t01-verify.txt"
+      ]
     },
     {
       "id": "T02",
