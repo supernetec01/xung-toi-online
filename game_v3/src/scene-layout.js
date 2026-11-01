@@ -36,11 +36,11 @@
         altar: [50, 58],
         baptistry: [14, 63],
         confession: [86, 63],
-        choir: [12, 81],
+        choir: [12, 77],
         exit: [50, 94],
         action_hub_nave: [54, 79],
       },
-      npcPoints: { father: [54, 59], sister: [43, 61] },
+      npcPoints: { father: [54, 58], sister: [45, 59] },
       entry: [50, 92],
     },
     foyer: {
@@ -133,23 +133,37 @@
           : row === 1 && side === 'right'
             ? 'seat_b'
             : `seat_${side}_${row}`;
-      const y = 70 + row * 7.4,
-        w = 25 + row * 3,
-        x = side === 'left' ? 27 - row * 2 : 73 + row * 2;
-      nave.props.push(
-        prop(id, side === 'left' ? 0 : 1, x, y, w, 13 + row * 1.5, [
-          x - w * 0.47,
-          y - 3,
-          x + w * 0.47,
-          y + 0.6,
-        ]),
+      // Adapt V9's 1672×941 geometry to the existing V4 percentage floor.
+      const rows = [
+        { y: 476, left: [417, 712], right: [960, 1255], h: 44 },
+        { y: 548, left: [334, 682], right: [990, 1338], h: 51 },
+        { y: 634, left: [238, 648], right: [1024, 1434], h: 61 },
+        { y: 750, left: [125, 600], right: [1072, 1547], h: 73 },
+      ];
+      const r = rows[row],
+        [l, right] = r[side],
+        width = right - l,
+        X = (v) => (v / 1672) * 100,
+        Y = (v) => 56 + ((v - 400) / 541) * 41;
+      const p = prop(
+        id,
+        0,
+        X((l + right) / 2),
+        Y(r.y + r.h + 30),
+        X(width + 30),
+        ((r.h + 60) / 541) * 41,
+        [X(l - 9), Y(r.y - 21), X(right + 9), Y(r.y + r.h + 27)],
+        Y(r.y + 4),
       );
+      p.bench = { x: l, y: r.y, w: width, h: r.h };
+      nave.props.push(p);
       seats[id] = [0, 1, 2].map((i) => ({
-        position: [x + (i - 1) * w * 0.25, y - 1.2],
-        approach: [side === 'left' ? 44 : 56, y + 3],
+        position: [X(l + ((i + 0.5) * width) / 3), Y(r.y + 4)],
+        approach: [X(side === 'left' ? right + 34 : l - 34), Y(r.y + r.h * 0.4)],
         direction: 'up',
+        pose: 'sit_back',
       }));
-      nave.points[id] = [x, y - 5];
+      nave.points[id] = [X((l + right) / 2), Y(r.y)];
       nave.anchors[id] = seats[id][0].approach;
     }
   for (const [id, layout] of Object.entries(rooms)) {

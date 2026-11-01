@@ -879,7 +879,7 @@ button:focus-visible {
 }
 @keyframes step {
   to {
-    transform: translateY(-4px) rotate(1deg);
+    transform: translateY(-4px);
   }
 }
 @keyframes pop {
@@ -1901,4 +1901,22 @@ svg[data-sprite-version][data-pose='walk'] [data-part='legs'] {
   .mobile-pad button {
     font-size: 19px;
   }
+}
+
+/* V9 split pews carry their own occlusion; no seated avatar offset hack. */
+.stage[data-scene='nave'] .world-player.sitting,
+.stage[data-scene='nave'] .online-actor[data-pose='sit'] {
+  margin-top: 0;
+}
+.stage[data-scene='nave'] .scene-prop[data-bench-part] {
+  filter: none;
+}
+/* Keep the feet anchor fixed while scaling; front rail masks seated lower legs. */
+.world-player,
+.online-actor {
+  transform-origin: 50% 100%;
+}
+.stage[data-scene='nave'] .world-player.sitting,
+.stage[data-scene='nave'] .online-actor[data-pose='sit'] {
+  margin-top: 22px;
 }

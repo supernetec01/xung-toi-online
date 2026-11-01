@@ -409,7 +409,7 @@
         pose: st.activeAction
           ? ACT.find((a) => a.id === st.activeAction.actionId)?.pose
           : st.seated
-            ? 'sit'
+            ? 'sit_back'
             : 'idle',
       }) + `<span class="name">${A.esc(st.username || 'Người chơi')}</span>`;
     el.classList.toggle('sitting', !!st.seated);
@@ -444,15 +444,17 @@
     }
     const scene = st.scene,
       sc = D.scenes[scene],
-      token = movement + 1,
+      token = ++movement,
       seat = st.seated ? seatOf(sc) : null,
       origin = motionPoint || seat?.approach || [st.x, st.y],
       path = N.route(sc, origin, [x, y]);
     if (!path.length) {
+      moving = false;
+      $('worldPlayer').classList.remove('walking');
       toast('Không có lối đi đến đây.');
       return false;
     }
-    movement = token;
+
     const actor = $('worldPlayer');
     moving = true;
     actor.classList.remove('sitting');
@@ -475,13 +477,16 @@
         distance = Math.hypot((dx * stage.clientWidth) / 100, (dy * stage.clientHeight) / 100);
       const duration = st.lowMotion ? Math.min(120, distance / 1.6) : distance / 0.32;
       await new Promise((resolve) => {
-        const started = performance.now();
+        let previousTime = performance.now(),
+          elapsed = 0;
         const frame = (now) => {
           if (token !== movement || st.scene !== scene) {
             resolve();
             return;
           }
-          const t = Math.min(1, (now - started) / Math.max(1, duration));
+          elapsed += Math.min(50, Math.max(0, now - previousTime));
+          previousTime = now;
+          const t = Math.min(1, elapsed / Math.max(1, duration));
           motionPoint = [from[0] + dx * t, from[1] + dy * t];
           actor.style.left = motionPoint[0] + '%';
           actor.style.top = motionPoint[1] + '%';
@@ -648,16 +653,18 @@
         document.querySelectorAll('[data-seat]').forEach(
           (b) =>
             (b.onclick = async () => {
-              await mutate(
+              const seated = await mutate(
                 () => {
                   st.seated = true;
                   st.seatId = id + ':' + b.dataset.seat;
                   const seat = D.scenes[st.scene].seats?.[id]?.[Number(b.dataset.seat)];
                   [st.x, st.y] = seat?.position || [x + (Number(b.dataset.seat) - 1) * 3, y];
                   record('sit_pew', st.seatId);
+                  return true;
                 },
                 intent('/api/player/interact', { spotId: id, choice: Number(b.dataset.seat) }),
               );
+              if (!seated) return;
               closeModal();
               showPlayer();
               toast('🪑 Đã ngồi. Chạm lối đi để đứng dậy.');

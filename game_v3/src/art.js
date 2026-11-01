@@ -194,10 +194,15 @@
       bottom = paint(person.bottom, '#465b75'),
       shoes = paint(person.shoes, '#6a443e'),
       hair = paint(person.hair, '#543932'),
-      direction = directions.includes(person.direction) ? person.direction : 'down',
+      direction =
+        person.pose === 'sit_back'
+          ? 'up'
+          : directions.includes(person.direction)
+            ? person.direction
+            : 'down',
       pose = poses.includes(person.pose)
         ? person.pose
-        : { cross: 'sign_cross', clean: 'wipe' }[person.pose] || 'idle',
+        : { cross: 'sign_cross', clean: 'wipe', sit_back: 'sit' }[person.pose] || 'idle',
       acc = ['acc_bow', 'acc_lily', 'acc_bag'].includes(person.acc) ? person.acc : 'acc_none',
       layers = window.PARISH_WARDROBE?.frames(person.assets, pose, direction) || [],
       key = [
@@ -258,7 +263,7 @@
           .join(''),
       )
       .join('');
-    const result = `<svg viewBox="0 0 120 185" xmlns="http://www.w3.org/2000/svg" data-sprite-version="${spriteVersion}" data-direction="${direction}" data-pose="${pose}" aria-label="Nhân vật ${female ? 'nữ' : 'nam'}"><ellipse cx="60" cy="175" rx="31" ry="7" fill="#5b4a59" opacity=".25"/>${body}${atlasLayers}</svg>`;
+    const result = `<svg viewBox="0 0 120 185" xmlns="http://www.w3.org/2000/svg" data-sprite-version="${spriteVersion}" data-direction="${direction}" data-pose="${pose}" data-seating-pose="${pose === 'sit' ? 'sit_back' : ''}" aria-label="Nhân vật ${female ? 'nữ' : 'nam'}"><ellipse cx="60" cy="175" rx="31" ry="7" fill="#5b4a59" opacity=".25"/>${body}${atlasLayers}</svg>`;
     if (avatarCache.size >= 256) avatarCache.delete(avatarCache.keys().next().value);
     avatarCache.set(key, result);
     return result;

@@ -2,6 +2,8 @@
 
 Game 2D tiếng Việt, tiếp tục renderer/gameplay hiện hành. Bản **demo online** dùng Node.js 24 + PostgreSQL 16, có tài khoản, Admin/MFA/RBAC, CMS, kinh tế server, chat kiểm duyệt, NPC cư dân, LIVE Simulator và Noel cộng đồng. Cổng game nội bộ cố định **5001**.
 
+Sửa nhà thờ **V9** (ghế tách trước/sau, hướng ngồi, điều khiển): [báo cáo, ảnh, video và rollback](docs/V9_CHURCH_FIX.md).
+
 Giao diện **V8 2.5D** cho gian chính, tiền sảnh, ca đoàn, vườn, nhà xứ và trang phục: [báo cáo, ảnh so sánh và rollback](docs/V8_IMPLEMENTATION.md). Kiến trúc, sàn, đồ vật, avatar và HUD tách lớp; tiếp tục dùng tài khoản/dữ liệu V4.
 
 Bản sửa bố cục nhà thờ, camera hai trục và NPC ngồi ghế: [docs/WORLD_UPGRADE.md](docs/WORLD_UPGRADE.md), ảnh trước bàn giao trong `artifacts/world-upgrade/`.

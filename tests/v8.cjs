@@ -165,6 +165,7 @@ async function clickWorld(p, x, y) {
         }));
         assert(C.N.walkable(c.scenes.nave, moving.x, moving.y), 'standing exits to aisle');
         await p.waitForFunction(() => !document.querySelector('#worldPlayer.walking'));
+        await p.waitForFunction((k) => !JSON.parse(localStorage.getItem(k)).seated, key);
         assert(!(await state(p)).seated);
         const y = (await state(p)).y;
         await p.keyboard.down('w');

@@ -21,7 +21,15 @@ async function publish(db, selected, write = false) {
     next = structuredClone(current);
   delete next.version;
   const old = JSON.parse(fs.readFileSync(path.join(__dirname, '../db/layouts/pre-v8.json')));
-  const reference = selected === 'v4' ? old.scenes : C.seed.scenes;
+  const reference =
+    selected === 'v4'
+      ? old.scenes
+      : selected === 'v8'
+        ? {
+            ...C.seed.scenes,
+            nave: JSON.parse(fs.readFileSync(path.join(__dirname, '../db/layouts/pre-v9.json'))),
+          }
+        : C.seed.scenes;
   for (const id of Object.keys(old.scenes)) {
     const source = reference[id],
       sc = next.scenes[id];
@@ -81,8 +89,8 @@ async function publish(db, selected, write = false) {
   };
 }
 if (require.main === module) {
-  if (!['v4', 'v8'].includes(mode)) {
-    console.error('Usage: node scripts/scene-layout.cjs v4|v8 [--apply] (default: dry run)');
+  if (!['v4', 'v8', 'v9'].includes(mode)) {
+    console.error('Usage: node scripts/scene-layout.cjs v4|v8|v9 [--apply] (default: dry run)');
     process.exitCode = 1;
     pool.end();
   } else

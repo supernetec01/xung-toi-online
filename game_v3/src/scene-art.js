@@ -25,6 +25,17 @@
         height: p.h + '%',
         zIndex: String(Math.round(p.depth * 10)),
       });
+      if (p.bench) {
+        el.dataset.benchPart = 'back';
+        el.style.zIndex = String(Math.round(p.depth * 10) - 1);
+        el.innerHTML = window.PARISH_PEW({ ...p.bench, id: p.id }, 'back');
+        const front = el.cloneNode(false);
+        front.dataset.benchPart = 'front';
+        front.style.zIndex = String(Math.round(p.depth * 10) + 1);
+        front.innerHTML = window.PARISH_PEW({ ...p.bench, id: p.id }, 'front');
+        stage.append(el, front);
+        continue;
+      }
       // Tight, measured source rectangles prevent adjacent atlas sprites bleeding.
       const rects = [
         [12, 32, 308, 290],

@@ -39,6 +39,7 @@ jobs:
       - run: npm test
       - run: npm run test:online
       - run: npm run test:v8
+      - run: npm run test:v9
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -48,3 +49,4 @@ jobs:
             artifacts/online
             artifacts/m0
             artifacts/v8
+            artifacts/v9

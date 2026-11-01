@@ -10,12 +10,22 @@ async function state(userId, db = pool) {
     )
   ).rows[0];
   if (!r) S.fail(404, 'USER_NOT_FOUND');
-  return {
+  const value = {
     ...r.state,
     coins: Number(r.coins),
     username: r.display_name,
     stateVersion: Number(r.version),
   };
+  if (value.seated && value.seatId) {
+    const c = await C.current(db),
+      parts = value.seatId.split(':'),
+      seat =
+        c.scenes[value.scene]?.seats?.[parts.length === 3 ? parts[1] : parts[0]]?.[
+          Number(parts.at(-1))
+        ];
+    if (seat) [value.x, value.y] = seat.position;
+  }
+  return value;
 }
 async function play(user, key, kind, payload, fn) {
   key = S.text(key, 8, 120);

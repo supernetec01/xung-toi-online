@@ -1,0 +1,78 @@
+{
+  "rooms": [
+    {
+      "id": "nave",
+      "viewport": [
+        1366,
+        768
+      ],
+      "props": 20,
+      "coinsPreserved": true
+    },
+    {
+      "id": "nave",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "props": 20,
+      "coinsPreserved": true
+    },
+    {
+      "id": "nave",
+      "viewport": [
+        375,
+        667
+      ],
+      "props": 20,
+      "coinsPreserved": true
+    },
+    {
+      "id": "nave",
+      "viewport": [
+        390,
+        844
+      ],
+      "props": 20,
+      "coinsPreserved": true
+    }
+  ],
+  "input": [
+    "ten rapid commands; 20 blocked wall clicks; seated facing; collision-safe stand; held WASD"
+  ],
+  "performance": [
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "fps": 60.385474398176015,
+      "p95": 16.799999999999272
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "fps": 60.48554146984418,
+      "p95": 16.700000000000045
+    },
+    {
+      "viewport": [
+        375,
+        667
+      ],
+      "fps": 60.90534979427602,
+      "p95": 16.700000000000273
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "fps": 60.71190951426709,
+      "p95": 16.700000000000273
+    }
+  ],
+  "errors": []
+}

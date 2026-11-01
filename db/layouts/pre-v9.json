@@ -1,0 +1,769 @@
+{
+  "name": "Gian chính nhà thờ",
+  "sub": "Không gian tĩnh lặng • hàng ghế giáo dân",
+  "icon": "⛪",
+  "entry": [
+    50,
+    92
+  ],
+  "npc": [
+    "father",
+    "sister"
+  ],
+  "spots": [
+    [
+      "altar",
+      "✝",
+      "Tìm hiểu bàn thờ",
+      50,
+      55,
+      "info",
+      "altar"
+    ],
+    [
+      "baptistry",
+      "💧",
+      "Giếng Rửa Tội",
+      14,
+      63,
+      "go",
+      "baptistry"
+    ],
+    [
+      "confession",
+      "🕊️",
+      "Góc Hòa Giải",
+      86,
+      63,
+      "go",
+      "confession"
+    ],
+    [
+      "choir",
+      "🎼",
+      "Phòng ca đoàn",
+      12,
+      81,
+      "go",
+      "choir"
+    ],
+    [
+      "exit",
+      "🚪",
+      "Ra sân",
+      50,
+      94,
+      "go",
+      "foyer"
+    ],
+    [
+      "action_hub_nave",
+      "🙌",
+      "Hành động tại đây",
+      58,
+      79,
+      "activity_hub"
+    ],
+    [
+      "seat_a",
+      "🪑",
+      "Hàng ghế trái 1",
+      27,
+      65,
+      "seat"
+    ],
+    [
+      "seat_right_0",
+      "🪑",
+      "Hàng ghế phải 1",
+      73,
+      65,
+      "seat"
+    ],
+    [
+      "seat_left_1",
+      "🪑",
+      "Hàng ghế trái 2",
+      25,
+      72.4,
+      "seat"
+    ],
+    [
+      "seat_b",
+      "🪑",
+      "Hàng ghế phải 2",
+      75,
+      72.4,
+      "seat"
+    ],
+    [
+      "seat_left_2",
+      "🪑",
+      "Hàng ghế trái 3",
+      23,
+      79.8,
+      "seat"
+    ],
+    [
+      "seat_right_2",
+      "🪑",
+      "Hàng ghế phải 3",
+      77,
+      79.8,
+      "seat"
+    ],
+    [
+      "seat_left_3",
+      "🪑",
+      "Hàng ghế trái 4",
+      21,
+      87.2,
+      "seat"
+    ],
+    [
+      "seat_right_3",
+      "🪑",
+      "Hàng ghế phải 4",
+      79,
+      87.2,
+      "seat"
+    ]
+  ],
+  "bounds": [
+    4,
+    56,
+    96,
+    97
+  ],
+  "blockers": [
+    [
+      32,
+      54,
+      40,
+      59
+    ],
+    [
+      60,
+      54,
+      68,
+      59
+    ],
+    [
+      0,
+      87,
+      7,
+      98
+    ],
+    [
+      93,
+      87,
+      100,
+      98
+    ],
+    [
+      15.25,
+      67,
+      38.75,
+      70.6
+    ],
+    [
+      61.25,
+      67,
+      84.75,
+      70.6
+    ],
+    [
+      11.84,
+      74.4,
+      38.16,
+      78
+    ],
+    [
+      61.84,
+      74.4,
+      88.16,
+      78
+    ],
+    [
+      8.430000000000001,
+      81.8,
+      37.57,
+      85.39999999999999
+    ],
+    [
+      62.43,
+      81.8,
+      91.57,
+      85.39999999999999
+    ],
+    [
+      5.020000000000001,
+      89.2,
+      36.98,
+      92.8
+    ],
+    [
+      63.02,
+      89.2,
+      94.98,
+      92.8
+    ]
+  ],
+  "anchors": {
+    "altar": [
+      50,
+      58
+    ],
+    "seat_a": [
+      44,
+      73
+    ],
+    "seat_b": [
+      56,
+      80.4
+    ],
+    "baptistry": [
+      14,
+      63
+    ],
+    "confession": [
+      86,
+      63
+    ],
+    "choir": [
+      12,
+      81
+    ],
+    "seat_right_0": [
+      56,
+      73
+    ],
+    "seat_left_1": [
+      44,
+      80.4
+    ],
+    "seat_left_2": [
+      44,
+      87.8
+    ],
+    "seat_right_2": [
+      56,
+      87.8
+    ],
+    "seat_left_3": [
+      44,
+      95.2
+    ],
+    "seat_right_3": [
+      56,
+      95.2
+    ],
+    "exit": [
+      50,
+      94
+    ],
+    "action_hub_nave": [
+      54,
+      79
+    ]
+  },
+  "npcPoints": {
+    "father": [
+      54,
+      59
+    ],
+    "sister": [
+      43,
+      61
+    ]
+  },
+  "artVersion": "v8-layered-1",
+  "art": {
+    "tile": 0,
+    "horizon": 0.76,
+    "props": [
+      {
+        "id": "lilies_left",
+        "sprite": 3,
+        "x": 36,
+        "y": 58,
+        "w": 9,
+        "h": 16,
+        "solid": [
+          32,
+          54,
+          40,
+          59
+        ],
+        "depth": 58
+      },
+      {
+        "id": "lilies_right",
+        "sprite": 3,
+        "x": 64,
+        "y": 58,
+        "w": 9,
+        "h": 16,
+        "solid": [
+          60,
+          54,
+          68,
+          59
+        ],
+        "depth": 58
+      },
+      {
+        "id": "column_left",
+        "sprite": 2,
+        "x": 3,
+        "y": 96,
+        "w": 9,
+        "h": 66,
+        "solid": [
+          0,
+          87,
+          7,
+          98
+        ],
+        "depth": 96
+      },
+      {
+        "id": "column_right",
+        "sprite": 2,
+        "x": 97,
+        "y": 96,
+        "w": 9,
+        "h": 66,
+        "solid": [
+          93,
+          87,
+          100,
+          98
+        ],
+        "depth": 96
+      },
+      {
+        "id": "seat_a",
+        "sprite": 0,
+        "x": 27,
+        "y": 70,
+        "w": 25,
+        "h": 13,
+        "solid": [
+          15.25,
+          67,
+          38.75,
+          70.6
+        ],
+        "depth": 70
+      },
+      {
+        "id": "seat_right_0",
+        "sprite": 1,
+        "x": 73,
+        "y": 70,
+        "w": 25,
+        "h": 13,
+        "solid": [
+          61.25,
+          67,
+          84.75,
+          70.6
+        ],
+        "depth": 70
+      },
+      {
+        "id": "seat_left_1",
+        "sprite": 0,
+        "x": 25,
+        "y": 77.4,
+        "w": 28,
+        "h": 14.5,
+        "solid": [
+          11.84,
+          74.4,
+          38.16,
+          78
+        ],
+        "depth": 77.4
+      },
+      {
+        "id": "seat_b",
+        "sprite": 1,
+        "x": 75,
+        "y": 77.4,
+        "w": 28,
+        "h": 14.5,
+        "solid": [
+          61.84,
+          74.4,
+          88.16,
+          78
+        ],
+        "depth": 77.4
+      },
+      {
+        "id": "seat_left_2",
+        "sprite": 0,
+        "x": 23,
+        "y": 84.8,
+        "w": 31,
+        "h": 16,
+        "solid": [
+          8.430000000000001,
+          81.8,
+          37.57,
+          85.39999999999999
+        ],
+        "depth": 84.8
+      },
+      {
+        "id": "seat_right_2",
+        "sprite": 1,
+        "x": 77,
+        "y": 84.8,
+        "w": 31,
+        "h": 16,
+        "solid": [
+          62.43,
+          81.8,
+          91.57,
+          85.39999999999999
+        ],
+        "depth": 84.8
+      },
+      {
+        "id": "seat_left_3",
+        "sprite": 0,
+        "x": 21,
+        "y": 92.2,
+        "w": 34,
+        "h": 17.5,
+        "solid": [
+          5.020000000000001,
+          89.2,
+          36.98,
+          92.8
+        ],
+        "depth": 92.2
+      },
+      {
+        "id": "seat_right_3",
+        "sprite": 1,
+        "x": 79,
+        "y": 92.2,
+        "w": 34,
+        "h": 17.5,
+        "solid": [
+          63.02,
+          89.2,
+          94.98,
+          92.8
+        ],
+        "depth": 92.2
+      }
+    ]
+  },
+  "walkPolygons": [
+    [
+      [
+        14,
+        56
+      ],
+      [
+        86,
+        56
+      ],
+      [
+        96,
+        97
+      ],
+      [
+        4,
+        97
+      ]
+    ]
+  ],
+  "seats": {
+    "seat_a": [
+      {
+        "position": [
+          20.75,
+          68.8
+        ],
+        "approach": [
+          44,
+          73
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          27,
+          68.8
+        ],
+        "approach": [
+          44,
+          73
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          33.25,
+          68.8
+        ],
+        "approach": [
+          44,
+          73
+        ],
+        "direction": "up"
+      }
+    ],
+    "seat_right_0": [
+      {
+        "position": [
+          66.75,
+          68.8
+        ],
+        "approach": [
+          56,
+          73
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          73,
+          68.8
+        ],
+        "approach": [
+          56,
+          73
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          79.25,
+          68.8
+        ],
+        "approach": [
+          56,
+          73
+        ],
+        "direction": "up"
+      }
+    ],
+    "seat_left_1": [
+      {
+        "position": [
+          18,
+          76.2
+        ],
+        "approach": [
+          44,
+          80.4
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          25,
+          76.2
+        ],
+        "approach": [
+          44,
+          80.4
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          32,
+          76.2
+        ],
+        "approach": [
+          44,
+          80.4
+        ],
+        "direction": "up"
+      }
+    ],
+    "seat_b": [
+      {
+        "position": [
+          68,
+          76.2
+        ],
+        "approach": [
+          56,
+          80.4
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          75,
+          76.2
+        ],
+        "approach": [
+          56,
+          80.4
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          82,
+          76.2
+        ],
+        "approach": [
+          56,
+          80.4
+        ],
+        "direction": "up"
+      }
+    ],
+    "seat_left_2": [
+      {
+        "position": [
+          15.25,
+          83.6
+        ],
+        "approach": [
+          44,
+          87.8
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          23,
+          83.6
+        ],
+        "approach": [
+          44,
+          87.8
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          30.75,
+          83.6
+        ],
+        "approach": [
+          44,
+          87.8
+        ],
+        "direction": "up"
+      }
+    ],
+    "seat_right_2": [
+      {
+        "position": [
+          69.25,
+          83.6
+        ],
+        "approach": [
+          56,
+          87.8
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          77,
+          83.6
+        ],
+        "approach": [
+          56,
+          87.8
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          84.75,
+          83.6
+        ],
+        "approach": [
+          56,
+          87.8
+        ],
+        "direction": "up"
+      }
+    ],
+    "seat_left_3": [
+      {
+        "position": [
+          12.5,
+          91
+        ],
+        "approach": [
+          44,
+          95.2
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          21,
+          91
+        ],
+        "approach": [
+          44,
+          95.2
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          29.5,
+          91
+        ],
+        "approach": [
+          44,
+          95.2
+        ],
+        "direction": "up"
+      }
+    ],
+    "seat_right_3": [
+      {
+        "position": [
+          70.5,
+          91
+        ],
+        "approach": [
+          56,
+          95.2
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          79,
+          91
+        ],
+        "approach": [
+          56,
+          95.2
+        ],
+        "direction": "up"
+      },
+      {
+        "position": [
+          87.5,
+          91
+        ],
+        "approach": [
+          56,
+          95.2
+        ],
+        "direction": "up"
+      }
+    ]
+  }
+}
