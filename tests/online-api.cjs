@@ -15,7 +15,13 @@ class Client {
     this.cookie = '';
     this.csrf = '';
   }
-  async call(path, data, method, extra = {}) {
+  async call(path, data, method, extra = {}, walking = false) {
+    if (path === '/api/player/location' && !walking)
+      return require('./lib/move.cjs')(
+        data,
+        (point) => this.call(path, point, method, extra, true),
+        (url) => this.call(url),
+      );
     const r = await fetch(base + path, {
       method: method || (data ? 'POST' : 'GET'),
       headers: {

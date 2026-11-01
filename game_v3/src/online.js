@@ -41,7 +41,11 @@
     });
     const b = await response.json();
     if (!response.ok) {
-      const e = Error(b.message || b.code);
+      const e = Error(
+        b.code === 'MOVE_TOO_FAST'
+          ? 'Vị trí chưa đồng bộ. Hãy tải lại trang rồi thử lại.'
+          : b.message || b.code,
+      );
       e.code = b.code;
       e.status = response.status;
       throw e;

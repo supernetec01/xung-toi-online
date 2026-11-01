@@ -36,11 +36,12 @@ async function session(req) {
   if (!token) return null;
   const u = (
     await pool.query(
-      'SELECT u.id,u.login,u.display_name,u.roles,s.csrf,s.mfa_at,s.token_hash,s.expires_at FROM user_sessions s JOIN game_users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',
+      'SELECT u.id,u.login,u.display_name,u.roles,(u.mfa_secret IS NOT NULL) AS requires_mfa,s.csrf,s.mfa_at,s.token_hash,s.expires_at FROM user_sessions s JOIN game_users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',
       [S.hash(token)],
     )
   ).rows[0];
   if (!u) return null;
+  if (u.requires_mfa && !u.mfa_at) return null;
   if (await sanction(u.id, 'ACCOUNT')) S.fail(403, 'ACCOUNT_SUSPENDED');
   return u;
 }
@@ -74,12 +75,13 @@ async function login(req, res, body) {
   if (await sanction(user.id, 'ACCOUNT')) S.fail(403, 'ACCOUNT_SUSPENDED');
   const staff = user.roles.some((r) => r !== 'PLAYER');
   if (staff && !user.mfa_secret) S.fail(403, 'MFA_SETUP_REQUIRED');
-  const counter = staff ? S.totpCounter(S.decrypt(user.mfa_secret), body.code) : null;
-  if (staff && counter === null) S.fail(401, 'MFA_REQUIRED', 'Nhập mã xác thực 6 số.');
+  const requiresMfa = staff || Boolean(user.mfa_secret);
+  const counter = requiresMfa ? S.totpCounter(S.decrypt(user.mfa_secret), body.code) : null;
+  if (requiresMfa && counter === null) S.fail(401, 'MFA_REQUIRED', 'Nhập mã xác thực 6 số.');
   const token = S.random(),
     csrf = S.random();
   await tx(async (db) => {
-    if (staff) {
+    if (requiresMfa) {
       const updated = await db.query(
         'UPDATE game_users SET mfa_counter=$2 WHERE id=$1 AND mfa_counter<$2 RETURNING id',
         [user.id, counter],
@@ -88,7 +90,7 @@ async function login(req, res, body) {
     }
     await db.query(
       "INSERT INTO user_sessions(token_hash,user_id,csrf,expires_at,mfa_at) VALUES($1,$2,$3,now()+interval'12 hours',$4)",
-      [S.hash(token), user.id, csrf, staff ? new Date() : null],
+      [S.hash(token), user.id, csrf, requiresMfa ? new Date() : null],
     );
   });
   setCookie(res, token);

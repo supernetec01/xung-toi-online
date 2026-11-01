@@ -4,6 +4,7 @@
   const svg = (box, url, cls) =>
     `<svg class="${cls}" viewBox="${box.join(' ')}" preserveAspectRatio="none" aria-hidden="true"><image href="${url}" width="${url.includes('objects') ? 1254 : 1672}" height="${url.includes('objects') ? 1254 : 941}"/></svg>`;
   function mount(stage, sc) {
+    delete stage.dataset.assetWarned;
     stage.querySelectorAll('.scene-prop,.scene-light').forEach((el) => el.remove());
     stage.dataset.art = sc.artVersion || 'legacy';
     stage.parentElement.classList.toggle('layered-world', !!sc.art);
@@ -62,6 +63,19 @@
       );
       stage.append(el);
     }
+    for (const img of stage.querySelectorAll('#scenery image,.scene-prop image'))
+      img.addEventListener(
+        'error',
+        () => {
+          const element = img.closest('.scene-prop') || img.parentElement;
+          element.classList.add('asset-unavailable');
+          if (!stage.dataset.assetWarned) {
+            stage.dataset.assetWarned = 'true';
+            window.dispatchEvent(new Event('parish:asset-error'));
+          }
+        },
+        { once: true },
+      );
     return true;
   }
   const depth = (y) => Math.round(y * 10),

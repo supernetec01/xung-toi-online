@@ -1485,7 +1485,9 @@ button:focus-visible {
   border-radius: 9px;
   padding: 9px;
   font-size: 11px;
-  min-height: 40px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
 }
 #onlineControls small {
@@ -1757,6 +1759,25 @@ svg[data-sprite-version][data-pose='walk'] [data-part='legs'] {
   transition: none;
   will-change: left, top;
 }
+.scene-wall.asset-unavailable,
+.scene-floor.asset-unavailable {
+  background: linear-gradient(135deg, #efe4d1, #cdbba3);
+}
+.scene-prop.asset-unavailable {
+  background: #d8c4a6e8;
+  border: 2px dashed #78624b;
+  border-radius: 8px;
+}
+.scene-prop.asset-unavailable::after {
+  content: 'Hình chưa tải';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: #463b30;
+  text-align: center;
+}
 .world-player.sitting svg {
   transform: none;
 }
@@ -1871,13 +1892,13 @@ svg[data-sprite-version][data-pose='walk'] [data-part='legs'] {
     bottom: 110px;
     left: 12px;
     z-index: 180;
-    grid-template-columns: repeat(3, 36px);
+    grid-template-columns: repeat(3, 44px);
     gap: 4px;
     opacity: 0.8;
   }
   .mobile-pad button {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border: 1px solid #ecd7b5;
     border-radius: 12px;
     background: #49362fcc;

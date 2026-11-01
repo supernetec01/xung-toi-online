@@ -39,7 +39,13 @@ async function fixture(role = 'PLAYER') {
   });
   return { id, token, csrf, cookie: 'anhoa_session=' + token, clientId: crypto.randomUUID() };
 }
-async function api(c, path, data, method = 'POST', headers = {}) {
+async function api(c, path, data, method = 'POST', headers = {}, walking = false) {
+  if (path === '/api/player/location' && !walking)
+    return require('./lib/move.cjs')(
+      data,
+      (point) => api(c, path, point, method, headers, true),
+      (url) => api(c, url),
+    );
   const r = await fetch(base + path, {
     method: data === undefined ? 'GET' : method,
     headers: {
@@ -218,6 +224,10 @@ async function wait(fn, ms = 15000) {
     ok(
       (await api(x, '/api/player/travel', { sceneId: 'nave' })).status === 200,
       'travel to shared seats',
+    );
+    ok(
+      (await api(x, '/api/player/location', { x: 50, y: 58 }, 'POST', {}, true)).status === 422,
+      'server rejects forged cross-map teleport',
     );
     ok(
       (await api(x, '/api/player/location', { x: anchor[0], y: anchor[1] })).status === 200,

@@ -56,6 +56,7 @@ async function staticFile(res, file, type, status = 200) {
     'Content-Type': type,
     'X-Content-Type-Options': 'nosniff',
     'Cache-Control': 'no-cache',
+    'X-Robots-Tag': 'noindex, nofollow',
     'Content-Security-Policy':
       "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' ws: wss:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
   });
@@ -82,7 +83,13 @@ async function route(req, res) {
   try {
     if (method === 'GET' && p === '/healthz') {
       await DB.pool.query('SELECT 1');
-      return json(res, 200, { status: 'ok', mode: 'online-demo' });
+      return json(res, 200, {
+        status: 'ok',
+        mode: 'online-demo',
+        ...(process.env.NODE_ENV === 'test' && process.env.QC_INSTANCE_ID
+          ? { testInstance: process.env.QC_INSTANCE_ID }
+          : {}),
+      });
     }
     let user = await A.session(req);
     const isMutation = !['GET', 'HEAD'].includes(method);
@@ -112,6 +119,9 @@ async function route(req, res) {
                 roles: user.roles,
               },
               csrfToken: user.csrf,
+              demoImportEnabled:
+                process.env.NODE_ENV !== 'production' &&
+                process.env.DEMO_IMPORT_ENABLED !== 'false',
               serverNow: Date.now(),
             }
           : { code: 'LOGIN_REQUIRED' },
@@ -636,7 +646,10 @@ async function route(req, res) {
         r = await G.completeAction(user, key, match[1]);
       else if (p === '/api/virtual-projects/noel/contribute' && method === 'POST')
         r = await G.contribute(user, key, b);
-      else if (p === '/api/demo/import' && method === 'POST') r = await G.importDemo(user, key, b);
+      else if (p === '/api/demo/preview' && method === 'POST')
+        return json(res, 200, await G.previewDemo(user, b));
+      else if (p === '/api/demo/import' && method === 'POST')
+        r = await G.importDemo(user, key, b, req.headers['if-match']);
       else if (p === '/api/world' && method === 'GET') {
         const st = await G.state(user.id);
         return json(res, 200, {

@@ -1,22 +1,24 @@
 <!doctype html>
 <html lang="vi">
-  <meta charset="utf-8" /><meta
+  <meta charset="utf-8" /><meta name="robots" content="noindex,nofollow" /><meta
     name="viewport"
     content="width=device-width,initial-scale=1"
   /><title>Tài khoản · Giáo Xứ An Hòa</title
   ><link rel="stylesheet" href="/shared/style.css" />
   <main class="account">
     <p class="eyebrow">Giáo Xứ An Hòa · V4</p>
-    <h1>Lưu lại hành trình của bạn</h1>
+    <h1 id="accountTitle">Đang kiểm tra tài khoản…</h1>
     <p class="muted">
       Tài khoản lưu tiến độ trên máy chủ. Bản chơi thử trên trình duyệt vẫn được giữ riêng.
     </p>
     <section class="card">
-      <div class="tabs">
+      <p id="authLoading" role="status">Đang kết nối máy chủ…</p>
+      <button id="retrySession" hidden class="secondary">Thử lại</button>
+      <div class="tabs" id="authTabs" hidden>
         <button id="tabLogin">Đăng nhập</button
         ><button class="secondary" id="tabRegister">Tạo tài khoản</button>
       </div>
-      <form id="authForm">
+      <form id="authForm" hidden>
         <label
           ><span>Tài khoản</span
           ><input
@@ -39,7 +41,7 @@
             minlength="12"
             maxlength="128" /></label
         ><label id="codeField"
-          ><span>Mã MFA nếu là tài khoản quản trị</span
+          ><span>Mã MFA (nếu đã bật)</span
           ><input
             id="code"
             inputmode="numeric"
@@ -47,9 +49,10 @@
             pattern="[0-9]{6}"
             maxlength="6"
         /></label>
-        <p class="error" id="authError" role="alert"></p>
+
         <button id="submitAuth" type="submit">Đăng nhập</button>
       </form>
+      <p class="error" id="authError" role="alert" aria-live="polite"></p>
       <div id="accountActions" hidden></div>
     </section>
     <p><a href="/">← Về game</a> · <a href="/privacy">Quyền riêng tư & quy tắc chat</a></p>

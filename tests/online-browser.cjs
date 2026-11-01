@@ -31,6 +31,14 @@ const base = 'http://127.0.0.1:5001';
         document.getElementById('hudName')?.textContent === 'Bạn An Hòa',
     );
     checks++;
+    await p.goto(base + '/account');
+    await p.waitForSelector('#continueGame');
+    assert.equal(await p.locator('#tabLogin').isVisible(), false);
+    assert.equal(await p.locator('#tabRegister').isVisible(), false);
+    assert.match(await p.locator('#accountTitle').innerText(), /Bạn An Hòa/);
+    checks++;
+    await p.goto(base);
+    await p.waitForFunction(() => PARISH_ONLINE.active);
     const state = () =>
       p.evaluate(async () => {
         const r = await fetch('/api/me');

@@ -436,6 +436,25 @@
     const parts = st.seatId?.split(':') || [];
     return sc.seats?.[parts.length === 3 ? parts[1] : parts[0]]?.[Number(parts.at(-1))];
   }
+  let locationSync = Promise.resolve(),
+    syncPending = false,
+    lastLocationSync = 0;
+  function streamLocation(point, scene, token) {
+    if (!O.active || syncPending || performance.now() - lastLocationSync < 250) return;
+    syncPending = true;
+    lastLocationSync = performance.now();
+    locationSync = locationSync
+      .then(async () => {
+        if (token !== movement || scene !== st.scene) return;
+        await O.command(intent('/api/player/location', { x: point[0], y: point[1] }));
+      })
+      .catch(() => {
+        if (token === movement) toast('Chưa đồng bộ được vị trí. Kiểm tra kết nối rồi thử lại.');
+      })
+      .finally(() => {
+        syncPending = false;
+      });
+  }
   async function moveTo(x, y, cb) {
     if (activityBusy || activityStarting) return false;
     if (!st.username) {
@@ -475,7 +494,7 @@
       if (sprite) sprite.outerHTML = A.avatar({ ...dressed(), direction: facing, pose: 'walk' });
       const stage = $('stage'),
         distance = Math.hypot((dx * stage.clientWidth) / 100, (dy * stage.clientHeight) / 100);
-      const duration = st.lowMotion ? Math.min(120, distance / 1.6) : distance / 0.32;
+      const duration = distance / 0.32;
       await new Promise((resolve) => {
         let previousTime = performance.now(),
           elapsed = 0;
@@ -493,6 +512,7 @@
           actor.style.zIndex = Math.round(motionPoint[1] * 10);
           actor.style.transform = `translate(-50%,-100%) scale(${window.PARISH_SCENE_ART.scale(motionPoint[1]).toFixed(3)})`;
           cameraTo(...motionPoint);
+          streamLocation([...motionPoint], scene, token);
           if (t < 1) requestAnimationFrame(frame);
           else resolve();
         };
@@ -501,21 +521,65 @@
       previous = point;
     }
     if (token !== movement || st.scene !== scene) return false;
+    if (O.active) {
+      await locationSync;
+      // A slow request may leave the server behind the predicted avatar.
+      // Replay small, paced steps; never bypass the server's movement budget.
+      locationSync = locationSync
+        .then(async () => {
+          const server = O.state,
+            parts = server.seatId?.split(':') || [],
+            seat = sc.seats?.[parts.length === 3 ? parts[1] : parts[0]]?.[Number(parts.at(-1))];
+          const origin = (server.seated && seat?.approach) || [server.x, server.y],
+            goal = path.at(-1);
+          if (Math.hypot(origin[0] - goal[0], origin[1] - goal[1]) < 6) return;
+          const catchup = N.route(sc, origin, goal);
+          for (let j = 1; j < catchup.length; j++) {
+            const a = catchup[j - 1],
+              b = catchup[j],
+              n = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 4);
+            for (let i = 1; i <= n; i++) {
+              await new Promise((resolve) => setTimeout(resolve, 120));
+              if (token !== movement || scene !== st.scene) return;
+              lastLocationSync = performance.now();
+              await O.command(
+                intent('/api/player/location', {
+                  x: a[0] + ((b[0] - a[0]) * i) / n,
+                  y: a[1] + ((b[1] - a[1]) * i) / n,
+                }),
+              );
+            }
+          }
+        })
+        .catch(() => toast('Chưa đồng bộ được vị trí. Hãy kiểm tra kết nối.'));
+      await locationSync;
+      const delay = Math.max(0, 250 - (performance.now() - lastLocationSync));
+      if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
+      if (token !== movement || st.scene !== scene) return false;
+      lastLocationSync = performance.now();
+    }
     actor.classList.remove('walking');
-    const committed = await mutate(
-      () => {
-        if (token !== movement || st.scene !== scene || st.activeAction) return false;
-        st.x = path.at(-1)[0];
-        st.y = path.at(-1)[1];
-        st.seated = false;
-        st.seatId = null;
-        return true;
-      },
-      intent('/api/player/location', { x: path.at(-1)[0], y: path.at(-1)[1] }),
-    );
+    const persist = () =>
+      mutate(
+        () => {
+          if (token !== movement || st.scene !== scene || st.activeAction) return false;
+          st.x = path.at(-1)[0];
+          st.y = path.at(-1)[1];
+          st.seated = false;
+          st.seatId = null;
+          return true;
+        },
+        intent('/api/player/location', { x: path.at(-1)[0], y: path.at(-1)[1] }),
+      );
+    const committed = O.active
+      ? await (locationSync = locationSync.then(() =>
+          token === movement && st.scene === scene ? persist() : false,
+        ))
+      : await persist();
     if (token !== movement || st.scene !== scene) return false;
     moving = false;
     motionPoint = null;
+    if (!committed && O.active) st = readState();
     showPlayer();
     if (!committed) return false;
     if (token === movement && st.scene === scene) await cb?.();
@@ -533,6 +597,7 @@
     if (!D.scenes[target]) return false;
     movement++;
     moving = false;
+    await locationSync;
     const ok = await mutate(
       () => {
         if (st.activeAction) return false;
@@ -1500,6 +1565,9 @@
   );
 
   // Events
+  window.addEventListener('parish:asset-error', () =>
+    toast('Một số hình chưa tải được. Bạn vẫn có thể chơi; tải lại trang để thử lại.'),
+  );
   for (const b of document.querySelectorAll('.dock [data-open]'))
     b.onclick = () => open(b.dataset.open);
   $('profileQuick').onclick = () => open('avatar');
@@ -1512,35 +1580,63 @@
     if (N.walkable(D.scenes[st.scene], x, y)) moveTo(x, y);
   };
   let steerTimer;
+  const heldKeys = new Map();
+  const directions = {
+    arrowup: [0, -1],
+    w: [0, -1],
+    arrowdown: [0, 1],
+    s: [0, 1],
+    arrowleft: [-1, 0],
+    a: [-1, 0],
+    arrowright: [1, 0],
+    d: [1, 0],
+  };
   function stopSteer() {
     clearInterval(steerTimer);
+    heldKeys.clear();
   }
-  function steer(key) {
-    stopSteer();
+  function steer() {
+    clearInterval(steerTimer);
     const step = () => {
-      if ($('modalMount').childNodes.length || !document.hasFocus()) {
+      if ($('modalMount').childNodes.length) {
         stopSteer();
         return;
       }
-      const n = 3;
+      let dx = 0,
+        dy = 0;
+      for (const key of new Set(heldKeys.values())) {
+        dx += directions[key][0];
+        dy += directions[key][1];
+      }
+      const length = Math.hypot(dx, dy);
+      if (!length) return;
       moveTo(
-        (motionPoint?.[0] ?? st.x) + ({ ArrowLeft: -n, ArrowRight: n, a: -n, d: n }[key] || 0),
-        (motionPoint?.[1] ?? st.y) + ({ ArrowUp: -n, ArrowDown: n, w: -n, s: n }[key] || 0),
+        (motionPoint?.[0] ?? st.x) + (dx / length) * 3,
+        (motionPoint?.[1] ?? st.y) + (dy / length) * 3,
       );
     };
-    step();
-    steerTimer = setInterval(step, 120);
+    if (heldKeys.size) {
+      step();
+      steerTimer = setInterval(step, 120);
+    }
   }
-  document.addEventListener('keyup', stopSteer);
+  document.addEventListener('keyup', (e) => {
+    heldKeys.delete('key:' + e.key.toLowerCase());
+    steer();
+  });
   window.addEventListener('blur', stopSteer);
   for (const button of document.querySelectorAll('.mobile-pad button')) {
     button.onpointerdown = (e) => {
       e.preventDefault();
       button.setPointerCapture(e.pointerId);
-      steer(button.dataset.dir);
+      heldKeys.set('touch:' + e.pointerId, button.dataset.dir.toLowerCase());
+      steer();
     };
-    button.onpointerup = button.onpointercancel = stopSteer;
-    button.onlostpointercapture = stopSteer;
+    const release = (e) => {
+      heldKeys.delete('touch:' + e.pointerId);
+      steer();
+    };
+    button.onpointerup = button.onpointercancel = button.onlostpointercapture = release;
   }
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Tab' && $('modalMount').childNodes.length) {
@@ -1558,13 +1654,11 @@
       }
     }
     if (e.key === 'Escape' && st.username) closeModal();
-    if (
-      ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].includes(e.key) &&
-      !$('modalMount').childNodes.length
-    ) {
+    if (Object.hasOwn(directions, e.key.toLowerCase()) && !$('modalMount').childNodes.length) {
       e.preventDefault();
       if (e.repeat) return;
-      steer(e.key);
+      heldKeys.set('key:' + e.key.toLowerCase(), e.key.toLowerCase());
+      steer();
     }
   });
   const safe = N.nearest(D.scenes[st.scene], [st.x, st.y]);

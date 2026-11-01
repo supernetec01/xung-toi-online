@@ -23,7 +23,19 @@ async function state(userId, db = pool) {
         c.scenes[value.scene]?.seats?.[parts.length === 3 ? parts[1] : parts[0]]?.[
           Number(parts.at(-1))
         ];
-    if (seat) [value.x, value.y] = seat.position;
+    const ownsLease =
+      (
+        await db.query(
+          'SELECT 1 FROM seat_leases WHERE user_id=$1 AND seat_id=$2 AND expires_at>now()',
+          [userId, value.seatId],
+        )
+      ).rowCount > 0;
+    if (seat && ownsLease) [value.x, value.y] = seat.position;
+    else {
+      value.seated = false;
+      value.seatId = null;
+      [value.x, value.y] = seat?.approach || C.N.nearest(c.scenes[value.scene], [value.x, value.y]);
+    }
   }
   return value;
 }
@@ -190,8 +202,11 @@ async function location(user, key, p, travel = false) {
     const scene = travel ? p.sceneId : st.scene;
     if (!c.scenes[scene]) S.fail(400, 'INVALID_SCENE');
     let point;
-    if (travel) point = C.N.nearest(c.scenes[scene], c.scenes[scene].entry);
-    else {
+    if (travel) {
+      point = C.N.nearest(c.scenes[scene], c.scenes[scene].entry);
+      st.movementAt = Date.now();
+      st.movementBudget = 16;
+    } else {
       if (
         !Number.isFinite(p.x) ||
         !Number.isFinite(p.y) ||
@@ -202,8 +217,25 @@ async function location(user, key, p, travel = false) {
       const parts = st.seatId?.split(':') || [],
         seat =
           c.scenes[scene].seats?.[parts.length === 3 ? parts[1] : parts[0]]?.[Number(parts.at(-1))];
-      if (!C.N.route(c.scenes[scene], (st.seated && seat?.approach) || [st.x, st.y], point).length)
-        S.fail(422, 'NO_PATH');
+      const route = C.N.route(
+        c.scenes[scene],
+        (st.seated && seat?.approach) || [st.x, st.y],
+        point,
+      );
+      if (!route.length) S.fail(422, 'NO_PATH');
+      const distance = route
+          .slice(1)
+          .reduce((sum, p, i) => sum + Math.hypot(p[0] - route[i][0], p[1] - route[i][1]), 0),
+        now = Date.now();
+      // Server clock/token bucket: 50 logical units/sec, bounded 16-unit network burst.
+      // Idle time cannot accumulate enough credit to teleport across the map.
+      const budget = Math.min(
+        16,
+        (st.movementBudget ?? 16) + Math.max(0, now - (st.movementAt ?? now)) * 0.05,
+      );
+      if (distance > budget + 0.05) S.fail(422, 'MOVE_TOO_FAST');
+      st.movementBudget = Math.max(0, budget - distance);
+      st.movementAt = now;
     }
     st.scene = scene;
     [st.x, st.y] = point;
@@ -346,12 +378,54 @@ async function contribute(user, key, p) {
     return { sourceRef: key };
   });
 }
-async function importDemo(user, key, raw) {
+function validateDemo(raw) {
   if (process.env.NODE_ENV === 'production' || process.env.DEMO_IMPORT_ENABLED === 'false')
     S.fail(404, 'DISABLED');
   const { inspectSave } = require('../scripts/inspect-legacy-save.cjs');
   if (inspectSave(raw).status !== 'REVIEW_ONLY') S.fail(422, 'DEMO_SAVE_NEEDS_REVIEW');
   if (raw.coins > 100000) S.fail(422, 'DEMO_LIMIT');
+}
+async function demoStatus(user, db = pool) {
+  const st = await state(user.id, db);
+  const imported =
+    (await db.query('SELECT 1 FROM demo_imports WHERE user_id=$1', [user.id])).rowCount > 0;
+  const ledger = Number(
+    (await db.query('SELECT count(*) n FROM coin_ledger WHERE user_id=$1', [user.id])).rows[0].n,
+  );
+  return {
+    state: st,
+    allowed: !imported && st.stateVersion === 1 && st.coins === 150 && ledger === 1,
+    reason: imported
+      ? 'ALREADY_IMPORTED'
+      : st.stateVersion !== 1 || st.coins !== 150 || ledger !== 1
+        ? 'ACCOUNT_HAS_PROGRESS'
+        : null,
+  };
+}
+async function previewDemo(user, raw) {
+  validateDemo(raw);
+  const status = await demoStatus(user),
+    c = await C.current(),
+    legacy = C.R.migrate(structuredClone(raw), c);
+  return {
+    allowed: status.allowed,
+    reason: status.reason,
+    accountVersion: status.state.stateVersion,
+    fingerprint: S.hash(JSON.stringify(raw)),
+    account: {
+      coins: status.state.coins,
+      inventory: status.state.inventory.length,
+      claimed: status.state.claimed.length,
+    },
+    demo: {
+      coins: legacy.coins,
+      inventory: legacy.inventory.length,
+      claimed: legacy.claimed.length,
+    },
+  };
+}
+async function importDemo(user, key, raw, expectedVersion) {
+  validateDemo(raw);
   return play(
     user,
     key,
@@ -360,6 +434,9 @@ async function importDemo(user, key, raw) {
     async (st, c, db) => {
       if ((await db.query('SELECT 1 FROM demo_imports WHERE user_id=$1', [user.id])).rowCount)
         S.fail(409, 'ALREADY_IMPORTED');
+      if (expectedVersion !== undefined && String(st.stateVersion) !== String(expectedVersion))
+        S.fail(409, 'IMPORT_PREVIEW_STALE');
+      if (!(await demoStatus(user, db)).allowed) S.fail(409, 'ACCOUNT_HAS_PROGRESS');
       const legacy = C.R.migrate(structuredClone(raw), c);
       for (const field of [
         'gender',
@@ -390,8 +467,7 @@ async function importDemo(user, key, raw) {
       st.questRewards = Object.fromEntries(
         st.accepted.map((id) => [id, c.quests.find((q) => q.id === id)?.rewardCoins || 0]),
       );
-      st.x = C.N.nearest(c.scenes[st.scene], [st.x, st.y])[0];
-      st.y = C.N.nearest(c.scenes[st.scene], [st.x, st.y])[1];
+      [st.x, st.y] = C.N.nearest(c.scenes[st.scene], [st.x, st.y]);
       for (const [id, ready] of Object.entries(raw.cooldowns || {}))
         st.cooldowns[id] = Math.max(Date.now(), Math.min(Date.now() + 600000, ready));
       await db.query('INSERT INTO demo_imports(user_id,fingerprint) VALUES($1,$2)', [
@@ -415,6 +491,7 @@ module.exports = {
   completeAction,
   contribute,
   importDemo,
+  previewDemo,
   eventInfo,
   progressCatalog,
 };

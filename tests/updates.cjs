@@ -33,7 +33,13 @@ async function fixture(role = 'PLAYER') {
   });
   return { id, password, secret, token, csrf };
 }
-async function api(c, path, data, method = 'POST', headers = {}) {
+async function api(c, path, data, method = 'POST', headers = {}, walking = false) {
+  if (path === '/api/player/location' && !walking)
+    return require('./lib/move.cjs')(
+      data,
+      (point) => api(c, path, point, method, headers, true),
+      (url) => api(c, url),
+    );
   const r = await fetch(base + path, {
     method: data === undefined ? 'GET' : method,
     headers: {
@@ -294,7 +300,51 @@ async function publish(admin, kind, payload) {
     'demo cannot import roles',
   );
   ok((await api(imported, '/api/demo/import', raw)).status === 409, 'second import denied');
+  const protectedPlayer = await fixture();
+  await api(protectedPlayer, '/api/shop/purchase', { itemId: 'shirt_blue' });
+  const beforeImport = (await api(protectedPlayer, '/api/me')).state;
+  ok(
+    (await api(protectedPlayer, '/api/demo/preview', raw)).allowed === false,
+    'preview blocks account with progress',
+  );
+  ok(
+    (await api(protectedPlayer, '/api/demo/import', raw)).status === 409,
+    'import cannot overwrite existing progress',
+  );
+  const afterImport = (await api(protectedPlayer, '/api/me')).state;
+  ok(
+    afterImport.coins === beforeImport.coins &&
+      JSON.stringify(afterImport.inventory) === JSON.stringify(beforeImport.inventory),
+    'rejected import preserves wallet and ownership',
+  );
   const corrupt = await fixture();
+  const mfaPlayer = await fixture();
+  await pool.query('UPDATE game_users SET mfa_secret=$2,mfa_counter=-1 WHERE id=$1', [
+    mfaPlayer.id,
+    S.encrypt(mfaPlayer.secret),
+  ]);
+  const mfaLogin = (await pool.query('SELECT login FROM game_users WHERE id=$1', [mfaPlayer.id]))
+    .rows[0].login;
+  await pool.query('UPDATE user_sessions SET mfa_at=NULL WHERE user_id=$1', [mfaPlayer.id]);
+  ok(
+    (await api(mfaPlayer, '/api/auth/me')).status === 401,
+    'unattested pre-fix MFA session is rejected',
+  );
+  ok(
+    (await api(mfaPlayer, '/api/auth/login', { login: mfaLogin, password: mfaPlayer.password }))
+      .status === 401,
+    'PLAYER with enabled MFA cannot login without OTP',
+  );
+  ok(
+    (
+      await api(mfaPlayer, '/api/auth/login', {
+        login: mfaLogin,
+        password: mfaPlayer.password,
+        code: S.authenticator.generate(mfaPlayer.secret),
+      })
+    ).status === 200,
+    'PLAYER accepts valid MFA OTP',
+  );
   ok(
     (await api(corrupt, '/api/demo/import', { ...raw, coins: -1 })).status === 422,
     'corrupt demo rejected',

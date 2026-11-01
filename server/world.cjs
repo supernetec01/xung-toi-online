@@ -146,7 +146,7 @@ class World {
           const p = this.presence.get(user.id);
           if (p) p.last = Date.now();
           await pool.query(
-            "UPDATE seat_leases SET expires_at=now()+interval'60 seconds' WHERE user_id=$1",
+            "UPDATE seat_leases SET expires_at=now()+interval'60 seconds' WHERE user_id=$1 AND expires_at>now()",
             [user.id],
           );
           this.send(client, {
@@ -292,11 +292,13 @@ class World {
           this.ambient.set(scene, list);
         }
       }
-      const occupiedSeats = new Set(
-        (await pool.query('SELECT seat_id FROM seat_leases WHERE expires_at>now()')).rows.map(
-          (r) => r.seat_id,
-        ),
-      );
+      const leases = (
+        await pool.query('SELECT seat_id,user_id FROM seat_leases WHERE expires_at>now()')
+      ).rows;
+      const occupiedSeats = new Set(leases.map((r) => r.seat_id)),
+        owners = new Map(leases.map((r) => [r.user_id, r.seat_id]));
+      for (const [id, p] of this.presence)
+        if (p.state.seated && owners.get(id) !== p.state.seatId) this.update(id, await G.state(id));
       for (const [scene, list] of this.ambient) {
         const sc = this.catalog.scenes[scene],
           cfg = this.settings.scenes?.[scene] || this.settings,

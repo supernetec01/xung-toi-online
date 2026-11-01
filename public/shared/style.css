@@ -125,3 +125,63 @@ textarea:focus-visible {
   outline: 3px solid #d5ae60;
   outline-offset: 3px;
 }
+/* Explicit hidden state wins over flex/grid display rules. */
+[hidden] {
+  display: none !important;
+}
+.account {
+  max-width: 680px;
+}
+.account-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  font-weight: 700;
+}
+.account-admin {
+  display: block;
+  margin-top: 14px;
+}
+.account-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e3da;
+}
+.account-section h2,
+.account-section h3 {
+  margin-top: 0;
+}
+.account-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.account-actions button {
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+#settingsPanel button {
+  display: block;
+  margin-top: 12px;
+}
+#settingsPanel input[type='checkbox'] {
+  width: auto;
+  margin-right: 8px;
+}
+@media (max-width: 560px) {
+  .account {
+    margin: 16px auto;
+    padding: 16px;
+  }
+  .card {
+    padding: 18px;
+  }
+  .account-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+#authError:empty {
+  display: none;
+}
