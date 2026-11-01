@@ -192,12 +192,13 @@
               ? 'down'
               : 'up'
           : el.dataset.direction || 'down';
-      el.dataset.direction = direction;
-      const signature = JSON.stringify([actor.visual, actor.pose, direction]);
+      const facingDirection = actor.pose === 'sit' ? 'up' : direction;
+      el.dataset.direction = facingDirection;
+      const signature = JSON.stringify([actor.visual, actor.pose, facingDirection]);
       if (el._visualSignature !== signature) {
         el.firstElementChild.innerHTML = window.PARISH_ART.avatar({
           ...person(actor),
-          direction,
+          direction: facingDirection,
           pose: actor.pose,
         });
         el._visualSignature = signature;

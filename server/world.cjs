@@ -67,6 +67,11 @@ class World {
       S.fail(409, 'ANOTHER_TAB_CONTROLS', 'Tab khác đang điều khiển nhân vật.');
   }
   update(id, state) {
+    if (state.scene === 'nave' && state.seatId)
+      this.ambient.set(
+        'nave',
+        (this.ambient.get('nave') || []).filter((a) => a.seatId !== state.seatId),
+      );
     const p = this.presence.get(id);
     if (p) {
       p.state = state;
@@ -232,7 +237,8 @@ class World {
         self: id === userId,
       });
     }
-    for (const a of this.ambient.get(scene) || [])
+    for (const a of this.ambient.get(scene) || []) {
+      if (scene === 'nave' && a.pose !== 'sit') continue;
       actors.push({
         entityId: a.id,
         publicKind: 'resident',
@@ -242,6 +248,7 @@ class World {
         leaving: a.leaving,
         visual: a.visual,
       });
+    }
     for (const g of this.guests.filter((g) => g.scene === scene))
       actors.push({
         entityId: g.id,
@@ -285,6 +292,11 @@ class World {
           this.ambient.set(scene, list);
         }
       }
+      const occupiedSeats = new Set(
+        (await pool.query('SELECT seat_id FROM seat_leases WHERE expires_at>now()')).rows.map(
+          (r) => r.seat_id,
+        ),
+      );
       for (const [scene, list] of this.ambient) {
         const sc = this.catalog.scenes[scene],
           cfg = this.settings.scenes?.[scene] || this.settings,
@@ -294,8 +306,10 @@ class World {
           for (const a of active.slice(target, target + 3)) {
             a.leaving = true;
             a.until = now + 2000;
-            a.pose = 'walk';
-            a.position = C.N.nearest(sc, sc.entry);
+            if (scene !== 'nave') {
+              a.pose = 'walk';
+              a.position = C.N.nearest(sc, sc.entry);
+            }
           }
         } else if (active.length < target) {
           const point = C.N.nearest(sc, sc.entry);
@@ -316,6 +330,33 @@ class World {
           scene,
           list.filter((a) => !(a.leaving && a.until < now)),
         );
+        if (scene === 'nave') {
+          const seats = sc.spots
+            .filter((s) => s[5] === 'seat')
+            .flatMap((s) =>
+              [0, 1, 2].map((choice) => ({
+                id: 'nave:' + s[0] + ':' + choice,
+                position: [s[3] + (choice - 1) * 3, s[4]],
+              })),
+            );
+          const claimed = new Set(occupiedSeats);
+          for (const a of list.filter((a) => !a.leaving)) {
+            const seat =
+              seats.find((s) => s.id === a.seatId && !claimed.has(s.id)) ||
+              seats.find((s) => !claimed.has(s.id));
+            if (!seat) {
+              a.leaving = true;
+              a.until = now + 1000;
+              continue;
+            }
+            claimed.add(seat.id);
+            a.seatId = seat.id;
+            a.position = seat.position;
+            a.pose = 'sit';
+            a.route = [];
+          }
+          continue;
+        }
         for (const a of list) {
           if (a.leaving || a.until > now) continue;
           if (a.route?.length) {

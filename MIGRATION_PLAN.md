@@ -2,7 +2,7 @@
 
 ## Dữ liệu hiện hành
 
-PostgreSQL 16 là nguồn cho tài khoản, sessions, JSONB player state, wallet, ledger, CMS drafts/publications, sanctions, chat/report/appeal, settings/history, ghế, sự kiện LIVE và dự án Xu cộng đồng. Source V3/renderer và stable IDs được giữ. Migrations thực nằm ở `db/migrations/001`–`005`, chỉ mở rộng; runner lưu SHA-256, chặn sửa migration đã áp dụng, dùng transaction/advisory lock.
+PostgreSQL 16 là nguồn cho tài khoản, sessions, JSONB player state, wallet, ledger, CMS drafts/publications, sanctions, chat/report/appeal, settings/history, ghế, sự kiện LIVE và dự án Xu cộng đồng. Source V3/renderer và stable IDs được giữ. Migrations thực nằm ở `db/migrations/001`–`006`, chỉ mở rộng; runner lưu SHA-256, chặn sửa migration đã áp dụng, dùng transaction/advisory lock.
 
 `.local/database.json` giữ kết nối DB local; `.local/pgdata` là dữ liệu Docker bind; `.local/encryption.key` giải mã MFA; `.local/uploads` giữ ảnh theo hash. Tất cả riêng, gitignored, không phục vụ HTTP. `.local/operator.json` là thông tin operator ban đầu; không seed lại hay tự thay quyền khi startup.
 

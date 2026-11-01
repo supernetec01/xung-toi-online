@@ -22,7 +22,7 @@
     q.guidance = q.steps.map(([event]) => routes[event]);
   }
   const npcPoints = {
-    nave: { father: [57, 69], sister: [35, 74] },
+    nave: { father: [57, 57], sister: [40, 63] },
     classroom: { sister: [18, 86], child: [78, 88] },
     office: { father: [44, 94], volunteer: [23, 86] },
     garden: { gardener: [10, 79], anna: [88, 82] },
@@ -30,7 +30,7 @@
   };
   const bounds = {
     courtyard: [8, 62, 92, 94],
-    nave: [8, 68, 92, 94],
+    nave: [8, 36, 92, 96],
     garden: [8, 76, 92, 97],
     christmas: [8, 67, 92, 96],
   };
@@ -41,14 +41,11 @@
       [45, 80, 55, 89],
     ],
     nave: [
-      [8, 68, 23, 72],
-      [8, 76, 25, 80],
-      [8, 84, 27, 88],
-      [8, 92, 29, 96],
-      [85, 68, 92, 72],
-      [84, 76, 92, 80],
-      [83, 84, 92, 88],
-      [82, 92, 92, 96],
+      [30, 0, 70, 52],
+      ...[71, 78.6, 86.2, 93.8].flatMap((y) => [
+        [10, y - 3, 35, y],
+        [65, y - 3, 90, y],
+      ]),
     ],
     classroom: [
       [15, 72, 36, 85],
@@ -81,7 +78,7 @@
       christmas: [79, 78],
     },
     nave: {
-      altar: [51, 68],
+      altar: [50, 56],
       seat_a: [27, 70],
       seat_b: [81, 78],
       baptistry: [15, 74],
@@ -122,7 +119,7 @@
           : row === 1 && side === 'right'
             ? 'seat_b'
             : `seat_${side}_${row}`;
-      const x = side === 'left' ? 18 : 89,
+      const x = side === 'left' ? 22 : 78,
         y = 71 + row * 7.6;
       D.scenes.nave.spots.push([
         id,
@@ -132,8 +129,18 @@
         y,
         'seat',
       ]);
-      D.scenes.nave.anchors[id] = [side === 'left' ? 31 : 78, Math.min(94, y + 2)];
+      D.scenes.nave.anchors[id] = [side === 'left' ? 40 : 60, Math.min(94, y + 2)];
     }
+  D.scenes.nave.entry = [50, 94];
+  for (const spot of D.scenes.nave.spots) {
+    const positions = {
+      altar: [50, 48],
+      baptistry: [12, 53],
+      confession: [88, 53],
+      choir: [12, 62],
+    };
+    if (positions[spot[0]]) [spot[3], spot[4]] = positions[spot[0]];
+  }
   for (const a of window.PARISH_ACTIVITIES) {
     const hub = D.scenes[a.scene].spots.find((s) => s[5] === 'activity_hub');
     a.anchor =

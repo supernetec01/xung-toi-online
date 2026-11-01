@@ -12,6 +12,12 @@
     );
   }
   function nearest(scene, [x, y]) {
+    if (
+      walkable(scene, x, y) &&
+      Math.abs((x - scene.bounds[0]) / 2 - Math.round((x - scene.bounds[0]) / 2)) < 0.0001 &&
+      Math.abs((y - scene.bounds[1]) / 2 - Math.round((y - scene.bounds[1]) / 2)) < 0.0001
+    )
+      return [x, y];
     let best = null,
       d = Infinity;
     const [l, t, r, b] = scene.bounds;
@@ -36,6 +42,7 @@
     const start = nearest(scene, from),
       goal = nearest(scene, to);
     if (!start || !goal) return [];
+    if (segment(scene, start, goal)) return [start, goal];
     const key = (p) => p.join(',');
     const queue = [start],
       previous = new Map([[key(start), null]]);

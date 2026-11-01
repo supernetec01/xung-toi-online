@@ -2,6 +2,8 @@
 
 Game 2D tiếng Việt, tiếp tục renderer/gameplay hiện hành. Bản **demo online** dùng Node.js 24 + PostgreSQL 16, có tài khoản, Admin/MFA/RBAC, CMS, kinh tế server, chat kiểm duyệt, NPC cư dân, LIVE Simulator và Noel cộng đồng. Cổng game nội bộ cố định **5001**.
 
+Bản sửa bố cục nhà thờ, camera hai trục và NPC ngồi ghế: [docs/WORLD_UPGRADE.md](docs/WORLD_UPGRADE.md), ảnh trước bàn giao trong `artifacts/world-upgrade/`.
+
 ## Cài trên máy của bạn
 
 Hướng dẫn từng bước, gồm Windows/WSL2, tạo tài khoản Admin và xử lý lỗi: **[docs/INSTALL_AND_RUN.md](docs/INSTALL_AND_RUN.md)**. Máy clone mới sẽ tạo database và Admin riêng; dữ liệu/credentials cloud không nằm trên GitHub.

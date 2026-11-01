@@ -33,33 +33,37 @@
     return `<g transform="translate(${x} ${y}) scale(${scale})"><ellipse cx="${w / 2}" cy="40" rx="${w * 0.55}" ry="22" fill="#433132" opacity=".13"/><rect x="0" y="0" width="${w}" height="28" rx="8" fill="url(#wood)" stroke="#553636" stroke-width="5"/><path d="M8 8H${w - 8}" stroke="#d9a27a" stroke-width="5" opacity=".7"/><rect x="8" y="25" width="12" height="35" rx="3" fill="#795043"/><rect x="${w - 20}" y="25" width="12" height="35" rx="3" fill="#795043"/></g>`;
   };
   function nave() {
-    let b = `<rect width="1200" height="720" fill="#efe9e4"/><rect width="1200" height="450" fill="url(#wall)"/>`;
-    b += `<path d="M0 450H1200V720H0Z" fill="url(#floor)"/><path d="M0 450L570 430L442 720H0Z" fill="#eee0d2" opacity=".6"/><path d="M1200 450L630 430L758 720H1200Z" fill="#eee0d2" opacity=".6"/><path d="M520 440L680 440L795 720H405Z" fill="#e7bd9c" opacity=".5"/><path d="M574 448L626 448L673 720H527Z" fill="#fff4e0" opacity=".85"/><rect y="450" width="1200" height="270" fill="url(#tiles)"/>`;
-    b += `<path d="M30 0Q150 200 185 485M1170 0Q1050 200 1015 485M140 0Q290 200 310 485M1060 0Q910 200 890 485M285 0Q370 162 410 465M915 0Q830 162 790 465M440 0Q500 113 515 450M760 0Q700 113 685 450" stroke="#fffdf6" stroke-width="22" fill="none" opacity=".9"/>`;
-    b += `<path d="M335 0Q510 125 600 300Q690 125 865 0" stroke="#e1cfca" stroke-width="12" fill="none"/><path d="M430 0Q570 120 600 252Q630 120 770 0" fill="none" stroke="#fffdf2" stroke-width="16"/>`;
-    b += `<path d="M380 455V185Q600 -110 820 185V455Z" fill="#f7f2ed" stroke="#d6c4c1" stroke-width="12"/><path d="M425 408V220Q600 -15 775 220V408Z" fill="#a2b7cb"/><path d="M428 404V250Q600 30 772 250V404Z" fill="#b7cee0"/>`;
-    // Blue fresco with stylized angel silhouettes and soft decorative stars.
-    b += `<path d="M447 370Q600 280 753 370L753 250Q600 70 447 250Z" fill="#8cacc8"/><path d="M447 370Q600 290 753 370" stroke="#f3e9df" stroke-width="10" fill="none"/>`;
-    for (let i = 0; i < 12; i++) {
-      let x = 477 + (i % 6) * 47,
-        y = 235 + Math.floor(i / 6) * 62;
-      b += `<circle cx="${x}" cy="${y}" r="${i % 3 === 0 ? 4 : 2}" fill="#fff6d7" opacity=".8"/>`;
-    }
-    b += `<ellipse cx="600" cy="310" rx="120" ry="122" fill="url(#glow)"/><path d="M490 419V308Q600 170 710 308V419Z" fill="#f6efdf" stroke="#dfc6a4" stroke-width="16"/><path d="M515 417V318Q600 207 685 318V417Z" fill="#e8e1d8"/>`;
-    b += `<ellipse cx="600" cy="285" rx="62" ry="72" fill="url(#glow)"/><path d="M600 274V380M556 298H644" stroke="#74433c" stroke-width="16" stroke-linecap="round"/><circle cx="600" cy="290" r="9" fill="#f4e2ca"/><path d="M596 300L584 347L600 356L616 347L604 300Z" fill="#e8d1bd"/><path d="M592 357L584 385M608 357L616 385" stroke="#d6bdab" stroke-width="7"/>`;
-    b += `<path d="M420 430L455 390H745L780 430V470H420Z" fill="#f6efe9" stroke="#e6d5ca" stroke-width="7"/><rect x="500" y="389" width="200" height="48" rx="3" fill="#fff7eb" stroke="#e2c9a5" stroke-width="5"/><rect x="505" y="390" width="190" height="5" fill="#ca9b6c"/>`;
-    for (let x of [470, 490, 710, 730]) b += candle(x, 388);
-    for (let x of [430, 775]) b += flower(x, 440, '#f2b1bd');
-    for (let x of [68, 193, 320, 880, 1007, 1132]) b += glass(x, 165, 55, 230);
-    for (let x of [115, 300, 900, 1085]) b += pillar(x);
-    b += `<path d="M0 0Q250 275 240 440M1200 0Q950 275 960 440" stroke="#ffffff" stroke-width="21" fill="none" opacity=".5"/><g fill="#f7e8ca" opacity=".55"><path d="M185 240L0 640L0 590Z"/><path d="M1000 240L1200 660L1200 610Z"/></g>`;
-    for (let i = 0; i < 4; i++) {
-      let y = 490 + i * 55,
-        s = 0.66 + i * 0.13;
-      b += pew(35 - i * 8, y, 'l', s) + pew(1050 - i * 14, y, 'r', s);
-    }
-    b += `<path d="M535 545H665L714 720H486Z" fill="none" stroke="#fff9d6" stroke-width="3" opacity=".7"/><circle cx="600" cy="647" r="28" fill="none" stroke="#e9bd8f" stroke-width="4"/><path d="M570 647H630M600 618V675" stroke="#e9bd8f" stroke-width="3"/>`;
-    return svg(b);
+    let b = `<defs><linearGradient id="church-floor" x2="0" y2="1"><stop stop-color="#efdfbd"/><stop offset="1" stop-color="#c9ac87"/></linearGradient><pattern id="church-tiles" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M0 0H80V80H0Z" fill="none" stroke="#fff7e4" stroke-opacity=".32"/></pattern><linearGradient id="church-wood" x2="0" y2="1"><stop stop-color="#bd8755"/><stop offset="1" stop-color="#714834"/></linearGradient></defs>
+    <rect width="1200" height="1000" fill="#3b4947"/>
+    <rect x="65" y="90" width="1070" height="875" rx="55" fill="#766453"/>
+    <rect x="92" y="118" width="1016" height="820" rx="35" fill="url(#church-floor)"/>
+    <rect x="92" y="118" width="1016" height="820" rx="35" fill="url(#church-tiles)"/>
+    <path d="M474 900V490Q600 458 726 490V900Z" fill="#b77563" opacity=".65"/>
+    <path d="M490 900V505H710V900M506 900V520H694V900" fill="none" stroke="#f4d9a0" stroke-width="3"/>
+    <path d="M340 500V234Q600 65 860 234V500Z" fill="#f7e9d1" stroke="#bca387" stroke-width="16"/>
+    <path d="M390 440V248Q600 115 810 248V440Z" fill="#7da4a5"/>
+    <path d="M410 425V260Q600 135 790 260V425Z" fill="#385e68"/>
+    <circle cx="600" cy="285" r="78" fill="#eccf8f" opacity=".24"/>
+    <path d="M600 214V348M557 250H643" stroke="#ead49e" stroke-width="14" stroke-linecap="round"/>
+    <rect x="332" y="471" width="536" height="36" rx="12" fill="#ba9a77"/>
+    <rect x="350" y="451" width="500" height="30" rx="10" fill="#decaab"/>
+    <ellipse cx="600" cy="440" rx="160" ry="18" fill="#58412e" opacity=".16"/>
+    <rect x="464" y="396" width="272" height="62" rx="13" fill="#c6a57e"/>
+    <path d="M448 393Q600 379 752 393V415Q600 428 448 415Z" fill="#fff8e8"/>
+    <path d="M598 421V447M585 431H611" stroke="#a9854b" stroke-width="5"/>`;
+    for (const x of [415, 785])
+      b += `<ellipse cx="${x}" cy="449" rx="25" ry="9" fill="#6c7552"/><path d="M${x} 448V401" stroke="#6c7552" stroke-width="5"/><circle cx="${x - 12}" cy="402" r="12" fill="#dda5a1"/><circle cx="${x + 11}" cy="398" r="13" fill="#fff0d1"/>`;
+    for (const y of [180, 330, 500, 690, 850])
+      for (const x of [65, 1135])
+        b += `<rect x="${x - 22}" y="${y - 42}" width="44" height="85" rx="18" fill="#e9d7bd"/><rect x="${x - 28}" y="${y + 32}" width="56" height="14" rx="5" fill="#b29b81"/>`;
+    for (const y of [230, 410, 590, 770])
+      for (const x of [110, 1090])
+        b += `<path d="M${x - 16} ${y + 35}V${y - 22}Q${x} ${y - 56} ${x + 16} ${y - 22}V${y + 35}Z" fill="#e6b872" stroke="#9d8770" stroke-width="6"/><path d="M${x} ${y - 29}V${y + 32}" stroke="#fff4c5" stroke-width="3"/><path d="M${x} ${y + 25}L${x < 600 ? x + 220 : x - 220} ${y + 170}L${x < 600 ? x + 280 : x - 280} ${y + 90}Z" fill="#fff3bc" opacity=".12"/>`;
+    for (const y of [710, 786, 862, 938])
+      for (const x of [120, 780])
+        b += `<g><rect x="${x + 5}" y="${y - 18}" width="300" height="24" rx="10" fill="#4d352b" opacity=".2"/><rect x="${x + 10}" y="${y - 63}" width="280" height="18" rx="6" fill="#5b3f2e"/><rect x="${x}" y="${y - 50}" width="300" height="36" rx="10" fill="url(#church-wood)" stroke="#6b4932" stroke-width="5"/><path d="M${x + 12} ${y - 40}H${x + 288}" stroke="#edbd7c" stroke-width="4"/><rect x="${x + 14}" y="${y - 18}" width="14" height="28" rx="4" fill="#684632"/><rect x="${x + 272}" y="${y - 18}" width="14" height="28" rx="4" fill="#684632"/></g>`;
+    b += `<path d="M480 958H720" stroke="#f5e5c8" stroke-width="12"/><rect x="535" y="943" width="130" height="30" rx="9" fill="#6a5040"/><text x="600" y="97" fill="#e9d9b8" font-size="18" letter-spacing="7" text-anchor="middle">AN HÒA</text>`;
+    return `<svg viewBox="0 0 1200 1000" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nhà thờ nhìn chéo từ trên, lối đi giữa và hai dãy ghế">${b}</svg>`;
   }
   function tree(x, y, k = 1) {
     return `<g transform="translate(${x} ${y}) scale(${k})"><ellipse cx="0" cy="9" rx="66" ry="19" fill="#375b52" opacity=".3"/><rect x="-13" y="-100" width="26" height="116" rx="7" fill="#866451"/><circle cx="-28" cy="-110" r="49" fill="#558f76"/><circle cx="26" cy="-128" r="55" fill="#5fa384"/><circle cx="3" cy="-167" r="50" fill="#6ab18d"/><circle cx="-36" cy="-150" r="30" fill="#7cba98"/></g>`;
@@ -160,7 +164,7 @@
         return indoor(id);
     }
   }
-  const spriteVersion = 'svg-rig-4.1';
+  const spriteVersion = 'svg-rig-4.2';
   const directions = ['up', 'down', 'left', 'right'];
   const poses = [
     'idle',
@@ -216,7 +220,7 @@
       ? `<path d="M32 48Q23 14 58 12Q96 11 90 52L85 ${female ? 83 : 65}H37Z" fill="${hair}"/><path d="M42 29Q60 17 78 30M44 41Q61 30 81 44" fill="none" stroke="#ffffff" stroke-opacity=".1" stroke-width="3"/>`
       : side
         ? `<path d="M37 47Q26 10 59 12Q86 10 85 40L90 70H38Z" fill="${hair}"/><path d="M53 21Q81 16 84 37L92 48L85 52Q84 71 62 72Q44 67 43 45Z" fill="${skin}"/><path d="M37 39Q33 10 58 11Q79 12 84 31L62 25L57 48L44 53Z" fill="${hair}"/><ellipse cx="77" cy="43" rx="2.5" ry="3.5" fill="#423745"/><path d="M76 59L84 58" stroke="#ad6c68" stroke-width="2.5"/>`
-        : `<path d="M32 48Q23 14 58 12Q96 11 90 52L85 70H37Z" fill="${hair}"/><ellipse cx="60" cy="44" rx="26" ry="29" fill="${skin}"/><ellipse cx="35" cy="46" rx="5" ry="8" fill="${skin}"/><ellipse cx="85" cy="46" rx="5" ry="8" fill="${skin}"/><path d="M34 35Q33 9 60 10Q88 13 86 35Q75 31 65 21Q53 36 34 35Z" fill="${hair}"/><ellipse cx="49" cy="46" rx="3" ry="4" fill="#423745"/><ellipse cx="72" cy="46" rx="3" ry="4" fill="#423745"/><path d="M54 59Q60 64 66 59" stroke="#ad6c68" fill="none" stroke-width="2.5" stroke-linecap="round"/>${female ? `<path d="M31 39Q25 65 34 83L38 77Q31 58 39 39M89 39Q94 65 86 83L82 77Q91 58 81 39" fill="${hair}"/>` : ''}`;
+        : `<path d="M32 48Q23 14 58 12Q96 11 90 52L85 70H37Z" fill="${hair}"/><ellipse cx="60" cy="44" rx="26" ry="29" fill="${skin}"/><ellipse cx="35" cy="46" rx="5" ry="8" fill="${skin}"/><ellipse cx="85" cy="46" rx="5" ry="8" fill="${skin}"/><path d="M34 35Q33 9 60 10Q88 13 86 35Q75 31 65 21Q53 36 34 35Z" fill="${hair}"/><ellipse cx="49" cy="46" rx="4" ry="5" fill="#423745"/><ellipse cx="72" cy="46" rx="4" ry="5" fill="#423745"/><circle cx="50" cy="44" r="1.6" fill="#fff6dd"/><circle cx="73" cy="44" r="1.6" fill="#fff6dd"/><path d="M54 59Q60 64 66 59" stroke="#ad6c68" fill="none" stroke-width="2.5" stroke-linecap="round"/>${female ? `<path d="M31 39Q25 65 34 83L38 77Q31 58 39 39M89 39Q94 65 86 83L82 77Q91 58 81 39" fill="${hair}"/>` : ''}`;
     const bent = ['pray', 'read', 'carry', 'sign_cross'].includes(pose),
       armLeft = bent ? 'rotate(-42deg)' : '',
       armRight =
@@ -241,7 +245,7 @@
                 : pose === 'sing'
                   ? `<text x="88" y="57" fill="#74668e" font-size="20">♫</text>`
                   : '';
-    const body = `<g data-part="rig-body" transform="${direction === 'left' ? 'translate(120 0) scale(-1 1)' : ''}"><g data-part="posture" transform="${pose === 'bow' ? 'rotate(13 60 145)' : seated ? 'translate(0 18)' : ''}"><g data-part="legs" transform="${seated ? 'translate(0 44) scale(1 .68)' : ''}"><path d="M42 112L42 147Q43 154 50 154L55 152L61 112Z" fill="${skin}"/><path d="M62 112L65 151Q71 155 76 149L78 110Z" fill="${skin}"/><path d="M39 149Q46 145 55 149L59 158Q55 166 35 162Z" fill="${shoes}" stroke="#56433e" stroke-width="2"/><path d="M64 149Q72 146 79 149L84 162Q65 167 63 159Z" fill="${shoes}" stroke="#56433e" stroke-width="2"/></g>${frontArms ? '' : arms}<g data-part="bottom">${female ? `<path d="M43 106H76L91 133Q60 146 30 133Z" fill="${bottom}" stroke="#ffffff" stroke-opacity=".27" stroke-width="3"/>` : `<path d="M40 105H80L78 130H63L60 115L57 130H43Z" fill="${bottom}" stroke="#ffffff" stroke-opacity=".22" stroke-width="3"/>`}</g><g data-part="torso"><path d="M44 68Q59 62 78 68L81 111Q60 117 39 111Z" fill="${top}" stroke="#8b7b76" stroke-opacity=".35" stroke-width="2"/>${back ? '' : `<path d="M53 69L60 80L68 69" fill="none" stroke="#fffdf3" stroke-width="5"/><circle cx="60" cy="89" r="2" fill="#b09a88"/><circle cx="60" cy="101" r="2" fill="#b09a88"/>`}</g>${frontArms ? arms : ''}<g data-part="head">${head}</g><g data-part="accessory">${acc === 'acc_bow' ? `<path d="M73 19Q96 -1 93 23Q81 23 73 19Q60 2 58 24Z" fill="#df8d9f" stroke="#ad6278" stroke-width="2"/>` : acc === 'acc_lily' ? `<circle cx="83" cy="27" r="6" fill="#f0ce93"/><path d="M83 17L86 22L94 19L89 26L94 32L85 31L83 39L80 31L72 32L78 25L73 19L80 22Z" fill="#fff1c0"/>` : acc === 'acc_bag' ? `<path d="M42 79Q60 97 89 121" fill="none" stroke="#8b6a54" stroke-width="5"/><rect x="76" y="113" width="20" height="21" rx="4" fill="#a7805f"/>` : ''}</g><g data-part="held-prop">${prop}</g></g></g>`;
+    const body = `<g data-part="rig-body" transform="${direction === 'left' ? 'translate(120 0) scale(-1 1)' : ''}"><g data-part="posture" transform="${pose === 'bow' ? 'rotate(13 60 145)' : seated ? 'translate(0 18)' : ''}"><g data-part="legs" transform="${seated ? 'translate(0 44) scale(1 .68)' : ''}"><path d="M42 112L42 147Q43 154 50 154L55 152L61 112Z" fill="${skin}"/><path d="M62 112L65 151Q71 155 76 149L78 110Z" fill="${skin}"/><path d="M39 149Q46 145 55 149L59 158Q55 166 35 162Z" fill="${shoes}" stroke="#56433e" stroke-width="2"/><path d="M64 149Q72 146 79 149L84 162Q65 167 63 159Z" fill="${shoes}" stroke="#56433e" stroke-width="2"/></g>${frontArms ? '' : arms}<g data-part="bottom">${female ? `<path d="M43 106H76L91 133Q60 146 30 133Z" fill="${bottom}" stroke="#ffffff" stroke-opacity=".27" stroke-width="3"/>` : `<path d="M40 105H80L78 130H63L60 115L57 130H43Z" fill="${bottom}" stroke="#ffffff" stroke-opacity=".22" stroke-width="3"/>`}</g><g data-part="torso"><path d="M44 70Q60 65 77 70Q87 86 81 111Q60 121 39 111Q34 87 44 70Z" fill="${top}" stroke="#8b7b76" stroke-opacity=".35" stroke-width="2"/>${back ? '' : `<path d="M53 69L60 80L68 69" fill="none" stroke="#fffdf3" stroke-width="5"/><circle cx="60" cy="89" r="2" fill="#b09a88"/><circle cx="60" cy="101" r="2" fill="#b09a88"/>`}</g>${frontArms ? arms : ''}<g data-part="head" transform="translate(-18 -8) scale(1.3)">${head}<g opacity=".32" fill="#e98e8b">${!back && !side ? '<ellipse cx="43" cy="55" rx="6" ry="3"/><ellipse cx="78" cy="55" rx="6" ry="3"/>' : ''}</g></g><g data-part="accessory">${acc === 'acc_bow' ? `<path d="M73 19Q96 -1 93 23Q81 23 73 19Q60 2 58 24Z" fill="#df8d9f" stroke="#ad6278" stroke-width="2"/>` : acc === 'acc_lily' ? `<circle cx="83" cy="27" r="6" fill="#f0ce93"/><path d="M83 17L86 22L94 19L89 26L94 32L85 31L83 39L80 31L72 32L78 25L73 19L80 22Z" fill="#fff1c0"/>` : acc === 'acc_bag' ? `<path d="M42 79Q60 97 89 121" fill="none" stroke="#8b6a54" stroke-width="5"/><rect x="76" y="113" width="20" height="21" rx="4" fill="#a7805f"/>` : ''}</g><g data-part="held-prop">${prop}</g></g></g>`;
     const atlasLayers = layers
       .map((layer) =>
         layer.frames

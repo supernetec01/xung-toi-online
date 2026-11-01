@@ -1743,3 +1743,43 @@ svg[data-sprite-version][data-pose='walk'] [data-part='legs'] {
     display: none;
   }
 }
+
+/* A world larger than the viewport, with the camera tracking both axes. */
+.stage {
+  width: max(120vw, 1200px);
+  height: max(110vh, 850px);
+}
+.stage[data-scene='nave'] {
+  width: max(145vw, 1550px);
+  height: max(150vh, 1300px);
+}
+.world-player {
+  transition: none;
+  will-change: left, top;
+}
+.world-player.sitting svg {
+  transform: none;
+}
+.online-actor[data-pose='sit'] {
+  pointer-events: none;
+}
+.online-actor[title^='Cư dân'] > span {
+  visibility: hidden;
+}
+.online-actor[title^='Cư dân']:hover > span {
+  visibility: visible;
+}
+.stage[data-scene='nave'] .hotspot[data-spot^='seat'] {
+  width: 28px;
+  height: 28px;
+  opacity: 0.48;
+  font-size: 14px;
+}
+.stage[data-scene='nave'] .hotspot[data-spot^='seat']:hover {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .world-player {
+    will-change: auto;
+  }
+}

@@ -1,0 +1,1 @@
+PASS world upgrade: walkable floor/altar/pews, collision-safe paths, seated unique NPCs, player seat priority, continuous movement and camera on both axes; desktop/mobile screenshots.

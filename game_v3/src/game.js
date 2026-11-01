@@ -28,7 +28,8 @@
     }
   }
   let st = readState();
-  let facing = 'down';
+  let facing = 'down',
+    motionPoint = null;
   st.lowMotion = st.lowMotion || matchMedia('(prefers-reduced-motion: reduce)').matches;
   let previewEquipment = null,
     returnFocus = null,
@@ -287,6 +288,8 @@
   }
   function renderScene() {
     const sc = D.scenes[st.scene];
+    motionPoint = null;
+    $('stage').dataset.scene = st.scene;
     $('scenery').innerHTML = A.scene(st.scene);
     $('actors').replaceChildren();
     for (const id of sc.npc) {
@@ -327,6 +330,7 @@
     refreshMarkers();
     showPlayer();
     renderDecorations();
+    cameraTo(st.x, st.y);
   }
   function renderDecorations() {
     let el = $('worldDecor');
@@ -370,18 +374,23 @@
       }) + `<span class="name">${A.esc(st.username || 'Người chơi')}</span>`;
     el.classList.toggle('sitting', !!st.seated);
   }
-  function cameraTo(x) {
-    if (innerWidth < 900) {
-      const v = $('viewport'),
-        stage = $('stage');
-      v.scrollLeft = Math.max(
-        0,
-        Math.min(
-          stage.clientWidth - v.clientWidth,
-          (stage.clientWidth * x) / 100 - v.clientWidth * 0.48,
-        ),
-      );
-    }
+  function cameraTo(x, y = motionPoint?.[1] ?? st.y) {
+    const v = $('viewport'),
+      stage = $('stage');
+    v.scrollLeft = Math.max(
+      0,
+      Math.min(
+        stage.clientWidth - v.clientWidth,
+        (stage.clientWidth * x) / 100 - v.clientWidth * 0.5,
+      ),
+    );
+    v.scrollTop = Math.max(
+      0,
+      Math.min(
+        stage.clientHeight - v.clientHeight,
+        (stage.clientHeight * y) / 100 - v.clientHeight * 0.56,
+      ),
+    );
   }
   async function moveTo(x, y, cb) {
     if (activityBusy || activityStarting) return false;
@@ -392,7 +401,7 @@
     const scene = st.scene,
       sc = D.scenes[scene],
       token = ++movement,
-      path = N.route(sc, [st.x, st.y], [x, y]);
+      path = N.route(sc, motionPoint || [st.x, st.y], [x, y]);
     if (!path.length) {
       toast('Không có lối đi đến đây.');
       return false;
@@ -401,26 +410,41 @@
     moving = true;
     actor.classList.remove('sitting');
     actor.classList.add('walking');
-    let previous = [st.x, st.y];
+    let previous = motionPoint || [st.x, st.y];
     for (const point of path) {
       if (token !== movement || st.scene !== scene) return false;
-      const dx = point[0] - previous[0],
-        dy = point[1] - previous[1];
-      if (dx || dy)
-        facing =
-          Math.abs(dx) >= Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : dy > 0 ? 'down' : 'up';
+      const from = [...previous],
+        dx = point[0] - from[0],
+        dy = point[1] - from[1];
+      if (!dx && !dy) continue;
+      facing = Math.abs(dx) >= Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : dy > 0 ? 'down' : 'up';
       const sprite = actor.querySelector('svg');
-      if (sprite && (sprite.dataset.direction !== facing || sprite.dataset.pose !== 'walk'))
-        sprite.outerHTML = A.avatar({ ...dressed(), direction: facing, pose: 'walk' });
+      if (sprite) sprite.outerHTML = A.avatar({ ...dressed(), direction: facing, pose: 'walk' });
+      const stage = $('stage'),
+        distance = Math.hypot((dx * stage.clientWidth) / 100, (dy * stage.clientHeight) / 100);
+      const duration = st.lowMotion ? Math.min(120, distance / 1.6) : distance / 0.32;
+      await new Promise((resolve) => {
+        const started = performance.now();
+        const frame = (now) => {
+          if (token !== movement || st.scene !== scene) {
+            resolve();
+            return;
+          }
+          const t = Math.min(1, (now - started) / Math.max(1, duration));
+          motionPoint = [from[0] + dx * t, from[1] + dy * t];
+          actor.style.left = motionPoint[0] + '%';
+          actor.style.top = motionPoint[1] + '%';
+          actor.style.zIndex = Math.round(motionPoint[1]);
+          actor.style.transform = `translate(-50%,-100%) scale(${(0.6 + motionPoint[1] * 0.0054).toFixed(3)})`;
+          cameraTo(...motionPoint);
+          if (t < 1) requestAnimationFrame(frame);
+          else resolve();
+        };
+        requestAnimationFrame(frame);
+      });
       previous = point;
-      actor.style.left = point[0] + '%';
-      actor.style.top = point[1] + '%';
-      actor.style.zIndex = Math.round(point[1]);
-      cameraTo(point[0]);
-      await new Promise((resolve) => setTimeout(resolve, st.lowMotion ? 15 : 160));
     }
     if (token !== movement || st.scene !== scene) return false;
-    moving = false;
     actor.classList.remove('walking');
     const committed = await mutate(
       () => {
@@ -433,8 +457,11 @@
       },
       intent('/api/player/location', { x: path.at(-1)[0], y: path.at(-1)[1] }),
     );
-    if (!committed) return false;
+    if (token !== movement || st.scene !== scene) return false;
+    moving = false;
+    motionPoint = null;
     showPlayer();
+    if (!committed) return false;
     if (token === movement && st.scene === scene) await cb?.();
     return true;
   }
@@ -1410,6 +1437,10 @@
     if (st.username) renderCooldowns();
   }, 1000);
 
+  window.addEventListener('resize', () =>
+    cameraTo(motionPoint?.[0] ?? st.x, motionPoint?.[1] ?? st.y),
+  );
+
   // Events
   for (const b of document.querySelectorAll('.dock [data-open]'))
     b.onclick = () => open(b.dataset.open);
@@ -1420,7 +1451,7 @@
     const r = $('stage').getBoundingClientRect(),
       x = ((e.clientX - r.left) / r.width) * 100,
       y = ((e.clientY - r.top) / r.height) * 100;
-    if (y > 41 && y < 93) moveTo(x, y);
+    if (N.walkable(D.scenes[st.scene], x, y)) moveTo(x, y);
   };
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Tab' && $('modalMount').childNodes.length) {
@@ -1460,7 +1491,7 @@
   if (rawSaveProblem)
     toast('Dữ liệu demo bị lỗi. Hãy mở Khác để tải bản sao; bản gốc chưa bị ghi đè.');
   if (window.innerWidth < 650) {
-    setTimeout(() => cameraTo(st.scene === 'courtyard' ? 44 : st.x), 40);
+    setTimeout(() => cameraTo(st.x, st.y), 40);
   }
   if (O.available) {
     O.open = async (type) => {
