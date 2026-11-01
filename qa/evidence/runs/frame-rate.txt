@@ -1,0 +1,1 @@
+PASS movement at controlled 20/30/60 rAF rates.

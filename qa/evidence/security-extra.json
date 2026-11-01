@@ -1,0 +1,49 @@
+{
+  "roles": {
+    "PLAYER": 403,
+    "MODERATOR": 403,
+    "CONTENT_EDITOR": 403,
+    "ADMIN": 200,
+    "SUPER_ADMIN": 200
+  },
+  "robots": {
+    "/account": "noindex, nofollow",
+    "/admin": "noindex, nofollow"
+  },
+  "concurrentImportSameKey": 10,
+  "concurrentImportDifferentKeys": 10,
+  "stalePreviewRejected": true,
+  "expiredSessionRejected": true,
+  "teleport": [
+    {
+      "status": 422,
+      "elapsedMs": 8.293680999999992,
+      "from": [
+        50,
+        92
+      ],
+      "to": [
+        null,
+        null
+      ]
+    },
+    {
+      "status": 422,
+      "elapsedMs": 9.630511999999953,
+      "from": [
+        50,
+        92
+      ],
+      "to": [
+        null,
+        null
+      ]
+    }
+  ],
+  "velocityGapRejected": true,
+  "disabled": {
+    "/api/payments/webhook": 404,
+    "/api/tickets/checkout": 404,
+    "/api/payments/checkout": 404
+  }
+}

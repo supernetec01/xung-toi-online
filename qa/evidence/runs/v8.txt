@@ -1,0 +1,5 @@
+
+> giao-xu-an-hoa@4.0.0-demo.1 test:v8
+> node tests/v8.cjs
+
+PASS V8: 6 layered scenes × 4 viewports; real pointer/keyboard movement, collision, seat orientation/exit, preserved demo inventory/wallet.

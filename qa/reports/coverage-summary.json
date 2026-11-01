@@ -1,0 +1,11 @@
+{
+  "total": 122,
+  "counts": {
+    "PASS": 97,
+    "FAIL": 0,
+    "BLOCKED": 12,
+    "NOT_RUN": 13
+  },
+  "manualMapping": true,
+  "physicalDevicesTested": false
+}

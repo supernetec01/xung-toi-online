@@ -1,5 +1,7 @@
 # Giáo Xứ An Hòa V4
 
+Bản QC 01/11/2026: [kết quả, lỗi đã sửa và hướng dẫn cập nhật](QA_REPORT.md).
+
 Game 2D tiếng Việt, tiếp tục renderer/gameplay hiện hành. Bản **demo online** dùng Node.js 24 + PostgreSQL 16, có tài khoản, Admin/MFA/RBAC, CMS, kinh tế server, chat kiểm duyệt, NPC cư dân, LIVE Simulator và Noel cộng đồng. Cổng game nội bộ cố định **5001**.
 
 Sửa nhà thờ **V9** (ghế tách trước/sau, hướng ngồi, điều khiển): [báo cáo, ảnh, video và rollback](docs/V9_CHURCH_FIX.md).

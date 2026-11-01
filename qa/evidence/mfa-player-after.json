@@ -1,0 +1,13 @@
+{
+  "baseline": false,
+  "runs": [
+    {
+      "mfaEnabled": true,
+      "withoutOtpStatus": 401
+    },
+    {
+      "mfaEnabled": true,
+      "withoutOtpStatus": 401
+    }
+  ]
+}

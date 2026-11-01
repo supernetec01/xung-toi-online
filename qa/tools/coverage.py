@@ -53,7 +53,7 @@ for r in rows:
  if r['id']=='AUTHUI-009':r['bug_id']='QC-016'
  if r['id']=='NFR-002':r['bug_id']='QC-019'
 with (root/'qa/reports/TEST_MATRIX.csv').open('w',encoding='utf-8',newline='') as f:
- w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+ w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator="\n");w.writeheader();w.writerows(rows)
 counts={s:sum(r['status']==s for r in rows) for s in ['PASS','FAIL','BLOCKED','NOT_RUN']}
 (root/'qa/reports/coverage-summary.json').write_text(json.dumps({'total':len(rows),'counts':counts,'manualMapping':True,'physicalDevicesTested':False},indent=2)+'\n')
 print(counts)

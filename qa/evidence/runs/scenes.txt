@@ -1,0 +1,1 @@
+PASS eight seat rows, spawn recovery and missing-asset fallback.

@@ -1,0 +1,21 @@
+{
+  "baseline": true,
+  "rows": [
+    {
+      "seated": true,
+      "leaseExpired": true,
+      "position": [
+        33.76196172248804,
+        62.06284658040666
+      ]
+    },
+    {
+      "seated": true,
+      "leaseExpired": true,
+      "position": [
+        33.76196172248804,
+        62.06284658040666
+      ]
+    }
+  ]
+}

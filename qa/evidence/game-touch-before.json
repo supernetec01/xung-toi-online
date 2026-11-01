@@ -1,0 +1,187 @@
+{
+  "baseline": true,
+  "rows": [
+    {
+      "width": 320,
+      "short": [
+        {
+          "label": "Đi lên",
+          "w": 36,
+          "h": 36,
+          "x": 52,
+          "y": 658
+        },
+        {
+          "label": "Sang trái",
+          "w": 36,
+          "h": 36,
+          "x": 12,
+          "y": 698
+        },
+        {
+          "label": "Đi xuống",
+          "w": 36,
+          "h": 36,
+          "x": 52,
+          "y": 698
+        },
+        {
+          "label": "Sang phải",
+          "w": 36,
+          "h": 36,
+          "x": 92,
+          "y": 698
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "short": [
+        {
+          "label": "Đi lên",
+          "w": 36,
+          "h": 36,
+          "x": 52,
+          "y": 658
+        },
+        {
+          "label": "Sang trái",
+          "w": 36,
+          "h": 36,
+          "x": 12,
+          "y": 698
+        },
+        {
+          "label": "Đi xuống",
+          "w": 36,
+          "h": 36,
+          "x": 52,
+          "y": 698
+        },
+        {
+          "label": "Sang phải",
+          "w": 36,
+          "h": 36,
+          "x": 92,
+          "y": 698
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "short": [
+        {
+          "label": "Đi lên",
+          "w": 36,
+          "h": 36,
+          "x": 52,
+          "y": 658
+        },
+        {
+          "label": "Sang trái",
+          "w": 36,
+          "h": 36,
+          "x": 12,
+          "y": 698
+        },
+        {
+          "label": "Đi xuống",
+          "w": 36,
+          "h": 36,
+          "x": 52,
+          "y": 698
+        },
+        {
+          "label": "Sang phải",
+          "w": 36,
+          "h": 36,
+          "x": 92,
+          "y": 698
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "short": [
+        {
+          "label": "Đi lên",
+          "w": 36,
+          "h": 36,
+          "x": 52,
+          "y": 658
+        },
+        {
+          "label": "Sang trái",
+          "w": 36,
+          "h": 36,
+          "x": 12,
+          "y": 698
+        },
+        {
+          "label": "Đi xuống",
+          "w": 36,
+          "h": 36,
+          "x": 52,
+          "y": 698
+        },
+        {
+          "label": "Sang phải",
+          "w": 36,
+          "h": 36,
+          "x": 92,
+          "y": 698
+        },
+        {
+          "label": "Đăng nhập / lưu game",
+          "w": 136.3125,
+          "h": 40,
+          "x": 619.6875,
+          "y": 74
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 1024,
+      "short": [
+        {
+          "label": "Đăng nhập / lưu game",
+          "w": 136.3125,
+          "h": 40,
+          "x": 875.6875,
+          "y": 74
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 1366,
+      "short": [
+        {
+          "label": "Đăng nhập / lưu game",
+          "w": 136.3125,
+          "h": 40,
+          "x": 1217.6875,
+          "y": 74
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "width": 1920,
+      "short": [
+        {
+          "label": "Đăng nhập / lưu game",
+          "w": 136.3125,
+          "h": 40,
+          "x": 1771.6875,
+          "y": 74
+        }
+      ],
+      "overflow": false
+    }
+  ]
+}

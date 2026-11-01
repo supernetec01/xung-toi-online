@@ -1,0 +1,44 @@
+{
+  "roles": {
+    "PLAYER": 403,
+    "MODERATOR": 403,
+    "CONTENT_EDITOR": 403,
+    "ADMIN": 200,
+    "SUPER_ADMIN": 200
+  },
+  "concurrentImportSameKey": 10,
+  "concurrentImportDifferentKeys": 10,
+  "stalePreviewRejected": true,
+  "teleport": [
+    {
+      "status": 200,
+      "elapsedMs": 13.727112000000034,
+      "from": [
+        50,
+        92
+      ],
+      "to": [
+        50,
+        58
+      ]
+    },
+    {
+      "status": 200,
+      "elapsedMs": 11.505907999999977,
+      "from": [
+        50,
+        92
+      ],
+      "to": [
+        50,
+        58
+      ]
+    }
+  ],
+  "velocityGapObserved": true,
+  "disabled": {
+    "/api/payments/webhook": 404,
+    "/api/tickets/checkout": 404,
+    "/api/payments/checkout": 404
+  }
+}

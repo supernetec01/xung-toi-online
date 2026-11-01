@@ -1,0 +1,40 @@
+{
+  "baseline": false,
+  "rows": [
+    {
+      "width": 320,
+      "short": [],
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "short": [],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "short": [],
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "short": [],
+      "overflow": false
+    },
+    {
+      "width": 1024,
+      "short": [],
+      "overflow": false
+    },
+    {
+      "width": 1366,
+      "short": [],
+      "overflow": false
+    },
+    {
+      "width": 1920,
+      "short": [],
+      "overflow": false
+    }
+  ]
+}

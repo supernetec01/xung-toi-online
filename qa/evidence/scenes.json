@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "allEightRowsSitBack": true,
+  "expiredLeaseRecovery": "see seat-recovery-after.json",
+  "invalidSpawnRecovered": true,
+  "missingArchitectureFallback": true,
+  "errors": []
+}

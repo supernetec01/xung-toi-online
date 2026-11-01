@@ -1,0 +1,185 @@
+{
+  "project": "Giao Xu An Hoa QA V4-V9",
+  "date": "2026-11-01",
+  "tasks": [
+    {
+      "id": "QA0",
+      "title": "Audit repository/staging & test environment",
+      "dependsOn": [],
+      "priority": "P0",
+      "acceptance": "Env, paths, users, rollback, report baseline",
+      "status": "DONE",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA1",
+      "title": "Fix account UI/auth state from screenshot",
+      "dependsOn": [
+        "QA0"
+      ],
+      "priority": "P1",
+      "acceptance": "No login tabs for signed-in; actions grouped",
+      "status": "VERIFIED",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA2",
+      "title": "Verify security, auth, user role, demo import",
+      "dependsOn": [
+        "QA0"
+      ],
+      "priority": "P0",
+      "acceptance": "No privilege escalation/duplication; session safe",
+      "status": "PARTIAL",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA3",
+      "title": "Repair movement collision/path input",
+      "dependsOn": [
+        "QA0"
+      ],
+      "priority": "P1",
+      "acceptance": "No clip, last input wins, mobile",
+      "status": "PARTIAL",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA4",
+      "title": "Repair seats/poses/head rotation",
+      "dependsOn": [
+        "QA3"
+      ],
+      "priority": "P1",
+      "acceptance": "Seat only, sit_back, no duplicate, proper direction",
+      "status": "VERIFIED",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA5",
+      "title": "Audit map scene artwork and UX",
+      "dependsOn": [
+        "QA3",
+        "QA4"
+      ],
+      "priority": "P2",
+      "acceptance": "Layered art, no doubled objects",
+      "status": "PARTIAL",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA6",
+      "title": "Audit NPC density/presence",
+      "dependsOn": [
+        "QA0"
+      ],
+      "priority": "P2",
+      "acceptance": "No fake counts, safe spawn",
+      "status": "PARTIAL",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA7",
+      "title": "Audit quests/actions/coins",
+      "dependsOn": [
+        "QA0"
+      ],
+      "priority": "P1",
+      "acceptance": "Ledger/idempotent/cooldowns",
+      "status": "PARTIAL",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA8",
+      "title": "Audit shop/avatar ownership",
+      "dependsOn": [
+        "QA7"
+      ],
+      "priority": "P1",
+      "acceptance": "No double pay, layering consistent",
+      "status": "PARTIAL",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA9",
+      "title": "Audit chat moderation and abuse",
+      "dependsOn": [
+        "QA0"
+      ],
+      "priority": "P0",
+      "acceptance": "Ban + XSS + throttles",
+      "status": "VERIFIED_IN_SCOPE",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA10",
+      "title": "Audit admin RBAC/content",
+      "dependsOn": [
+        "QA0"
+      ],
+      "priority": "P0",
+      "acceptance": "Server RBAC, audit logs, safe edits",
+      "status": "VERIFIED_IN_SCOPE",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA11",
+      "title": "Audit Noel tickets/sandbox payments",
+      "dependsOn": [
+        "QA0",
+        "QA2"
+      ],
+      "priority": "P0",
+      "acceptance": "Signed webhooks, ticket 1x",
+      "status": "BLOCKED",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA12",
+      "title": "Audit TikTok Live simulator",
+      "dependsOn": [
+        "QA0"
+      ],
+      "priority": "P2",
+      "acceptance": "Queue + temp users only",
+      "status": "VERIFIED_MOCK_ONLY",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA13",
+      "title": "Cross-device performance/a11y",
+      "dependsOn": [
+        "QA1",
+        "QA3",
+        "QA5"
+      ],
+      "priority": "P2",
+      "acceptance": "Responsive FPS/memory/keyboard",
+      "status": "PARTIAL",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    },
+    {
+      "id": "QA14",
+      "title": "Full regression, QA release decision",
+      "dependsOn": [
+        "QA1",
+        "QA2",
+        "QA3",
+        "QA4",
+        "QA5",
+        "QA6",
+        "QA7",
+        "QA8",
+        "QA9",
+        "QA10",
+        "QA11",
+        "QA12",
+        "QA13"
+      ],
+      "priority": "P0",
+      "acceptance": "Verified tests/report GO-NOGO",
+      "status": "REPORT_COMPLETE_NO_GO",
+      "evidence": "reports/TEST_MATRIX.csv; reports/QA_AUDIT_20261101.md"
+    }
+  ]
+}

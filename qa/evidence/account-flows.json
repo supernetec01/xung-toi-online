@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "checks": [
+    "AUTH-003",
+    "AUTH-002",
+    "AUTH-001",
+    "AUTH-004",
+    "AUTHUI-001",
+    "AUTHUI-003",
+    "AUTHUI-004",
+    "AUTHUI-008",
+    "AUTHUI-002",
+    "NFR-001",
+    "NFR-002",
+    "AUTHUI-009",
+    "AUTHUI-005",
+    "AUTHUI-006",
+    "AUTHUI-007",
+    "AUTH-012",
+    "AUTH-006",
+    "AUTH-005"
+  ],
+  "viewports": [
+    320,
+    375,
+    390,
+    768,
+    1024,
+    1366,
+    1920
+  ],
+  "lostImportResponseRetry": true,
+  "errors": []
+}

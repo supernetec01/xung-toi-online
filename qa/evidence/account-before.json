@@ -1,0 +1,17 @@
+{
+  "baseline": true,
+  "loginTabsVisibleTwice": [
+    true,
+    true
+  ],
+  "importStatus": 200,
+  "before": {
+    "coins": 40,
+    "ownsBlue": true
+  },
+  "after": {
+    "coins": 200,
+    "ownsBlue": false
+  },
+  "errors": []
+}
