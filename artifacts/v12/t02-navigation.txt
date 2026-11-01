@@ -1,0 +1,1 @@
+PASS 13 feet/A*/swept-collision checks; 100 routes in 867.3ms.

@@ -58,10 +58,20 @@
       ],
       "scope": "Feet colliders, swept movement, A*, click replacement, desktop + mobile input",
       "acceptance": "Không đi xuyên object; 10 click liên tiếp không kẹt; test corners",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/navigation.js",
+        "game_v3/src/game.js",
+        "tests/v12-navigation.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/t02-before-after.json",
+        "artifacts/v12/t02-navigation.txt",
+        "artifacts/v12/t02-input.txt",
+        "artifacts/v12/t02-v9.txt",
+        "artifacts/v12/t02-verify.txt"
+      ]
     },
     {
       "id": "T03",

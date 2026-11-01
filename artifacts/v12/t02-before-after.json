@@ -1,0 +1,16 @@
+{
+  "baseline": "a70ca98",
+  "trueMeansIncorrectlyAccepted": true,
+  "cases": [
+    {
+      "case": "foot overlaps object with center outside",
+      "before": true,
+      "after": false
+    },
+    {
+      "case": "long segment crosses very thin wall",
+      "before": true,
+      "after": false
+    }
+  ]
+}

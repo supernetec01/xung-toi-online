@@ -530,7 +530,17 @@
           elapsed += Math.min(50, Math.max(0, now - previousTime));
           previousTime = now;
           const t = Math.min(1, elapsed / Math.max(1, duration));
-          motionPoint = [from[0] + dx * t, from[1] + dy * t];
+          const nextPoint = [from[0] + dx * t, from[1] + dy * t];
+          if (!N.segment(D.scenes[scene], motionPoint || from, nextPoint)) {
+            movement++;
+            moving = false;
+            motionPoint = null;
+            actor.classList.remove('walking');
+            toast('Lối đi đã thay đổi. Hãy chọn lại điểm đến.');
+            resolve();
+            return;
+          }
+          motionPoint = nextPoint;
           actor.style.left = motionPoint[0] + '%';
           actor.style.top = motionPoint[1] + '%';
           actor.style.zIndex = Math.round(motionPoint[1] * 10);
@@ -1602,6 +1612,7 @@
       x = ((e.clientX - r.left) / r.width) * 100,
       y = ((e.clientY - r.top) / r.height) * 100;
     if (N.walkable(D.scenes[st.scene], x, y)) moveTo(x, y);
+    else toast('Vị trí này có vật cản. Hãy chọn lối đi hoặc điểm tương tác bên cạnh.');
   };
   let steerTimer;
   const heldKeys = new Map();
@@ -1718,6 +1729,12 @@
     };
     O.mount();
     window.addEventListener('parish:catalog', () => {
+      movement++;
+      moving = false;
+      motionPoint = null;
+      stopSteer();
+      const sc = D.scenes[st.scene];
+      if (!st.seated && !N.walkable(sc, st.x, st.y)) [st.x, st.y] = N.nearest(sc, [st.x, st.y]);
       renderHud();
       renderScene();
       if ($('shopPreview')) {

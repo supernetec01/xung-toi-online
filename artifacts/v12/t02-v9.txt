@@ -1,0 +1,20 @@
+
+> giao-xu-an-hoa@4.0.0-demo.1 test:v9
+> node --test references/v9/tests/navigation.test.mjs && node tests/v9.cjs
+
+✔ ghế theo đúng 4 hàng mỗi bên và không tự đè lên nhau (1.106324ms)
+✔ chân không thể đi xuyên hay đứng vào các hàng ghế (0.239155ms)
+✔ mọi điểm tiếp cận ghế nằm trên lối đi (1.019505ms)
+✔ đổi lệnh di chuyển liên tục chỉ giữ đích mới (1.041807ms)
+✔ khi ngồi dùng pose cố định và hướng north (0.186978ms)
+✔ không xoay tự do đầu/actor khi đổi hướng (0.103443ms)
+✔ đường đi từ giữa nhà thờ đến cửa và các ghế hợp lệ (5.680351ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 74.335165
+PASS V9: church split pews × 4 viewports; real pointer/keyboard movement, collision, seat orientation/exit, preserved demo inventory/wallet.
