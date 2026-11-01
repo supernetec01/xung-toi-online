@@ -1,0 +1,10 @@
+{
+  "originalDatabaseMigrationApplied": true,
+  "accountRowsUnchanged": true,
+  "playerStateRowsUnchanged": true,
+  "walletRowsUnchanged": true,
+  "ledgerRowsUnchanged": true,
+  "otherScenesUnchanged": true,
+  "itemsQuestsNpcsUnchanged": true,
+  "privateDataIncluded": false
+}

@@ -1,0 +1,33 @@
+{
+  "createdFor": "Christmas plaza redesign, 2026-11-02 Asia/Ho_Chi_Minh",
+  "source": "Original artwork generated for this project; independent architecture and transparent prop layers. Lantern vector drawn in source. No Google image downloaded.",
+  "googleLookup": "Attempted public Google search through configured proxy: CONNECT denied HTTP 403; no external search results claimed.",
+  "totalBytes": 914518,
+  "files": [
+    {
+      "name": "architecture.webp",
+      "bytes": 426898,
+      "sha256": "390c59c3a042bc319bcf86c92ecc96e9a7df638f1c984c54ffbf726a4517b84e"
+    },
+    {
+      "name": "gifts.webp",
+      "bytes": 86708,
+      "sha256": "2ff8962639d6953481cbe95b01e171201af42f4cda858794dc1a93212df2f69c"
+    },
+    {
+      "name": "nativity.webp",
+      "bytes": 152356,
+      "sha256": "5db3f8a95e680b48b0479e0cbb8f500e73ee696446a6e801386dc2a68af2e702"
+    },
+    {
+      "name": "stall.webp",
+      "bytes": 109690,
+      "sha256": "ca5b19376b3f3919f4cb7b317c2446fad50ac73014344cc3ed878152d4d1e7bd"
+    },
+    {
+      "name": "tree.webp",
+      "bytes": 138866,
+      "sha256": "38e541b88751edf61080253b7ab932f12f6d36dad6af9b8aa5c523de37c4413b"
+    }
+  ]
+}

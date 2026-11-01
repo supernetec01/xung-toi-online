@@ -27,7 +27,8 @@
     "test:world": "node tests/world-upgrade.cjs",
     "test:v8": "node tests/v8.cjs",
     "scene:layout": "node scripts/scene-layout.cjs",
-    "test:v9": "node --test references/v9/tests/navigation.test.mjs && node tests/v9.cjs"
+    "test:v9": "node --test references/v9/tests/navigation.test.mjs && node tests/v9.cjs",
+    "test:christmas": "node tests/christmas.cjs"
   },
   "devDependencies": {
     "playwright": "1.56.1",

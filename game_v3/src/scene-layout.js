@@ -15,6 +15,36 @@
     depth,
   });
   const rooms = {
+    christmas: {
+      tile: 6,
+      theme: 'christmas-night',
+      horizon: 0.58,
+      props: [
+        prop('market_left', 'stall', 15, 60, 20, 24, [7, 55, 24, 61]),
+        prop('market_right', 'stall', 85, 60, 20, 24, [76, 55, 93, 61]),
+        prop('tree', 'tree', 23, 77, 25, 48, [14, 70, 32, 78]),
+        prop('nativity', 'nativity', 78, 77, 29, 37, [66, 68, 90, 78]),
+        prop('gifts', 'gifts', 26, 88, 15, 17, [20, 83, 32, 89]),
+        prop('lantern_left', 'lantern', 8, 88, 5, 31, [6, 85, 10, 89]),
+        prop('lantern_right', 'lantern', 94, 88, 5, 31, [92, 85, 96, 89]),
+      ],
+      points: {
+        star: [78, 42],
+        tree: [23, 62],
+        gifts: [29, 81],
+        back: [50, 95],
+        action_hub_christmas: [58, 82],
+      },
+      anchors: {
+        star: [63, 76],
+        tree: [36, 76],
+        gifts: [36, 86],
+        back: [50, 95],
+        action_hub_christmas: [58, 82],
+      },
+      npcPoints: { lucia: [63, 83], child: [43, 69] },
+      entry: [50, 88],
+    },
     nave: {
       tile: 0,
       horizon: 0.76,
@@ -168,13 +198,14 @@
     }
   for (const [id, layout] of Object.entries(rooms)) {
     const sc = D.scenes[id];
-    sc.artVersion = 'v8-layered-1';
+    sc.artVersion = id === 'christmas' ? 'christmas-night-1' : 'v8-layered-1';
     sc.art = { tile: layout.tile, horizon: layout.horizon, props: layout.props };
-    sc.bounds = [4, 56, 96, 97];
+    if (layout.theme) sc.art.theme = layout.theme;
+    sc.bounds = id === 'christmas' ? [4, 58, 96, 97] : [4, 56, 96, 97];
     sc.walkPolygons = [
       [
-        [14, 56],
-        [86, 56],
+        [14, sc.bounds[1]],
+        [86, sc.bounds[1]],
         [96, 97],
         [4, 97],
       ],
@@ -196,6 +227,7 @@
     choir: [51, 79],
     shoproom: [49, 83],
     foyer: [50, 77],
+    christmas: [58, 82],
   };
   for (const a of root.PARISH_ACTIVITIES)
     if (actionPoints[a.scene]) a.anchor = [...actionPoints[a.scene]];

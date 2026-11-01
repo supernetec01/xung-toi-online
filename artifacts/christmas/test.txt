@@ -1,0 +1,5 @@
+
+> giao-xu-an-hoa@4.0.0-demo.1 test:christmas
+> node tests/christmas.cjs
+
+PASS 51 Christmas scene checks; five viewports, actual pointer interaction, offline/online persistence, migration and rollback.

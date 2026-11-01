@@ -330,6 +330,11 @@
     }
     // Artwork itself is interactive; keep the existing V4 hotspot/service IDs.
     const propLinks = {
+      christmas: {
+        nativity: 'star',
+        market_left: 'action_hub_christmas',
+        market_right: 'action_hub_christmas',
+      },
       choir: { piano: 'rhythm', stand_0: 'rhythm', stand_1: 'rhythm', stand_2: 'rhythm' },
       office: { gifts: 'pack' },
       shoproom: { rack_left: 'browse', rack_right: 'browse', counter: 'browse' },
@@ -379,6 +384,14 @@
       el.id = 'worldDecor';
       $('stage').append(el);
     }
+    if (D.scenes[st.scene].art?.theme === 'christmas-night') {
+      for (const prop of $('stage').querySelectorAll('.scene-prop')) {
+        const target = prop.dataset.prop === 'nativity' ? 'star' : prop.dataset.prop;
+        prop.classList.toggle('is-decorated', st.decorated.includes(target));
+      }
+      el.innerHTML = '';
+      return;
+    }
     el.innerHTML =
       st.scene === 'christmas'
         ? st.decorated
@@ -416,19 +429,30 @@
   }
   function cameraTo(x, y = motionPoint?.[1] ?? st.y) {
     const v = $('viewport'),
-      stage = $('stage');
+      stage = $('stage'),
+      scene = D.scenes[st.scene],
+      horizontalBias =
+        scene.art?.theme === 'christmas-night' && v.clientWidth < 650
+          ? Math.max(0.25, Math.min(0.75, 0.5 + (50 - x) * 0.02))
+          : 0.5,
+      cameraBias =
+        scene.art?.theme === 'christmas-night' && v.clientWidth >= 1024
+          ? 0.84
+          : scene.art
+            ? 0.78
+            : 0.56;
     v.scrollLeft = Math.max(
       0,
       Math.min(
         stage.clientWidth - v.clientWidth,
-        (stage.clientWidth * x) / 100 - v.clientWidth * 0.5,
+        (stage.clientWidth * x) / 100 - v.clientWidth * horizontalBias,
       ),
     );
     v.scrollTop = Math.max(
       0,
       Math.min(
         v.scrollHeight - v.clientHeight,
-        (stage.clientHeight * y) / 100 - v.clientHeight * (D.scenes[st.scene].art ? 0.78 : 0.56),
+        (stage.clientHeight * y) / 100 - v.clientHeight * cameraBias,
       ),
     );
   }

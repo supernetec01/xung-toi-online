@@ -1,0 +1,2 @@
+PASS private backup created before scene migration.
+PASS restore drill: account count, ledger invariant and MFA decryption; original database unchanged.

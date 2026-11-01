@@ -1941,3 +1941,119 @@ svg[data-sprite-version][data-pose='walk'] [data-part='legs'] {
 .stage[data-scene='nave'] .online-actor[data-pose='sit'] {
   margin-top: 22px;
 }
+
+/* Christmas: painted architecture, separate collision props and live characters. */
+.stage[data-art='christmas-night-1'] {
+  width: max(100vw, 1440px);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  overflow: visible;
+  background: #142237;
+}
+.stage[data-art='christmas-night-1'] .scenery {
+  pointer-events: none;
+}
+.stage[data-art='christmas-night-1'] .scene-floor {
+  height: calc(42% + 190px);
+}
+.stage[data-art='christmas-night-1'] .scene-prop {
+  filter: drop-shadow(0 9px 7px #07132460);
+}
+.stage[data-art='christmas-night-1'] .scene-prop img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+  pointer-events: none;
+}
+.christmas-lights {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+}
+.christmas-lights svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.christmas-bulb:nth-child(4n) {
+  animation: christmas-glimmer 3.6s ease-in-out infinite alternate;
+}
+.christmas-bulb:nth-child(4n + 1) {
+  animation: christmas-glimmer 4.8s ease-in-out 1s infinite alternate;
+}
+@keyframes christmas-glimmer {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.stage[data-art='christmas-night-1'] .hotspot {
+  z-index: 1100 !important;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  background: linear-gradient(145deg, #273944ed, #122432ed);
+  border: 1px solid #d9b36b;
+  box-shadow:
+    0 3px 14px #050c1866,
+    inset 0 0 0 3px #f6cc7514;
+}
+.stage[data-art='christmas-night-1'] .hotspot:hover,
+.stage[data-art='christmas-night-1'] .hotspot:focus-visible {
+  background: #8b563a;
+}
+.stage[data-art='christmas-night-1'] .hotspot.done {
+  border-color: #aee4ac;
+  background: #31584e;
+}
+.stage[data-art='christmas-night-1'] .actor-name {
+  font-size: 10px;
+  background: #152737dc;
+  border: 1px solid #d3ad6840;
+}
+.stage[data-art='christmas-night-1'] .scene-prop.is-decorated::after {
+  content: '✦';
+  position: absolute;
+  bottom: 12%;
+  right: 12%;
+  color: #ffe5a0;
+  font-size: 26px;
+  text-shadow: 0 0 15px #ffcc70;
+  pointer-events: none;
+}
+.game[data-world-theme='christmas-night'] {
+  background: #142237;
+}
+.game[data-world-theme='christmas-night'] .glass,
+.game[data-world-theme='christmas-night'] .dock,
+.game[data-world-theme='christmas-night'] .scene-hint {
+  background: #192c3de8;
+  border-color: #d9bc7b7d;
+}
+.game[data-world-theme='christmas-night'] .vignette {
+  box-shadow: inset 0 0 100px #07112238;
+}
+@media (max-width: 650px) {
+  .stage[data-art='christmas-night-1'] {
+    width: 1280px;
+    height: 900px;
+    aspect-ratio: auto;
+  }
+  .stage[data-art='christmas-night-1'] .scene-prop {
+    filter: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .christmas-bulb {
+    animation: none !important;
+  }
+}
+.low-motion .christmas-bulb {
+  animation: none !important;
+}

@@ -1,0 +1,28 @@
+{
+  "scene": {
+    "name": "Quảng trường Giáng sinh",
+    "sub": "Chuẩn bị hang đá • trang trí Noel",
+    "icon": "🎄",
+    "entry": [48, 86],
+    "npc": ["child", "lucia"],
+    "spots": [
+      ["star", "⭐", "Treo ngôi sao", 29, 49, "decorate"],
+      ["tree", "🎄", "Trang trí cây thông", 29, 72, "decorate"],
+      ["gifts", "🎁", "Xếp hộp quà", 46, 85, "decorate"],
+      ["back", "🚪", "Về sân", 50, 94, "go", "courtyard"],
+      ["action_hub_christmas", "🙌", "Hành động tại đây", 60, 81, "activity_hub"]
+    ],
+    "bounds": [8, 67, 92, 96],
+    "blockers": [],
+    "anchors": {
+      "star": [30, 72],
+      "tree": [36, 81],
+      "gifts": [46, 87]
+    },
+    "npcPoints": {
+      "child": [61, 87],
+      "lucia": [70, 83]
+    }
+  },
+  "action": [60, 81]
+}

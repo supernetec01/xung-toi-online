@@ -2,7 +2,7 @@
 
 ## Dữ liệu hiện hành
 
-PostgreSQL 16 là nguồn cho tài khoản, sessions, JSONB player state, wallet, ledger, CMS drafts/publications, sanctions, chat/report/appeal, settings/history, ghế, sự kiện LIVE và dự án Xu cộng đồng. Source V3/renderer và stable IDs được giữ. Migrations thực nằm ở `db/migrations/001`–`006`, chỉ mở rộng; runner lưu SHA-256, chặn sửa migration đã áp dụng, dùng transaction/advisory lock.
+PostgreSQL 16 là nguồn cho tài khoản, sessions, JSONB player state, wallet, ledger, CMS drafts/publications, sanctions, chat/report/appeal, settings/history, ghế, sự kiện LIVE và dự án Xu cộng đồng. Source V3/renderer và stable IDs được giữ. Migrations thực nằm ở `db/migrations/001`–`010`, chỉ mở rộng; runner lưu SHA-256, chặn sửa migration đã áp dụng, dùng transaction/advisory lock.
 
 `.local/database.json` giữ kết nối DB local; `.local/pgdata` là dữ liệu Docker bind; `.local/encryption.key` giải mã MFA; `.local/uploads` giữ ảnh theo hash. Tất cả riêng, gitignored, không phục vụ HTTP. `.local/operator.json` là thông tin operator ban đầu; không seed lại hay tự thay quyền khi startup.
 
@@ -40,3 +40,7 @@ Dừng module có thể làm chức năng đó tạm không truy cập được;
 ## Baseline M0
 
 Snapshot trước M0: `/workspace/backups/xung-toi-online/pre-v4-m0-20261101T080734Z.tar.gz`; checksum ở `artifacts/m0-baseline.json`. Snapshot trước online: `/workspace/backups/xung-toi-online/pre-online-20261101T082816Z.tar.gz`. Luôn kiểm checksum, giải nén vào thư mục khác để so sánh; không đè checkout hoặc `.local`. Báo cáo M0 gốc ở `references/m0-reports/MIGRATION_PLAN.md`, runtime gốc ở `references/m0-runtime`.
+
+## Quảng trường Noel 02/11/2026
+
+Migration 010 chỉ xuất bản layout/art và anchor Noel, giữ bảng người chơi/kinh tế. Hướng dẫn rollback riêng cảnh và bằng chứng bảo toàn dữ liệu: [CHRISTMAS_PLAZA_20261102.md](docs/CHRISTMAS_PLAZA_20261102.md).
