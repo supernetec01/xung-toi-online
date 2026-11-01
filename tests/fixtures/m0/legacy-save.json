@@ -1,0 +1,63 @@
+{
+  "version": 3,
+  "username": "M0 test fixture",
+  "gender": "female",
+  "skin": "#f7cfac",
+  "scene": "courtyard",
+  "x": 51,
+  "y": 82,
+  "coins": 543,
+  "accepted": [
+    "q_welcome"
+  ],
+  "claimed": [
+    "q_welcome"
+  ],
+  "tracked": "q_welcome",
+  "progress": {
+    "q_garden": {
+      "water_flower": {
+        "count": 1,
+        "ids": [
+          "flower1"
+        ]
+      }
+    }
+  },
+  "achievements": {},
+  "cooldowns": {
+    "sweep": 1793516400000
+  },
+  "activityCount": {},
+  "activityHistory": [],
+  "inventory": [
+    "shirt_cream",
+    "bottom_navy",
+    "shoe_brown",
+    "hair_dark",
+    "acc_none",
+    "shirt_blue"
+  ],
+  "equipped": {
+    "top": "shirt_blue",
+    "bottom": "bottom_navy",
+    "shoes": "shoe_brown",
+    "hair": "hair_dark",
+    "acc": "acc_none"
+  },
+  "book": false,
+  "bookReturned": false,
+  "watered": [
+    "flower1"
+  ],
+  "decorated": [],
+  "giftDone": false,
+  "giftItems": [],
+  "seated": false,
+  "seatId": null,
+  "logs": [],
+  "lowMotion": false,
+  "activeAction": null,
+  "virtualFund": 0,
+  "contributions": []
+}

@@ -1,0 +1,6 @@
+﻿Role,Allowed,Restrictions
+PLAYER,own game/chat/shop,No other user/admin stats
+MODERATOR,"report/chat moderation, limited sanctions",No user-count dashboards or content publish
+CONTENT_EDITOR,catalog drafts and preview,"No publishing, banking, role grants"
+ADMIN,"catalog publish, user manager, presence stats",No role grants to ADMIN/SUPER_ADMIN
+SUPER_ADMIN,"all game admin operations, role grants with MFA",No deleting only Super Admin without handover

@@ -1,0 +1,308 @@
+{
+  "version": "4.0-spec",
+  "status": "NOT_IMPLEMENTED",
+  "tasks": [
+    {
+      "id": "V4-001",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Audit repo Codex hiện hành, chạy tests, baseline UI",
+      "dependsOn": [],
+      "acceptance": [
+        "IMPLEMENTATION_AUDIT.md",
+        "Screenshots baseline",
+        "Build/test log"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-002",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Migration plan & backup DB, xác nhận keys hiện hành",
+      "dependsOn": [
+        "V4-001"
+      ],
+      "acceptance": [
+        "MIGRATION_PLAN.md",
+        "Rollback plan"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-003",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "RBAC: PLAYER/MODERATOR/EDITOR/ADMIN/SUPER_ADMIN + tests",
+      "dependsOn": [
+        "V4-002"
+      ],
+      "acceptance": [
+        "403 unauthorized",
+        "MFA for grants",
+        "Audit events"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-004",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "Admin layout dashboard & protected unique presence metrics",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "Only ADMIN sees real/NPC/guest counts",
+        "Public WS no counters"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-005",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "Admin user management, sanctions, revoke sessions, audit",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "Search users",
+        "Mute chat only",
+        "Unmute",
+        "Ban account separate"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-006",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "CMS draft/validate/publish/rollback wardrobe & asset uploads",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "Admin adds garment",
+        "Editor cannot publish",
+        "Rollback safe"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-007",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Shop purchase/preview/equip; rig poses male/female",
+      "dependsOn": [
+        "V4-006"
+      ],
+      "acceptance": [
+        "Two tab purchase once",
+        "Archive retains inventory",
+        "Visual pose tests"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-008",
+      "milestone": "M2",
+      "priority": "P1",
+      "title": "Admin edit quest/action NPC config with versioned catalogs",
+      "dependsOn": [
+        "V4-006"
+      ],
+      "acceptance": [
+        "No missing hotspot",
+        "No cycle quest",
+        "Cooldown 60..600"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-009",
+      "milestone": "M3",
+      "priority": "P0",
+      "title": "Realtime chat global/scene with auth, seq, reconnect",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "No guest chat",
+        "Client receive once",
+        "Escaped XSS"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-010",
+      "milestone": "M3",
+      "priority": "P0",
+      "title": "Profanity moderation pipeline + rate limit + sanctions",
+      "dependsOn": [
+        "V4-009",
+        "V4-005"
+      ],
+      "acceptance": [
+        "Profanity blocked",
+        "Spam rate-limit",
+        "Mute expired correctly"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-011",
+      "milestone": "M3",
+      "priority": "P0",
+      "title": "Reports, appeals, moderator admin UI + audit",
+      "dependsOn": [
+        "V4-010"
+      ],
+      "acceptance": [
+        "Report triage",
+        "Appeal reversal",
+        "Moderator no online stats"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-012",
+      "milestone": "M4",
+      "priority": "P0",
+      "title": "Presence heartbeat/lease 1 user multi-tabs 1 player",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "Reconnection one avatar",
+        "Seat lease cleanup",
+        "Unique presence"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-013",
+      "milestone": "M4",
+      "priority": "P0",
+      "title": "AMBIENT_NPC dynamic population + schedules + fixedNPC protection",
+      "dependsOn": [
+        "V4-012",
+        "V4-004"
+      ],
+      "acceptance": [
+        "0→20 real smooth",
+        "Quest NPC persists",
+        "Renderer cap"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-014",
+      "milestone": "M4",
+      "priority": "P1",
+      "title": "Admin control NPC configs, schedules and metrics",
+      "dependsOn": [
+        "V4-013"
+      ],
+      "acceptance": [
+        "Changes versioned",
+        "No flicker",
+        "No public counts"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-015",
+      "milestone": "M5",
+      "priority": "P0",
+      "title": "Live guest MockProvider + keyword/queue/one animation",
+      "dependsOn": [
+        "V4-013"
+      ],
+      "acceptance": [
+        "100 events safe",
+        "No wallet or chat",
+        "One action exactly"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-016",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Live Studio, moderation, 9:16 overlay + stop kill switch",
+      "dependsOn": [
+        "V4-015"
+      ],
+      "acceptance": [
+        "Admin can stop",
+        "Name filter",
+        "Mobile preview"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-017",
+      "milestone": "M5",
+      "priority": "P2",
+      "title": "Provider thật chỉ khi được phép & validated compliance",
+      "dependsOn": [
+        "V4-016"
+      ],
+      "acceptance": [
+        "Provider adapter",
+        "Health/reconnect",
+        "Fallback mock"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-018",
+      "milestone": "M6",
+      "priority": "P1",
+      "title": "Event Noel seasonal, decor unlock virtual coin, album",
+      "dependsOn": [
+        "V4-008",
+        "V4-007"
+      ],
+      "acceptance": [
+        "Stages 25/50/75/100",
+        "No real money mixing"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-019",
+      "milestone": "M6",
+      "priority": "P0",
+      "title": "Security/performance/load/UX mobile acceptance pack",
+      "dependsOn": [
+        "V4-011",
+        "V4-014",
+        "V4-016",
+        "V4-018"
+      ],
+      "acceptance": [
+        "Auth fuzz",
+        "Load 100-500 fake comments",
+        "Desktop/mobile QA"
+      ],
+      "status": "TODO"
+    },
+    {
+      "id": "V4-020",
+      "milestone": "M6",
+      "priority": "P0",
+      "title": "Staging rollout monitoring + rollback & release checklist",
+      "dependsOn": [
+        "V4-019"
+      ],
+      "acceptance": [
+        "Release gates pass",
+        "Backup restore",
+        "Feature flags off by default"
+      ],
+      "status": "TODO"
+    }
+  ]
+}

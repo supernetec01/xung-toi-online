@@ -1,0 +1,107 @@
+{
+  "milestone": "M0",
+  "mode": "read-only-audit",
+  "runtime": {
+    "unchanged": true,
+    "changed": [],
+    "checkedFiles": 10
+  },
+  "frozenGit": {
+    "branch": "work",
+    "commit": null,
+    "state": "unborn"
+  },
+  "catalog": {
+    "sceneIds": [
+      "courtyard",
+      "nave",
+      "baptistry",
+      "confession",
+      "classroom",
+      "garden",
+      "office",
+      "choir",
+      "christmas",
+      "foyer",
+      "shoproom"
+    ],
+    "npcIds": [
+      "lucia",
+      "guard",
+      "father",
+      "sister",
+      "catechist",
+      "child",
+      "anna",
+      "gardener",
+      "volunteer",
+      "choirmaster",
+      "shopkeeper"
+    ],
+    "questIds": [
+      "q_welcome",
+      "q_pew",
+      "q_father",
+      "q_baptism",
+      "q_confession",
+      "q_book",
+      "q_garden",
+      "q_choir",
+      "q_gift",
+      "q_noel",
+      "q_class"
+    ],
+    "itemIds": [
+      "shirt_cream",
+      "shirt_blue",
+      "shirt_rose",
+      "shirt_noel",
+      "shirt_green",
+      "bottom_navy",
+      "bottom_beige",
+      "bottom_brown",
+      "bottom_white",
+      "shoe_brown",
+      "shoe_black",
+      "shoe_white",
+      "hair_dark",
+      "hair_black",
+      "hair_chestnut",
+      "acc_none",
+      "acc_bow",
+      "acc_bag",
+      "shirt_sunrise",
+      "bottom_olive",
+      "acc_lily"
+    ],
+    "actionIds": [
+      "sign_cross",
+      "bow",
+      "genuflect",
+      "quiet",
+      "prayer",
+      "candle",
+      "pew_clean",
+      "sweep",
+      "welcome",
+      "water",
+      "books",
+      "gifts",
+      "choir",
+      "noel"
+    ]
+  },
+  "taskCount": 20,
+  "database": "no-runtime-database-in-current-app",
+  "dataKeys": [
+    "giao-xu-an-hoa-2d-v3",
+    "giao-xu-an-hoa-2d-v2"
+  ],
+  "port": 5001,
+  "environmentPresence": {
+    "DATABASE_URL": false,
+    "PGHOST": false,
+    "REDIS_URL": false
+  },
+  "authorization": "not-implemented; config is a design contract only"
+}

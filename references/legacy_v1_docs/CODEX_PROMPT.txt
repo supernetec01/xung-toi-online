@@ -1,0 +1,27 @@
+CODEX — HÃY THIẾT KẾ / NÂNG CẤP GAME 2D “GIÁO XỨ AN HÒA”
+
+Mở và đọc tất cả các file kèm theo:
+- index.html — prototype chạy được ngay, có UI và logic tương tác.
+- CODEX_IMPLEMENTATION.md — tài liệu thiết kế 11 khu vực, NPC, nhiệm vụ, UI, API và tiêu chí nghiệm thu.
+- game_content.json — 11 scenes, 10 NPC, 13 quest và 9 item dạng dữ liệu có thể import.
+- schema.sql — database PostgreSQL production-oriented.
+- README.md — cách mở bản mẫu.
+
+YÊU CẦU:
+1. Không làm lại từ trang trắng: chạy prototype, giữ hành vi đã hoạt động và tăng chất lượng hình ảnh/animation.
+2. Tạo trải nghiệm 2D ấm áp, kiến trúc Gothic cách điệu, gian nhà thờ có bàn thờ, giảng đài, 2 dãy ghế, lối đi giữa, khu Rửa Tội, Hòa Giải, phòng ca đoàn; làm rõ mỗi điểm bấm có chức năng.
+3. Giao diện desktop 3 cột: bản đồ khu vực / game / tab nhiệm vụ-túi đồ-nhật ký; mobile dùng drawer.
+4. NPC có sprite động, bảng hội thoại, nhiệm vụ có thể nhận trực tiếp từ NPC hoặc tab, tiến độ thật, quà XP/Xu/Điểm sẻ chia.
+5. Thêm A* pathfinding, va chạm, ngồi ghế đúng vị trí, tương tác theo khoảng cách, chuyển cảnh, save/load.
+6. Áp dụng schema PostgreSQL qua backend; server validate action, quest progress, transaction claim reward và mua item với idempotency. Không để client tự cộng tiền.
+7. Cửa hàng phải cho mua item bằng Xu hoặc đổi bằng Điểm sẻ chia, kiểm tra đủ cấp và đủ số dư.
+8. Không gamify bí tích: Rửa Tội, Hòa Giải, Thánh lễ chỉ là hoạt động tìm hiểu/quan sát có nội dung giáo dục, không tuyên bố thành tích bí tích thực. Không lưu nội dung xưng tội.
+9. Viết Playwright E2E test đầy đủ cho các luồng trong mục K của CODEX_IMPLEMENTATION.md.
+10. Giữ game nhẹ, dễ chơi, điều khiển click/tap và tối ưu giao diện tiếng Việt.
+
+KẾT QUẢ MONG MUỐN:
+- Mã nguồn tổ chức rõ ràng (React+TypeScript + Phaser 3 / PixiJS, API, Postgres).
+- Game triển khai local chạy được, data seeding, hướng dẫn setup, screenshots.
+- Changelog nêu những gì nâng cấp so với bản demo và giới hạn còn lại.
+
+Ưu tiên đầu tiên: trải nghiệm có thể chơi từ đầu tới cuối, không kẹt nhiệm vụ, giao diện 2D đẹp và ấm cúng; sau đó mới mở multiplayer/sự kiện lớn.

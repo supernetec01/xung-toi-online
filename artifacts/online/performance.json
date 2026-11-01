@@ -1,0 +1,84 @@
+{
+  "at": "2026-11-01T11:35:52.483Z",
+  "environment": "Chromium on managed cloud; simulated viewports, not physical device FPS",
+  "viewports": [
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "frames": 179,
+      "frameP95Ms": 16.799999999999727,
+      "durationMs": 3011.2000000029802,
+      "domNodes": 899,
+      "visibleActors": 10,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frames": 181,
+      "frameP95Ms": 16.799999999999727,
+      "durationMs": 3001.89999999851,
+      "domNodes": 915,
+      "visibleActors": 10,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "frames": 181,
+      "frameP95Ms": 16.700000000000728,
+      "durationMs": 3011.699999999255,
+      "domNodes": 911,
+      "visibleActors": 10,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "frames": 181,
+      "frameP95Ms": 16.700000000000728,
+      "durationMs": 3007.89999999851,
+      "domNodes": 895,
+      "visibleActors": 10,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "frames": 181,
+      "frameP95Ms": 16.700000000000728,
+      "durationMs": 3003.60000000149,
+      "domNodes": 902,
+      "visibleActors": 10,
+      "overflow": false
+    },
+    {
+      "viewport": [
+        844,
+        390
+      ],
+      "frames": 181,
+      "frameP95Ms": 16.700000000000728,
+      "durationMs": 3011.599999997765,
+      "domNodes": 895,
+      "visibleActors": 10,
+      "overflow": false
+    }
+  ],
+  "rig": {
+    "count": 136,
+    "maxNodes": 39,
+    "version": "svg-rig-4.1"
+  },
+  "checks": 22
+}

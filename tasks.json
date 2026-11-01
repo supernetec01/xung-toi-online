@@ -1,0 +1,563 @@
+{
+  "version": "4.0-demo.1",
+  "status": "V4_DEMO_IMPLEMENTED_RELEASE_GATES_PENDING",
+  "tasks": [
+    {
+      "id": "V4-001",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Audit repo Codex hiện hành, chạy tests, baseline UI",
+      "dependsOn": [],
+      "acceptance": [
+        "IMPLEMENTATION_AUDIT.md",
+        "Screenshots baseline",
+        "Build/test log"
+      ],
+      "status": "DONE",
+      "completedAt": "2026-11-01T08:24:01.503853+00:00",
+      "evidence": [
+        "IMPLEMENTATION_AUDIT.md",
+        "docs/milestones/M0_REPORT.md",
+        "artifacts/m0/final-tests.txt",
+        "artifacts/m0/unit-tests.txt",
+        "artifacts/m0/baseline-ui.json",
+        "artifacts/m0/desktop-courtyard.png",
+        "artifacts/m0/mobile-shop.png",
+        "artifacts/m0/dev-smoke.json"
+      ],
+      "notApplicable": [
+        "No separate build step: static frontend; syntax/catalog/HTTP/browser validated."
+      ]
+    },
+    {
+      "id": "V4-002",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Migration plan & backup DB, xác nhận keys hiện hành",
+      "dependsOn": [
+        "V4-001"
+      ],
+      "acceptance": [
+        "MIGRATION_PLAN.md",
+        "Rollback plan"
+      ],
+      "status": "DONE",
+      "completedAt": "2026-11-01T08:24:01.503853+00:00",
+      "evidence": [
+        "MIGRATION_PLAN.md",
+        "docs/ADR/003-v4-boundaries.md",
+        "artifacts/m0-baseline.json",
+        "artifacts/m0/rollback-drill.json",
+        "artifacts/m0/rollback-drill.txt",
+        "artifacts/m0/save-dry-run.json"
+      ],
+      "notApplicable": [
+        "At M0 only: no DB runtime existed, so filesystem snapshot/restore was used. PostgreSQL is now implemented and backed up under M1–M6."
+      ]
+    },
+    {
+      "id": "V4-003",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "RBAC: PLAYER/MODERATOR/EDITOR/ADMIN/SUPER_ADMIN + tests",
+      "dependsOn": [
+        "V4-002"
+      ],
+      "acceptance": [
+        "403 unauthorized",
+        "MFA for grants",
+        "Audit events"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M1_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/admin-dashboard.png",
+        "artifacts/online/admin-mobile.png",
+        "artifacts/online/static-tests.txt"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-004",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "Admin layout dashboard & protected unique presence metrics",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "Only ADMIN sees real/NPC/guest counts",
+        "Public WS no counters"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M1_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/admin-dashboard.png",
+        "artifacts/online/admin-mobile.png",
+        "artifacts/online/static-tests.txt"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-005",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "Admin user management, sanctions, revoke sessions, audit",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "Search users",
+        "Mute chat only",
+        "Unmute",
+        "Ban account separate"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M1_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/admin-dashboard.png",
+        "artifacts/online/admin-mobile.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-006",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "CMS draft/validate/publish/rollback wardrobe & asset uploads",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "Admin adds garment",
+        "Editor cannot publish",
+        "Rollback safe"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M2_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/wardrobe-tests.txt",
+        "artifacts/online/atlas-equipped.png",
+        "artifacts/online/recovery-tests.txt",
+        "artifacts/online/avatar-pose-matrix.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-007",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Shop purchase/preview/equip; rig poses male/female",
+      "dependsOn": [
+        "V4-006"
+      ],
+      "acceptance": [
+        "Two tab purchase once",
+        "Archive retains inventory",
+        "Visual pose tests"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M2_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/wardrobe-tests.txt",
+        "artifacts/online/atlas-equipped.png",
+        "artifacts/online/recovery-tests.txt",
+        "artifacts/online/avatar-pose-matrix.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-008",
+      "milestone": "M2",
+      "priority": "P1",
+      "title": "Admin edit quest/action NPC config with versioned catalogs",
+      "dependsOn": [
+        "V4-006"
+      ],
+      "acceptance": [
+        "No missing hotspot",
+        "No cycle quest",
+        "Cooldown 60..600"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M2_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/wardrobe-tests.txt",
+        "artifacts/online/atlas-equipped.png",
+        "artifacts/online/recovery-tests.txt",
+        "artifacts/online/avatar-pose-matrix.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-009",
+      "milestone": "M3",
+      "priority": "P0",
+      "title": "Realtime chat global/scene with auth, seq, reconnect",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "No guest chat",
+        "Client receive once",
+        "Escaped XSS"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M3_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/mobile-chat.png",
+        "artifacts/online/admin-chat.png",
+        "artifacts/online/live-ui-tests.txt"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-010",
+      "milestone": "M3",
+      "priority": "P0",
+      "title": "Profanity moderation pipeline + rate limit + sanctions",
+      "dependsOn": [
+        "V4-009",
+        "V4-005"
+      ],
+      "acceptance": [
+        "Profanity blocked",
+        "Spam rate-limit",
+        "Mute expired correctly"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M3_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/mobile-chat.png",
+        "artifacts/online/admin-chat.png",
+        "artifacts/online/live-ui-tests.txt"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-011",
+      "milestone": "M3",
+      "priority": "P0",
+      "title": "Reports, appeals, moderator admin UI + audit",
+      "dependsOn": [
+        "V4-010"
+      ],
+      "acceptance": [
+        "Report triage",
+        "Appeal reversal",
+        "Moderator no online stats"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M3_REPORT.md",
+        "artifacts/online/api-tests.txt",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/mobile-chat.png",
+        "artifacts/online/admin-chat.png",
+        "artifacts/online/live-ui-tests.txt"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-012",
+      "milestone": "M4",
+      "priority": "P0",
+      "title": "Presence heartbeat/lease 1 user multi-tabs 1 player",
+      "dependsOn": [
+        "V4-003"
+      ],
+      "acceptance": [
+        "Reconnection one avatar",
+        "Seat lease cleanup",
+        "Unique presence"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M4_REPORT.md",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/admin-world.png",
+        "artifacts/online/world-390x844.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-013",
+      "milestone": "M4",
+      "priority": "P0",
+      "title": "AMBIENT_NPC dynamic population + schedules + fixedNPC protection",
+      "dependsOn": [
+        "V4-012",
+        "V4-004"
+      ],
+      "acceptance": [
+        "0→20 real smooth",
+        "Quest NPC persists",
+        "Renderer cap"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M4_REPORT.md",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/admin-world.png",
+        "artifacts/online/world-390x844.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-014",
+      "milestone": "M4",
+      "priority": "P1",
+      "title": "Admin control NPC configs, schedules and metrics",
+      "dependsOn": [
+        "V4-013"
+      ],
+      "acceptance": [
+        "Changes versioned",
+        "No flicker",
+        "No public counts"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M4_REPORT.md",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/admin-world.png",
+        "artifacts/online/world-390x844.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-015",
+      "milestone": "M5",
+      "priority": "P0",
+      "title": "Live guest MockProvider + keyword/queue/one animation",
+      "dependsOn": [
+        "V4-013"
+      ],
+      "acceptance": [
+        "100 events safe",
+        "No wallet or chat",
+        "One action exactly"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M5_REPORT.md",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/realtime-metrics.json",
+        "artifacts/online/live-ui-tests.txt",
+        "artifacts/online/admin-live-running.png",
+        "artifacts/online/live-camera-mobile.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-016",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Live Studio, moderation, 9:16 overlay + stop kill switch",
+      "dependsOn": [
+        "V4-015"
+      ],
+      "acceptance": [
+        "Admin can stop",
+        "Name filter",
+        "Mobile preview"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M5_REPORT.md",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/realtime-metrics.json",
+        "artifacts/online/live-ui-tests.txt",
+        "artifacts/online/admin-live-running.png",
+        "artifacts/online/live-camera-mobile.png"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-017",
+      "milestone": "M5",
+      "priority": "P2",
+      "title": "Provider thật chỉ khi được phép & validated compliance",
+      "dependsOn": [
+        "V4-016"
+      ],
+      "acceptance": [
+        "Provider adapter",
+        "Health/reconnect",
+        "Fallback mock"
+      ],
+      "status": "BLOCKED",
+      "evidence": [
+        "docs/milestones/M5_REPORT.md",
+        "artifacts/online/realtime-tests.txt",
+        "artifacts/online/realtime-metrics.json",
+        "artifacts/online/live-ui-tests.txt",
+        "artifacts/online/admin-live-running.png",
+        "artifacts/online/live-camera-mobile.png"
+      ],
+      "blocker": "Chưa có provider TikTok LIVE được cấp quyền cho tài khoản thực. MOCK đã chạy; không dùng cookie/scraper. Không phải blocker của demo simulator."
+    },
+    {
+      "id": "V4-018",
+      "milestone": "M6",
+      "priority": "P1",
+      "title": "Event Noel seasonal, decor unlock virtual coin, album",
+      "dependsOn": [
+        "V4-008",
+        "V4-007"
+      ],
+      "acceptance": [
+        "Stages 25/50/75/100",
+        "No real money mixing"
+      ],
+      "status": "DONE",
+      "evidence": [
+        "docs/milestones/M6_REPORT.md",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/performance-tests.txt",
+        "artifacts/online/performance.json",
+        "artifacts/online/regression-tests.txt",
+        "artifacts/online/restore-drill.json",
+        "artifacts/online/persistence.json",
+        "artifacts/online/recovery-tests.txt"
+      ],
+      "completedAt": "2026-11-01T11:38:19.389056+00:00",
+      "scope": "Verified local online demo; production limitations are tracked in V4-017/019/020 and KNOWN_ISSUES.md."
+    },
+    {
+      "id": "V4-019",
+      "milestone": "M6",
+      "priority": "P0",
+      "title": "Security/performance/load/UX mobile acceptance pack",
+      "dependsOn": [
+        "V4-011",
+        "V4-014",
+        "V4-016",
+        "V4-018"
+      ],
+      "acceptance": [
+        "Auth fuzz",
+        "Load 100-500 fake comments",
+        "Desktop/mobile QA"
+      ],
+      "status": "PARTIAL",
+      "evidence": [
+        "docs/milestones/M6_REPORT.md",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/performance-tests.txt",
+        "artifacts/online/performance.json",
+        "artifacts/online/regression-tests.txt",
+        "artifacts/online/restore-drill.json",
+        "artifacts/online/persistence.json",
+        "artifacts/online/recovery-tests.txt"
+      ],
+      "completedScope": [
+        "Auth/role/CSRF/XSS and input fuzz",
+        "500 mock comments and 20 connected users",
+        "6 Chromium viewports + 136 procedural rig combinations",
+        "Save recovery, archive retention, replica-free local QA"
+      ],
+      "remainingScope": [
+        "Physical iOS/Android/Safari and virtual keyboard/Back acceptance",
+        "30-minute scene/chat/Shop memory soak",
+        "Peak staging latency and multi-machine load"
+      ]
+    },
+    {
+      "id": "V4-020",
+      "milestone": "M6",
+      "priority": "P0",
+      "title": "Staging rollout monitoring + rollback & release checklist",
+      "dependsOn": [
+        "V4-019"
+      ],
+      "acceptance": [
+        "Release gates pass",
+        "Backup restore",
+        "Feature flags off by default"
+      ],
+      "status": "PARTIAL",
+      "evidence": [
+        "docs/milestones/M6_REPORT.md",
+        "artifacts/online/update-tests.txt",
+        "artifacts/online/performance-tests.txt",
+        "artifacts/online/performance.json",
+        "artifacts/online/regression-tests.txt",
+        "artifacts/online/restore-drill.json",
+        "artifacts/online/persistence.json",
+        "artifacts/online/recovery-tests.txt"
+      ],
+      "completedScope": [
+        "Additive checksummed migrations",
+        "PostgreSQL dump + uploads/MFA/config backup",
+        "Restore into temporary DB, ledger/account/MFA validation",
+        "App restart state/wallet/catalog/project fingerprints",
+        "Production module opt-in; importer/mock disabled in production",
+        "Updated CI and reusable environment draft"
+      ],
+      "remainingScope": [
+        "GitHub Actions remote run",
+        "Staging canary/monitoring/alerts",
+        "Off-machine encrypted backup/restore",
+        "Production rollout"
+      ]
+    }
+  ],
+  "implementation": {
+    "updatedAt": "2026-11-01T11:38:19.389056+00:00",
+    "runtimeMode": "online-demo/PostgreSQL",
+    "internalPort": 5001,
+    "demoMilestonesWithCode": [
+      "M0",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ],
+    "doneTasks": 17,
+    "partialTasks": [
+      "V4-019",
+      "V4-020"
+    ],
+    "blockedTasks": [
+      "V4-017"
+    ],
+    "dataPolicy": "Preserve existing IDs, wallets, inventory, accepted quest snapshots and local saves; no destructive reset. Data currently demo.",
+    "reports": "docs/milestones/V4_DEMO_REPORT.md"
+  }
+}

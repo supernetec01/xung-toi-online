@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-11-01T08:07:34.680104+00:00",
+  "branch": "work",
+  "headCommit": null,
+  "headState": "unborn",
+  "databaseBackup": "not-applicable-no-runtime-database",
+  "localStorageKeys": [
+    "giao-xu-an-hoa-2d-v3",
+    "giao-xu-an-hoa-2d-v2"
+  ],
+  "snapshotPath": "/workspace/backups/xung-toi-online/pre-v4-m0-20261101T080734Z.tar.gz",
+  "snapshotSha256": "6ee9caa97c0dd9418f8cd46669d3a49fa33ccbe54c5251af46f5f5c5944ee4b9",
+  "snapshotFiles": 116,
+  "excluded": [
+    "node_modules (reinstall via npm ci)"
+  ],
+  "runtimeFiles": {
+    "game_v3/index.html": "9ac083c23300646775b4f42f02868f041b9042ea37096773c663ddccd6319e97",
+    "scripts/serve.cjs": "69a711dea40dd66c0113fb7344bd557f89f7a76092bd1c3081193db833efa6aa",
+    "game_v3/src/activities.js": "e093cb91188835baa1d282817bd1c96b79749b77e8f778d4dc8526e56d405c04",
+    "game_v3/src/art.js": "34b6bde587154bff98c6aa0670f89d6de5e466e392496d141f37b5179cf85262",
+    "game_v3/src/data.js": "4ce1991946b2ca3f5c2ab8e1a50342ec034586584bc02fd1a4db3adfbbc6f8a3",
+    "game_v3/src/game.js": "d1d1ff452fda7a5745b6e6d4549940cd11c6cc6e0a2821c6565eec36064ed2aa",
+    "game_v3/src/gameplay.js": "2d95fc1630ac98848a4fc057a6e454b4900f187a6fa79e9b57f89dcdaccaf387",
+    "game_v3/src/navigation.js": "5ccb5c2d8082e094fe6abc09668e7eb9fbb8c7afcb0e9355b308ada9dc3894ca",
+    "game_v3/src/rules.js": "9830ea11a202740b6c5722a08240cec1320ac3c1de6b18c57856e6a2ffd1c2e3",
+    "game_v3/src/style.css": "370c43865abc0890c466bdb3be9cae888f37dde22523359d033f206112d96e2b"
+  }
+}

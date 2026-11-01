@@ -1,0 +1,37 @@
+{
+  "status": "DESIGN_ONLY_NOT_RUNTIME_AUTHORIZATION",
+  "canonicalRoles": ["PLAYER", "MODERATOR", "CONTENT_EDITOR", "ADMIN", "SUPER_ADMIN"],
+  "defaultPolicy": "DENY",
+  "permissions": {
+    "game.own": ["PLAYER", "MODERATOR", "CONTENT_EDITOR", "ADMIN", "SUPER_ADMIN"],
+    "chat.moderate": ["MODERATOR", "ADMIN", "SUPER_ADMIN"],
+    "content.draft": ["CONTENT_EDITOR", "ADMIN", "SUPER_ADMIN"],
+    "content.publish": ["ADMIN", "SUPER_ADMIN"],
+    "users.manage": ["ADMIN", "SUPER_ADMIN"],
+    "wallet.compensate": ["ADMIN", "SUPER_ADMIN"],
+    "presence.metrics": ["ADMIN", "SUPER_ADMIN"],
+    "live.studio": ["ADMIN", "SUPER_ADMIN"],
+    "roles.grant": ["SUPER_ADMIN"]
+  },
+  "sensitiveRequirements": {
+    "roles.grant": ["verified-session", "recent-mfa", "reason", "audit", "protect-last-super-admin"],
+    "presence.metrics": ["server-role-check", "private-response", "no-public-prefetch"],
+    "wallet.compensate": ["append-only-ledger", "reason", "idempotency", "limit", "audit"]
+  },
+  "actorTypes": {
+    "PLAYER": {"requiresAccount": true, "wallet": true, "playerChat": true, "questGiver": false, "ephemeral": false},
+    "FIXED_NPC": {"requiresAccount": false, "wallet": false, "playerChat": false, "questGiver": true, "densityMayRemove": false, "ephemeral": false},
+    "AMBIENT_NPC": {"requiresAccount": false, "wallet": false, "playerChat": false, "questGiver": false, "densityMayRemove": true, "ephemeral": true},
+    "LIVE_GUEST": {"requiresAccount": false, "wallet": false, "playerChat": false, "questGiver": false, "ephemeral": true, "maxActions": 1}
+  },
+  "futureFeatureDefaults": {
+    "admin": false, "chat": false, "ambientPopulation": false,
+    "mockLive": false, "realTikTokProvider": false, "realMoneyQr": false, "publicPopulationMetrics": false
+  },
+  "publicForbiddenFields": [
+    "realOnlineUnique", "realConnections", "ambientNpcActive", "fixedNpcActive",
+    "liveGuestVisible", "guestVisible", "liveQueueLength", "countsByScene", "aggregateOnline", "fakeOnline"
+  ],
+  "legacySaveKeys": ["giao-xu-an-hoa-2d-v3", "giao-xu-an-hoa-2d-v2"],
+  "localPort": 5001
+}

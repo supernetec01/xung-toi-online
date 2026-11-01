@@ -1,0 +1,15 @@
+{
+  "status": "REVIEW_ONLY",
+  "applied": false,
+  "sourceVersion": 3,
+  "projectionVersion": 3,
+  "walletPreserved": true,
+  "ownershipPreserved": true,
+  "claimedPreserved": true,
+  "cooldownsPreserved": true,
+  "identityImported": false,
+  "rolesImported": false,
+  "serverImportAvailable": false,
+  "trust": "Browser balances/claims are untrusted. Server policy, authentication and an idempotent receipt are prerequisites.",
+  "issues": []
+}

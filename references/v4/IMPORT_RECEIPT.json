@@ -1,0 +1,12 @@
+{
+  "sourceArchive": "Giao_Xu_An_Hoa_V4_Codex_Spec_20261101.zip",
+  "sourceArchiveSha256": "bac7927f64f06d0f775458802bf14231f8e0445600b19ced2c91c254b95bf99b",
+  "manifestFilesVerified": 23,
+  "referenceCodeImportedIntoRuntime": false,
+  "editedEntryPoints": [
+    "START_HERE.md",
+    "tasks.json",
+    "docs/11_MILESTONE_TASKS.md"
+  ],
+  "originalEntryPoints": "references/v4/"
+}

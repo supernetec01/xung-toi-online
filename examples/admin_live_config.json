@@ -1,0 +1,17 @@
+{
+  "mode": "MOCK",
+  "enabled": false,
+  "sceneId": "courtyard",
+  "activeCampaign": "noel",
+  "activeKeyword": "NOEL",
+  "maxVisibleGuests": 20,
+  "queueMax": 100,
+  "guestLifetimeSeconds": 25,
+  "perViewerCooldownSeconds": 60,
+  "spawnPerSecond": 2,
+  "nameMaxGraphemes": 18,
+  "allowedAction": "hang_ornament",
+  "guestCanChat": false,
+  "guestCanEarnCoins": false,
+  "publicCountersEnabled": false
+}

@@ -1,0 +1,10 @@
+{
+  "at": "2026-11-01T11:45:19.514Z",
+  "source": "2026-11-01T11-45-18-847Z.dump",
+  "restoredIntoNewDatabase": true,
+  "usersMatched": true,
+  "ledgerInvariantPassed": true,
+  "mfaDecryptPassed": true,
+  "productionDatabaseChanged": false,
+  "temporaryDatabaseDropped": true
+}

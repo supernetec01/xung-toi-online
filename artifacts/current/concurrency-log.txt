@@ -1,0 +1,3 @@
+PASS simultaneous quest claim: one reward
+PASS failed save rolls back purchase
+PASS modal cancels pending NPC navigation

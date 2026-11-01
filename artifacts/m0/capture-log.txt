@@ -1,0 +1,1 @@
+PASS M0: six screenshots, synthetic save preservation, public surface, headless frame and local HTTP measurements

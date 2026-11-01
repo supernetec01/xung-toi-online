@@ -1,0 +1,16 @@
+{
+  "globalEnabled": false,
+  "zoneEnabled": false,
+  "requiresLogin": true,
+  "maxGraphemes": 160,
+  "minSecondsBetweenMessages": 3,
+  "maxMessagesPer30Seconds": 5,
+  "linksAllowed": false,
+  "privateMessagesEnabled": false,
+  "defaultMessageRetentionDays": 30,
+  "moderationReviewRetentionDays": 90,
+  "sanctionLadderSeconds": [600, 3600, 86400, 604800],
+  "automaticPermanentBan": false,
+  "appealEnabled": true,
+  "publicPlayerCountEnabled": false
+}

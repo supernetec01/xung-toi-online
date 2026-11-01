@@ -1,0 +1,13 @@
+{
+  "createdAt": "2026-11-01T08:15:29.302089+00:00",
+  "snapshotSha256": "6ee9caa97c0dd9418f8cd46669d3a49fa33ccbe54c5251af46f5f5c5944ee4b9",
+  "snapshotVerified": true,
+  "runtimeFilesRestoredAndMatched": 10,
+  "npmCiExitCode": 0,
+  "verifyExitCode": 0,
+  "target": "new temporary directory outside checkout, removed after drill",
+  "productionCheckoutChanged": false,
+  "playerProfilesAccessed": false,
+  "databaseRestore": "not-applicable; no runtime database",
+  "restoredBrowserSuite": "not run in restored directory; existing browser baseline validated separately"
+}

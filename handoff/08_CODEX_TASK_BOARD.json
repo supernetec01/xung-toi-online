@@ -1,0 +1,169 @@
+[
+  {
+    "id": "CX-001",
+    "phase": "P0",
+    "title": "Fix baseline, JS/content tests",
+    "depends_on": [],
+    "acceptance": "npm run verify passes; no broken paths",
+    "status": "todo"
+  },
+  {
+    "id": "CX-002",
+    "phase": "P0",
+    "title": "Remove stale XP/level fields with V2 migration tests",
+    "depends_on": [
+      "CX-001"
+    ],
+    "acceptance": "no gameplay level, no inventory/currency lost",
+    "status": "todo"
+  },
+  {
+    "id": "CX-003",
+    "phase": "P1",
+    "title": "HUD fullscreen + single modal manager",
+    "depends_on": [
+      "CX-001"
+    ],
+    "acceptance": "only one modal; mobile supports safe area",
+    "status": "todo"
+  },
+  {
+    "id": "CX-004",
+    "phase": "P1",
+    "title": "Create avatar male/female rig and pose state machine",
+    "depends_on": [
+      "CX-003"
+    ],
+    "acceptance": "layers align in 16+ poses and outfit slots",
+    "status": "todo"
+  },
+  {
+    "id": "CX-005",
+    "phase": "P1",
+    "title": "Build 11 scenes with interact anchors & simple collision",
+    "depends_on": [
+      "CX-003",
+      "CX-004"
+    ],
+    "acceptance": "all 11 reachable and no altar/clipping",
+    "status": "todo"
+  },
+  {
+    "id": "CX-006",
+    "phase": "P1",
+    "title": "Build 11 NPC dialogues & quest status",
+    "depends_on": [
+      "CX-005"
+    ],
+    "acceptance": "accept, track, claim one-time; quest markers",
+    "status": "todo"
+  },
+  {
+    "id": "CX-007",
+    "phase": "P1",
+    "title": "Implement 14 cooldown action buttons",
+    "depends_on": [
+      "CX-004",
+      "CX-005"
+    ],
+    "acceptance": "each 60-600s; timer inside button; one reward",
+    "status": "todo"
+  },
+  {
+    "id": "CX-008",
+    "phase": "P1",
+    "title": "Shop preview vs buy vs equip",
+    "depends_on": [
+      "CX-004"
+    ],
+    "acceptance": "preview costs zero; purchase once; equipped persists",
+    "status": "todo"
+  },
+  {
+    "id": "CX-009",
+    "phase": "P2",
+    "title": "Mobile camera, performance, accessibility",
+    "depends_on": [
+      "CX-003",
+      "CX-005"
+    ],
+    "acceptance": "390px no popup overflow, 30fps target",
+    "status": "todo"
+  },
+  {
+    "id": "CX-010",
+    "phase": "P2",
+    "title": "Seat slots and occupancy",
+    "depends_on": [
+      "CX-005"
+    ],
+    "acceptance": "no double seat, stand releases",
+    "status": "todo"
+  },
+  {
+    "id": "CX-011",
+    "phase": "P3",
+    "title": "Auth, migrations, server ledger and cooldown",
+    "depends_on": [
+      "CX-006",
+      "CX-007",
+      "CX-008"
+    ],
+    "acceptance": "concurrent idempotency tests pass",
+    "status": "todo"
+  },
+  {
+    "id": "CX-012",
+    "phase": "P3",
+    "title": "Server quest event receipts & shop transactions",
+    "depends_on": [
+      "CX-011"
+    ],
+    "acceptance": "duplicate claims/purchases rejected",
+    "status": "todo"
+  },
+  {
+    "id": "CX-013",
+    "phase": "P4",
+    "title": "Virtual Xu funding projects",
+    "depends_on": [
+      "CX-011"
+    ],
+    "acceptance": "atomic debit and project progress",
+    "status": "todo"
+  },
+  {
+    "id": "CX-014",
+    "phase": "P4",
+    "title": "Optional real donation intent, verified QR and admin",
+    "depends_on": [
+      "CX-011"
+    ],
+    "acceptance": "feature flag off, bank verification, RBAC",
+    "status": "todo"
+  },
+  {
+    "id": "CX-015",
+    "phase": "P4",
+    "title": "Donor opt-in moderated display and hide",
+    "depends_on": [
+      "CX-014"
+    ],
+    "acceptance": "no donor without consent+confirmed",
+    "status": "todo"
+  },
+  {
+    "id": "CX-016",
+    "phase": "P5",
+    "title": "E2E mobile/Desktop, load and security release tests",
+    "depends_on": [
+      "CX-009",
+      "CX-010",
+      "CX-012",
+      "CX-013",
+      "CX-015"
+    ],
+    "acceptance": "critical QA suite and screenshots pass",
+    "status": "todo"
+  }
+]

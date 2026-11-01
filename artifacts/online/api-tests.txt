@@ -1,0 +1,1 @@
+PASS 78 PostgreSQL/API/security checks

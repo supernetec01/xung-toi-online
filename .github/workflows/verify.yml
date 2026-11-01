@@ -1,0 +1,48 @@
+name: Verify V4 demo
+on: [push, pull_request]
+jobs:
+  game:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-bookworm
+        env:
+          POSTGRES_USER: anhoa_ci
+          POSTGRES_PASSWORD: isolated_ci_database_only
+          POSTGRES_DB: anhoa_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U anhoa_ci -d anhoa_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://anhoa_ci:isolated_ci_database_only@127.0.0.1:5432/anhoa_ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Initialize ephemeral test encryption key
+        run: node -e "require('fs').appendFileSync(process.env.GITHUB_ENV, 'DATA_ENCRYPTION_KEY='+require('crypto').randomBytes(32).toString('hex')+'\n')"
+      - run: npm run db:migrate
+      - run: npm start > /tmp/anhoa-server.log 2>&1 &
+      - name: Wait for database-backed game
+        run: node -e "(async()=>{for(let i=0;i<40;i++){try{const r=await fetch('http://127.0.0.1:5001/healthz');if(r.ok&&(await r.json()).mode==='online-demo')return;}catch{}await new Promise(r=>setTimeout(r,500));}process.exit(1);})();"
+      - run: npm run format:check
+      - run: npm run audit:m0
+      - run: npm test
+      - run: npm run test:online
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: game-qa
+          path: |
+            artifacts/current
+            artifacts/online
+            artifacts/m0

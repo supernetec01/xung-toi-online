@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#372c42" />
+    <title>Giáo Xứ An Hòa | Game 2D V4</title>
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <div id="game" class="game">
+      <div id="viewport" class="viewport" aria-label="Khung cảnh game 2D">
+        <div id="stage" class="stage">
+          <div id="scenery" class="scenery"></div>
+          <div id="actors" class="actors"></div>
+          <div id="worldPlayer" class="world-player"></div>
+          <div id="worldVignette" class="vignette"></div>
+        </div>
+      </div>
+      <div class="hud-top">
+        <button id="profileQuick" class="player-chip glass" title="Mở nhân vật">
+          <span id="hudFace" class="hud-face"></span
+          ><span class="player-meta"
+            ><strong id="hudName">Khách mới</strong
+            ><small>Cư dân giáo xứ • Không cấp độ</small></span
+          >
+        </button>
+        <div class="world-title glass">
+          <span>✦</span>
+          <div>
+            <strong id="sceneName">Sân giáo xứ</strong
+            ><small id="sceneSubtitle">Một ngày bình yên</small>
+          </div>
+        </div>
+        <div class="hud-wallet">
+          <span class="wallet glass" title="Xu giáo xứ">🪙 <b id="hudCoins">0</b></span>
+        </div>
+      </div>
+      <button id="tracker" class="tracker glass" title="Mở nhiệm vụ">
+        <span class="tracker-icon">📜</span
+        ><span
+          ><small>NHIỆM VỤ ĐANG THEO DÕI</small><strong id="trackerTitle">Gặp Lucia</strong
+          ><em id="trackerProgress">0/1 · Chạm để xem</em></span
+        ><span class="tracker-chevron">›</span>
+      </button>
+      <div id="hint" class="scene-hint glass">
+        Chạm nhân vật hoặc biểu tượng trong khung cảnh để tương tác
+      </div>
+      <div id="toastMount" class="toast-mount" aria-live="polite"></div>
+      <nav class="dock glass" aria-label="Chức năng game">
+        <button data-open="map" title="Bản đồ"><span>🗺️</span><small>Bản đồ</small></button>
+        <button data-open="actions" title="Hành động">
+          <span>🙌</span><small>Hành động</small>
+        </button>
+        <button data-open="quests" title="Nhiệm vụ">
+          <span>📜</span><small>Nhiệm vụ</small><i id="questDot" class="dot"></i>
+        </button>
+        <button data-open="avatar" title="Nhân vật"><span>🧍</span><small>Nhân vật</small></button>
+        <button data-open="shop" title="Cửa hàng"><span>🛍️</span><small>Shop</small></button>
+
+        <button data-open="menu" title="Cài đặt"><span>☰</span><small>Khác</small></button>
+      </nav>
+      <div id="modalMount" class="modal-mount"></div>
+    </div>
+    <script src="src/data.js"></script>
+    <script src="src/wardrobe.js"></script>
+    <script src="src/art.js"></script>
+    <script src="src/activities.js"></script>
+    <script src="src/rules.js"></script>
+    <script src="src/gameplay.js"></script>
+    <script src="src/navigation.js"></script>
+    <script src="src/online.js"></script>
+    <script src="src/boot.js"></script>
+  </body>
+</html>

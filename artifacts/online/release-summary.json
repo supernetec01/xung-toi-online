@@ -1,0 +1,61 @@
+{
+  "at": "2026-11-01T11:48:32.887646+00:00",
+  "runtime": "online-demo",
+  "internalPort": 5001,
+  "checks": [
+    {
+      "log": "artifacts/online/api-tests.txt",
+      "result": "PASS 78 PostgreSQL/API/security checks"
+    },
+    {
+      "log": "artifacts/online/update-tests.txt",
+      "result": "PASS 55 update/MFA/CMS/import/daily/moderation checks"
+    },
+    {
+      "log": "artifacts/online/realtime-tests.txt",
+      "result": "PASS 79 realtime/presence/chat/LIVE/privacy checks"
+    },
+    {
+      "log": "artifacts/online/wardrobe-tests.txt",
+      "result": "PASS 13 atlas/rig/live catalog/two-tab browser checks"
+    },
+    {
+      "log": "artifacts/online/browser-tests.txt",
+      "result": "PASS 24 online browser checks; 11 online quest flows, account persistence, shop, action resume, text-only chat, Admin desktop/mobile"
+    },
+    {
+      "log": "artifacts/online/recovery-tests.txt",
+      "result": "PASS 21 save recovery/archive ownership checks; malformed bytes exported unchanged"
+    },
+    {
+      "log": "artifacts/online/performance-tests.txt",
+      "result": "PASS 22 viewport/rig/performance checks; 6 viewports, 136 procedural rig combinations; see performance.json for measurements"
+    },
+    {
+      "log": "artifacts/online/live-ui-tests.txt",
+      "result": "PASS 8 LIVE Studio/guest/camera/kill-switch and actual Admin mobile + early unmute checks"
+    },
+    {
+      "log": "artifacts/online/static-tests.txt",
+      "result": "PASS 13 static path isolation checks; private and historical repository files are not served"
+    },
+    {
+      "log": "artifacts/online/features-tests.txt",
+      "result": "PASS 3 production feature gate checks"
+    }
+  ],
+  "legacyBrowserChecks": 59,
+  "legacyDomainGroups": 5,
+  "historicalM0Tests": 7,
+  "tasks": {
+    "DONE": 17,
+    "PARTIAL": 2,
+    "BLOCKED": 1
+  },
+  "databaseRestoreVerified": true,
+  "workspacePersistenceVerified": true,
+  "productionDeployed": false,
+  "githubActionsRemoteVerified": false,
+  "realTikTokConnected": false,
+  "environmentConfiguration": "install_script and start_skill saved as draft; not published"
+}

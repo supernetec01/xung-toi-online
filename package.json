@@ -1,0 +1,37 @@
+{
+  "name": "giao-xu-an-hoa",
+  "version": "4.0.0-demo.1",
+  "private": true,
+  "scripts": {
+    "start": "node server/main.cjs",
+    "dev": "node server/main.cjs",
+    "verify": "npm run verify --prefix game_v3 && node --check scripts/serve.cjs && node --check server/main.cjs && node tests/rules.cjs && node --test --test-isolation=none tests/m0.test.cjs && node tests/features.cjs",
+    "test": "npm run verify && node tests/e2e.cjs && node tests/gameplay.cjs && node tests/concurrency.cjs",
+    "test:gameplay": "node tests/gameplay.cjs",
+    "test:unit": "node tests/rules.cjs",
+    "format": "prettier --write \"game_v3/src/*.{js,css}\" game_v3/index.html \"tests/*.cjs\" \"scripts/**/*.cjs\" \"server/*.cjs\" \"public/**/*.{js,css,html}\"",
+    "format:check": "prettier --check \"game_v3/src/*.{js,css}\" game_v3/index.html \"tests/*.cjs\" \"scripts/**/*.cjs\" \"server/*.cjs\" \"public/**/*.{js,css,html}\"",
+    "audit:m0": "node scripts/m0-audit.cjs",
+    "inspect:save": "node scripts/inspect-legacy-save.cjs",
+    "test:m0": "node --test --test-isolation=none tests/m0.test.cjs",
+    "db:start": "node scripts/db-local.cjs",
+    "db:migrate": "node scripts/migrate.cjs",
+    "start:demo": "node scripts/serve.cjs",
+    "admin:bootstrap": "node scripts/bootstrap-admin.cjs",
+    "db:backup": "node scripts/backup-db.cjs",
+    "db:restore-drill": "node scripts/restore-drill.cjs",
+    "test:online": "node tests/static-boundaries.cjs && node tests/online-api.cjs && node tests/updates.cjs && node tests/realtime.cjs && node tests/wardrobe.cjs && node tests/online-browser.cjs && node tests/live-ui.cjs && node tests/recovery.cjs && node tests/performance.cjs",
+    "test:recovery": "node tests/recovery.cjs",
+    "test:performance": "node tests/performance.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1",
+    "prettier": "3.6.2"
+  },
+  "dependencies": {
+    "otplib": "12.0.1",
+    "pg": "8.16.3",
+    "sharp": "0.34.5",
+    "ws": "8.18.3"
+  }
+}

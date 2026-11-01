@@ -1,0 +1,20 @@
+flowchart TB
+  U[Người chơi web/mobile] --> G[Game 2D + HUD]
+  A[Admin] --> P[Admin Console]
+  T[Khán giả TikTok LIVE] --> C[Live Event Provider]
+  G --> API[API Auth + RBAC + WebSocket]
+  P --> API
+  C --> LA[Live Adapter + Validate + Queue]
+  LA --> API
+  API --> GC[Gameplay: Xu + Quest + Inventory]
+  API --> MC[Content CMS + Publish]
+  API --> CHAT[Chat + Moderation]
+  API --> PR[Presence + NPC Coordinator]
+  API --> LIVE[Live Guest Manager]
+  GC --> DB[(PostgreSQL)]
+  MC --> DB
+  CHAT --> DB
+  PR --> CACHE[(Redis ephemeral)]
+  LIVE --> DB
+  LIVE --> CACHE
+  MC --> CDN[Asset CDN]

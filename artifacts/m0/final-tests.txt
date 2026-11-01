@@ -1,0 +1,76 @@
+
+> giao-xu-an-hoa@0.4.0 test
+> npm run verify && node tests/e2e.cjs && node tests/gameplay.cjs && node tests/concurrency.cjs
+
+
+> giao-xu-an-hoa@0.4.0 verify
+> npm run verify --prefix game_v3 && node --check scripts/serve.cjs && node tests/rules.cjs && node --test --test-isolation=none tests/m0.test.cjs
+
+
+> giao-xu-an-hoa-v3-prototype@0.3.1-handoff verify
+> npm run check:syntax && npm test
+
+
+> giao-xu-an-hoa-v3-prototype@0.3.1-handoff check:syntax
+> node --check src/data.js && node --check src/art.js && node --check src/activities.js && node --check src/game.js && node --check src/rules.js && node --check src/navigation.js && node --check src/gameplay.js
+
+
+> giao-xu-an-hoa-v3-prototype@0.3.1-handoff test
+> node tests/validate_content.cjs && node tests/validate_v3.cjs
+
+PASS catalog: 11 scenes / 11 NPC / 11 quests / 21 items / 14 activities
+✓ 14 activities, 1-10 minute cooldown, unique IDs, valid scenes
+✓ 8 activity hubs, no level progression, timer, donor consent, QR placeholder
+PASS all NPCs and interactive targets reachable without crossing blockers
+PASS all 11 quests, dependencies, distinct targets, one reward
+PASS all 14 activities: scene, simultaneous start, early complete, cooldown and replay
+PASS irreversible events before acceptance remain creditable, including returned book
+PASS shop, contribution receipts and migration preserve ownership
+PASS 5 domain regression groups
+✔ M0 freezes the ten existing runtime files; a changed byte is detected (4.147639ms)
+✔ V4 tasks form a complete acyclic plan and completed tasks have evidence (0.84182ms)
+✔ RBAC decision contract excludes PLAYER/MODERATOR/EDITOR from internal stats (0.311873ms)
+✔ actor design contract reserves wallet/chat for players and protects fixed NPCs (0.16193ms)
+✔ legacy dry run preserves existing wallet, ownership, claimed rewards and deadlines without mutating input (1.347161ms)
+✔ dry run blocks unknown/archived items instead of silently deleting ownership (0.299134ms)
+✔ dry run blocks corrupt/hostile shapes and never copies role claims (0.992253ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27.620409
+PASS 16 browser scenarios; screenshots: artifacts/current
+PASS quest q_welcome
+PASS quest q_pew
+PASS quest q_father
+PASS quest q_baptism
+PASS quest q_confession
+PASS quest q_book
+PASS quest q_garden
+PASS quest q_choir
+PASS quest q_gift
+PASS quest q_noel
+PASS quest q_class
+PASS all 11 NPC dialogues
+PASS activity sign_cross
+PASS activity bow
+PASS activity genuflect
+PASS activity quiet
+PASS activity prayer
+PASS activity candle
+PASS activity pew_clean
+PASS activity sweep
+PASS activity welcome
+PASS activity water
+PASS activity books
+PASS activity gifts
+PASS activity choir
+PASS activity noel
+PASS all activity balances
+PASS 40 complete-game browser checks (11 quests / 14 activities / 11 NPCs)
+PASS simultaneous quest claim: one reward
+PASS failed save rolls back purchase
+PASS modal cancels pending NPC navigation

@@ -1,0 +1,113 @@
+{
+  "milestone": "M0",
+  "createdAt": "2026-11-01T08:11:42.285Z",
+  "browser": "154.0.8037.57",
+  "port": 5001,
+  "uncaughtPageErrors": [],
+  "legacySaveReloadAndPreview": "PASS in isolated synthetic contexts; no real player profile accessed",
+  "screenshots": [
+    "desktop-courtyard.png",
+    "desktop-shop.png",
+    "desktop-nave.png",
+    "mobile-courtyard.png",
+    "mobile-shop.png",
+    "mobile-nave.png"
+  ],
+  "frames": [
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "profile": "desktop",
+      "sampleKind": "121 requestAnimationFrame callbacks in one idle scene, headless emulator",
+      "estimatedFps": 60,
+      "frameP95Ms": 16.799999999999955,
+      "realDeviceVerified": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "profile": "mobile",
+      "sampleKind": "121 requestAnimationFrame callbacks in one idle scene, headless emulator",
+      "estimatedFps": 60,
+      "frameP95Ms": 16.799999999999955,
+      "realDeviceVerified": false
+    }
+  ],
+  "http": {
+    "sample": "20 sequential healthz requests over local loopback; not production API latency",
+    "requestCount": 20,
+    "p95Ms": 10.492365000000063
+  },
+  "closedRoutes": [
+    {
+      "path": "/admin",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/api/admin/dashboard",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/api/admin/presence/summary",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/api/admin/live/simulate-comment",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/api/me",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/api/catalog",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/ws",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/tasks.json",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/config/v4-boundaries.json",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/db/001_v4_additive_reference.sql",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/.env.example",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/references/BASELINE_V3_REFERENCE_ONLY.zip",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    },
+    {
+      "path": "/Giao_Xu_An_Hoa_Choi_Thu_V3.html",
+      "status": 404,
+      "meaning": "absent in M0; not a test of authentication/RBAC"
+    }
+  ],
+  "authorization": "M1 is not implemented; 401/403/MFA/WS role tests are unrun"
+}

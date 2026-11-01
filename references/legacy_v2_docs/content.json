@@ -1,0 +1,1057 @@
+{
+  "scenes": {
+    "courtyard": {
+      "name": "Sân giáo xứ",
+      "sub": "Cổng chào • gặp những người bạn mới",
+      "icon": "🏘️",
+      "entry": [
+        51,
+        82
+      ],
+      "npc": [
+        "lucia",
+        "guard"
+      ],
+      "spots": [
+        [
+          "church",
+          "🚪",
+          "Vào nhà thờ",
+          50,
+          43,
+          "go",
+          "nave"
+        ],
+        [
+          "garden",
+          "🌷",
+          "Đến vườn",
+          23,
+          77,
+          "go",
+          "garden"
+        ],
+        [
+          "classroom",
+          "📖",
+          "Lớp giáo lý",
+          20,
+          47,
+          "go",
+          "classroom"
+        ],
+        [
+          "office",
+          "🏠",
+          "Nhà xứ",
+          81,
+          49,
+          "go",
+          "office"
+        ],
+        [
+          "christmas",
+          "⭐",
+          "Quảng trường Noel",
+          80,
+          78,
+          "go",
+          "christmas"
+        ]
+      ]
+    },
+    "nave": {
+      "name": "Gian chính nhà thờ",
+      "sub": "Không gian tĩnh lặng • hàng ghế giáo dân",
+      "icon": "⛪",
+      "entry": [
+        50,
+        83
+      ],
+      "npc": [
+        "father",
+        "sister"
+      ],
+      "spots": [
+        [
+          "seat_a",
+          "🪑",
+          "Ngồi ghế A",
+          36,
+          80,
+          "seat"
+        ],
+        [
+          "seat_b",
+          "🪑",
+          "Ngồi ghế B",
+          65,
+          77,
+          "seat"
+        ],
+        [
+          "altar",
+          "✝",
+          "Tìm hiểu bàn thờ",
+          51,
+          46,
+          "info",
+          "altar"
+        ],
+        [
+          "baptistry",
+          "💧",
+          "Giếng Rửa Tội",
+          15,
+          58,
+          "go",
+          "baptistry"
+        ],
+        [
+          "confession",
+          "🕊️",
+          "Góc Hòa Giải",
+          85,
+          59,
+          "go",
+          "confession"
+        ],
+        [
+          "choir",
+          "🎼",
+          "Phòng ca đoàn",
+          13,
+          77,
+          "go",
+          "choir"
+        ],
+        [
+          "exit",
+          "🚪",
+          "Ra sân",
+          50,
+          92,
+          "go",
+          "courtyard"
+        ]
+      ]
+    },
+    "baptistry": {
+      "name": "Khu giếng Rửa Tội",
+      "sub": "Tìm hiểu biểu tượng nước và Bí tích Thánh Tẩy",
+      "icon": "💧",
+      "entry": [
+        50,
+        82
+      ],
+      "npc": [
+        "catechist"
+      ],
+      "spots": [
+        [
+          "font",
+          "💧",
+          "Khám phá giếng Rửa Tội",
+          50,
+          58,
+          "learn",
+          "baptism"
+        ],
+        [
+          "quiz_baptism",
+          "📋",
+          "Câu hỏi giáo lý",
+          73,
+          72,
+          "quiz",
+          "baptism"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về gian chính",
+          23,
+          82,
+          "go",
+          "nave"
+        ]
+      ]
+    },
+    "confession": {
+      "name": "Góc Hòa Giải",
+      "sub": "Giải thích Bí tích Hòa Giải • tôn trọng riêng tư",
+      "icon": "🕊️",
+      "entry": [
+        51,
+        83
+      ],
+      "npc": [],
+      "spots": [
+        [
+          "reconcile",
+          "📖",
+          "Tìm hiểu Hòa Giải",
+          49,
+          64,
+          "learn",
+          "confession"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về gian chính",
+          18,
+          82,
+          "go",
+          "nave"
+        ]
+      ]
+    },
+    "classroom": {
+      "name": "Lớp giáo lý",
+      "sub": "Sách • kiến thức • trò chơi nhỏ",
+      "icon": "📚",
+      "entry": [
+        53,
+        84
+      ],
+      "npc": [
+        "sister",
+        "child"
+      ],
+      "spots": [
+        [
+          "book",
+          "📗",
+          "Nhặt cuốn sách",
+          23,
+          73,
+          "book"
+        ],
+        [
+          "quiz_class",
+          "❓",
+          "Câu hỏi giáo lý",
+          66,
+          61,
+          "quiz",
+          "class"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về sân",
+          50,
+          91,
+          "go",
+          "courtyard"
+        ]
+      ]
+    },
+    "garden": {
+      "name": "Vườn cộng đồng",
+      "sub": "Trồng hoa • chăm sóc • giúp đỡ cư dân",
+      "icon": "🌼",
+      "entry": [
+        50,
+        86
+      ],
+      "npc": [
+        "anna",
+        "gardener"
+      ],
+      "spots": [
+        [
+          "flower1",
+          "💧",
+          "Tưới luống 1",
+          24,
+          73,
+          "water"
+        ],
+        [
+          "flower2",
+          "💧",
+          "Tưới luống 2",
+          48,
+          70,
+          "water"
+        ],
+        [
+          "flower3",
+          "💧",
+          "Tưới luống 3",
+          72,
+          73,
+          "water"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về sân",
+          51,
+          93,
+          "go",
+          "courtyard"
+        ]
+      ]
+    },
+    "office": {
+      "name": "Nhà xứ",
+      "sub": "Gặp cha xứ • chuẩn bị quà sẻ chia",
+      "icon": "🏠",
+      "entry": [
+        50,
+        85
+      ],
+      "npc": [
+        "father",
+        "volunteer"
+      ],
+      "spots": [
+        [
+          "pack",
+          "🎁",
+          "Gói quà cộng đồng",
+          65,
+          72,
+          "pack"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về sân",
+          25,
+          88,
+          "go",
+          "courtyard"
+        ]
+      ]
+    },
+    "choir": {
+      "name": "Phòng ca đoàn",
+      "sub": "Tập nhịp • hỗ trợ sinh hoạt giáo xứ",
+      "icon": "🎵",
+      "entry": [
+        51,
+        86
+      ],
+      "npc": [
+        "choirmaster"
+      ],
+      "spots": [
+        [
+          "rhythm",
+          "🎵",
+          "Trò chơi nhịp điệu",
+          55,
+          70,
+          "rhythm"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về gian chính",
+          20,
+          87,
+          "go",
+          "nave"
+        ]
+      ]
+    },
+    "christmas": {
+      "name": "Quảng trường Giáng sinh",
+      "sub": "Chuẩn bị hang đá • trang trí Noel",
+      "icon": "🎄",
+      "entry": [
+        48,
+        86
+      ],
+      "npc": [
+        "child",
+        "lucia"
+      ],
+      "spots": [
+        [
+          "star",
+          "⭐",
+          "Treo ngôi sao",
+          49,
+          45,
+          "decorate"
+        ],
+        [
+          "tree",
+          "🎄",
+          "Trang trí cây thông",
+          79,
+          65,
+          "decorate"
+        ],
+        [
+          "gifts",
+          "🎁",
+          "Xếp hộp quà",
+          23,
+          77,
+          "decorate"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về sân",
+          50,
+          94,
+          "go",
+          "courtyard"
+        ]
+      ]
+    },
+    "foyer": {
+      "name": "Tiền sảnh nhà thờ",
+      "sub": "Bảng thông tin và cửa vòm",
+      "icon": "🚪",
+      "entry": [
+        50,
+        86
+      ],
+      "npc": [
+        "guard"
+      ],
+      "spots": [
+        [
+          "schedule",
+          "📋",
+          "Bảng giờ lễ minh họa",
+          70,
+          58,
+          "info",
+          "schedule"
+        ],
+        [
+          "inside",
+          "⛪",
+          "Vào gian chính",
+          50,
+          60,
+          "go",
+          "nave"
+        ],
+        [
+          "out",
+          "🚪",
+          "Ra sân",
+          50,
+          92,
+          "go",
+          "courtyard"
+        ]
+      ]
+    },
+    "shoproom": {
+      "name": "Gian trang phục",
+      "sub": "Thử quần áo và thay phong cách",
+      "icon": "🛍️",
+      "entry": [
+        51,
+        86
+      ],
+      "npc": [
+        "shopkeeper"
+      ],
+      "spots": [
+        [
+          "browse",
+          "🛍️",
+          "Mở Shop",
+          62,
+          68,
+          "shop"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về sân",
+          25,
+          88,
+          "go",
+          "courtyard"
+        ]
+      ]
+    }
+  },
+  "npcs": {
+    "lucia": {
+      "name": "Lucia",
+      "role": "Tình nguyện viên",
+      "gender": "female",
+      "x": 36,
+      "y": 72,
+      "shirt": "#db8a6e",
+      "hair": "#5b3b34",
+      "line": "Chào bạn! Mình là Lucia. Hôm nay giáo xứ có nhiều việc nhỏ thú vị. Bạn muốn bắt đầu từ nhiệm vụ chào hỏi không?",
+      "event": "talk_lucia"
+    },
+    "guard": {
+      "name": "Ông Giuse",
+      "role": "Người đón tiếp",
+      "gender": "male",
+      "x": 67,
+      "y": 73,
+      "shirt": "#6e93a4",
+      "hair": "#9a9a90",
+      "line": "Chào mừng bạn. Bạn có thể vào gian chính, ghé thăm lớp giáo lý hoặc dạo vườn. Mọi người đều được chào đón.",
+      "event": "talk_guard"
+    },
+    "father": {
+      "name": "Cha Minh",
+      "role": "Cha xứ",
+      "gender": "male",
+      "x": 49,
+      "y": 55,
+      "shirt": "#22242e",
+      "hair": "#565459",
+      "line": "Chào con! Trong game này, chúng ta sẽ cùng tìm hiểu về nhà thờ, các bí tích và việc giúp đỡ những người chung quanh.",
+      "event": "talk_father"
+    },
+    "sister": {
+      "name": "Sơ Maria",
+      "role": "Hướng dẫn giáo lý",
+      "gender": "female",
+      "x": 26,
+      "y": 63,
+      "shirt": "#404b64",
+      "hair": "#343442",
+      "line": "Mình sẽ giới thiệu những kiến thức cơ bản. Nếu thích, bạn có thể thử câu hỏi giáo lý ở lớp học.",
+      "event": "talk_sister"
+    },
+    "catechist": {
+      "name": "Chị Hạnh",
+      "role": "Giáo lý viên",
+      "gender": "female",
+      "x": 29,
+      "y": 74,
+      "shirt": "#9c7cab",
+      "hair": "#3e3134",
+      "line": "Giếng Rửa Tội tượng trưng cho khởi đầu đời sống Kitô giáo. Bạn hãy chọn biểu tượng giọt nước để tìm hiểu nhé.",
+      "event": "talk_catechist"
+    },
+    "child": {
+      "name": "Bé An",
+      "role": "Thiếu nhi giáo xứ",
+      "gender": "female",
+      "x": 76,
+      "y": 80,
+      "shirt": "#e9ae66",
+      "hair": "#58372d",
+      "line": "Bạn có muốn cùng mình tìm sách và trang trí Noel không? Mình thích ngôi sao phía trên hang đá lắm!",
+      "event": "talk_child"
+    },
+    "anna": {
+      "name": "Bà Anna",
+      "role": "Cư dân lớn tuổi",
+      "gender": "female",
+      "x": 80,
+      "y": 80,
+      "shirt": "#9875a4",
+      "hair": "#a69b9b",
+      "line": "Bà làm rơi cuốn sách trong lớp giáo lý. Nếu cháu tìm được, mang đến vườn cho bà nhé.",
+      "event": "talk_anna"
+    },
+    "gardener": {
+      "name": "Bác Phêrô",
+      "role": "Người chăm vườn",
+      "gender": "male",
+      "x": 17,
+      "y": 63,
+      "shirt": "#68966f",
+      "hair": "#4b3935",
+      "line": "Ba luống hoa cần chút nước. Cháu có thể chạm từng biểu tượng giọt nước để giúp bác.",
+      "event": "talk_gardener"
+    },
+    "volunteer": {
+      "name": "Chị Hương",
+      "role": "Phụ trách sẻ chia",
+      "gender": "female",
+      "x": 26,
+      "y": 73,
+      "shirt": "#d38b82",
+      "hair": "#3f303a",
+      "line": "Chúng mình chuẩn bị vài hộp quà cho cư dân cần hỗ trợ. Hãy chọn bàn gói quà và sắp đủ vật phẩm.",
+      "event": "talk_volunteer"
+    },
+    "choirmaster": {
+      "name": "Anh Gioan",
+      "role": "Trưởng ca đoàn",
+      "gender": "male",
+      "x": 26,
+      "y": 74,
+      "shirt": "#8295ca",
+      "hair": "#45352e",
+      "line": "Tụi mình đang luyện nhịp. Bạn hãy thử trò chơi ba nốt nhạc đơn giản nhé!",
+      "event": "talk_choirmaster"
+    },
+    "shopkeeper": {
+      "name": "Cô Têrêsa",
+      "role": "Cửa hàng trang phục",
+      "gender": "female",
+      "x": 30,
+      "y": 71,
+      "shirt": "#ba8976",
+      "hair": "#49352c",
+      "line": "Bạn có thể thử áo, quần, váy và giày trước khi mua. Khi trang bị, nhân vật sẽ đổi trang phục ngay.",
+      "event": "talk_shopkeeper"
+    }
+  },
+  "quests": [
+    {
+      "id": "q_welcome",
+      "name": "Một người bạn mới",
+      "giver": "Lucia",
+      "desc": "Làm quen với tình nguyện viên Lucia.",
+      "requires": [],
+      "steps": [
+        [
+          "talk_lucia",
+          1,
+          "Trò chuyện với Lucia"
+        ]
+      ],
+      "reward": [
+        80,
+        70,
+        0
+      ],
+      "type": "main"
+    },
+    {
+      "id": "q_pew",
+      "name": "Chỗ ngồi đầu tiên",
+      "giver": "Ông Giuse",
+      "desc": "Vào gian chính và thử ngồi một chiếc ghế.",
+      "requires": [
+        "q_welcome"
+      ],
+      "steps": [
+        [
+          "enter_nave",
+          1,
+          "Đi vào gian chính"
+        ],
+        [
+          "sit_pew",
+          1,
+          "Chọn và ngồi vào một ghế"
+        ]
+      ],
+      "reward": [
+        100,
+        35,
+        0
+      ],
+      "type": "main"
+    },
+    {
+      "id": "q_father",
+      "name": "Gặp cha xứ",
+      "giver": "Lucia",
+      "desc": "Ghé gặp và trò chuyện với cha Minh.",
+      "requires": [
+        "q_welcome"
+      ],
+      "steps": [
+        [
+          "talk_father",
+          1,
+          "Nói chuyện với cha Minh"
+        ]
+      ],
+      "reward": [
+        70,
+        35,
+        0
+      ],
+      "type": "main"
+    },
+    {
+      "id": "q_baptism",
+      "name": "Giọt nước khởi đầu",
+      "giver": "Chị Hạnh",
+      "desc": "Tìm hiểu ý nghĩa Bí tích Rửa Tội (chỉ là bài học trong game).",
+      "requires": [
+        "q_pew"
+      ],
+      "steps": [
+        [
+          "learn_baptism",
+          1,
+          "Khám phá giếng Rửa Tội"
+        ],
+        [
+          "quiz_baptism",
+          1,
+          "Trả lời câu hỏi"
+        ]
+      ],
+      "reward": [
+        110,
+        35,
+        0
+      ],
+      "type": "lesson"
+    },
+    {
+      "id": "q_confession",
+      "name": "Ý nghĩa của Hòa Giải",
+      "giver": "Sơ Maria",
+      "desc": "Tìm hiểu những điều căn bản về Bí tích Hòa Giải.",
+      "requires": [
+        "q_pew"
+      ],
+      "steps": [
+        [
+          "learn_confession",
+          1,
+          "Đọc bảng thông tin về Hòa Giải"
+        ]
+      ],
+      "reward": [
+        60,
+        20,
+        0
+      ],
+      "type": "lesson"
+    },
+    {
+      "id": "q_book",
+      "name": "Cuốn sách của bà Anna",
+      "giver": "Bà Anna",
+      "desc": "Tìm sách trong lớp giáo lý, trả lại bà ở vườn.",
+      "requires": [
+        "q_welcome"
+      ],
+      "steps": [
+        [
+          "pickup_book",
+          1,
+          "Nhặt sách ở lớp"
+        ],
+        [
+          "return_book",
+          1,
+          "Trả cho bà Anna"
+        ]
+      ],
+      "reward": [
+        95,
+        35,
+        45
+      ],
+      "type": "service"
+    },
+    {
+      "id": "q_garden",
+      "name": "Ba luống hoa",
+      "giver": "Bác Phêrô",
+      "desc": "Giúp bác Phêrô tưới ba luống hoa trong vườn.",
+      "requires": [
+        "q_welcome"
+      ],
+      "steps": [
+        [
+          "water_flower",
+          3,
+          "Tưới ba luống hoa"
+        ]
+      ],
+      "reward": [
+        100,
+        30,
+        35
+      ],
+      "type": "service"
+    },
+    {
+      "id": "q_choir",
+      "name": "Nhịp chuông vui",
+      "giver": "Anh Gioan",
+      "desc": "Chơi trò nhớ nhịp ba nốt với ca đoàn.",
+      "requires": [
+        "q_pew"
+      ],
+      "steps": [
+        [
+          "complete_rhythm",
+          1,
+          "Hoàn thành trò chơi nhịp"
+        ]
+      ],
+      "reward": [
+        85,
+        40,
+        10
+      ],
+      "type": "activity"
+    },
+    {
+      "id": "q_gift",
+      "name": "Hộp quà sẻ chia",
+      "giver": "Chị Hương",
+      "desc": "Xếp đủ ba món đồ vào hộp quà ở nhà xứ.",
+      "requires": [
+        "q_father"
+      ],
+      "steps": [
+        [
+          "complete_gift",
+          1,
+          "Gói hộp quà"
+        ]
+      ],
+      "reward": [
+        100,
+        40,
+        40
+      ],
+      "type": "service"
+    },
+    {
+      "id": "q_noel",
+      "name": "Ánh sáng đêm Noel",
+      "giver": "Bé An",
+      "desc": "Trang trí ngôi sao, cây thông và khu đặt quà.",
+      "requires": [
+        "q_welcome"
+      ],
+      "steps": [
+        [
+          "decorate",
+          3,
+          "Trang trí ba vị trí"
+        ]
+      ],
+      "reward": [
+        130,
+        65,
+        35
+      ],
+      "type": "event"
+    },
+    {
+      "id": "q_class",
+      "name": "Lớp học nhỏ",
+      "giver": "Sơ Maria",
+      "desc": "Làm một câu hỏi ngắn về ứng xử khi vào nhà thờ.",
+      "requires": [
+        "q_welcome"
+      ],
+      "steps": [
+        [
+          "quiz_class",
+          1,
+          "Trả lời đúng câu hỏi"
+        ]
+      ],
+      "reward": [
+        65,
+        25,
+        0
+      ],
+      "type": "lesson"
+    }
+  ],
+  "items": [
+    {
+      "id": "shirt_cream",
+      "name": "Áo kem thanh lịch",
+      "slot": "top",
+      "icon": "👕",
+      "color": "#f4ede0",
+      "price": 0,
+      "level": 1
+    },
+    {
+      "id": "shirt_blue",
+      "name": "Áo xanh dịu",
+      "slot": "top",
+      "icon": "👔",
+      "color": "#7c9cc1",
+      "price": 110,
+      "level": 1
+    },
+    {
+      "id": "shirt_rose",
+      "name": "Áo hồng nhạt",
+      "slot": "top",
+      "icon": "🧥",
+      "color": "#dda6ac",
+      "price": 145,
+      "level": 2
+    },
+    {
+      "id": "shirt_noel",
+      "name": "Áo Noel đỏ",
+      "slot": "top",
+      "icon": "🧣",
+      "color": "#ba4d52",
+      "price": 280,
+      "level": 3
+    },
+    {
+      "id": "shirt_green",
+      "name": "Áo tình nguyện",
+      "slot": "top",
+      "icon": "🥼",
+      "color": "#6e9b79",
+      "price": 240,
+      "level": 3
+    },
+    {
+      "id": "bottom_navy",
+      "name": "Quần/váy xanh",
+      "slot": "bottom",
+      "icon": "👖",
+      "color": "#465b75",
+      "price": 0,
+      "level": 1
+    },
+    {
+      "id": "bottom_beige",
+      "name": "Quần/váy be",
+      "slot": "bottom",
+      "icon": "👗",
+      "color": "#d9b98d",
+      "price": 125,
+      "level": 1
+    },
+    {
+      "id": "bottom_brown",
+      "name": "Quần/váy nâu",
+      "slot": "bottom",
+      "icon": "👗",
+      "color": "#8b5c54",
+      "price": 170,
+      "level": 2
+    },
+    {
+      "id": "bottom_white",
+      "name": "Quần/váy trắng",
+      "slot": "bottom",
+      "icon": "👗",
+      "color": "#eee8df",
+      "price": 200,
+      "level": 3
+    },
+    {
+      "id": "shoe_brown",
+      "name": "Giày nâu",
+      "slot": "shoes",
+      "icon": "👞",
+      "color": "#6a443e",
+      "price": 0,
+      "level": 1
+    },
+    {
+      "id": "shoe_black",
+      "name": "Giày đen",
+      "slot": "shoes",
+      "icon": "👟",
+      "color": "#343b4a",
+      "price": 85,
+      "level": 1
+    },
+    {
+      "id": "shoe_white",
+      "name": "Giày trắng",
+      "slot": "shoes",
+      "icon": "👟",
+      "color": "#f1ede7",
+      "price": 120,
+      "level": 2
+    },
+    {
+      "id": "hair_dark",
+      "name": "Tóc nâu",
+      "slot": "hair",
+      "icon": "💇",
+      "color": "#543932",
+      "price": 0,
+      "level": 1
+    },
+    {
+      "id": "hair_black",
+      "name": "Tóc đen",
+      "slot": "hair",
+      "icon": "💇",
+      "color": "#292a36",
+      "price": 85,
+      "level": 1
+    },
+    {
+      "id": "hair_chestnut",
+      "name": "Tóc hạt dẻ",
+      "slot": "hair",
+      "icon": "💇",
+      "color": "#9c5b3b",
+      "price": 130,
+      "level": 2
+    },
+    {
+      "id": "acc_none",
+      "name": "Không phụ kiện",
+      "slot": "acc",
+      "icon": "⭕",
+      "color": "#f1d6a2",
+      "price": 0,
+      "level": 1
+    },
+    {
+      "id": "acc_bow",
+      "name": "Nơ tóc",
+      "slot": "acc",
+      "icon": "🎀",
+      "color": "#df8d9f",
+      "price": 95,
+      "level": 1
+    },
+    {
+      "id": "acc_bag",
+      "name": "Túi chéo nhỏ",
+      "slot": "acc",
+      "icon": "👜",
+      "color": "#a7805f",
+      "price": 160,
+      "level": 2
+    },
+    {
+      "id": "shirt_sunrise",
+      "name": "Áo bình minh",
+      "slot": "top",
+      "icon": "🌅",
+      "color": "#eca57d",
+      "kindnessPrice": 65,
+      "price": 0,
+      "level": 1
+    },
+    {
+      "id": "bottom_olive",
+      "name": "Quần/váy ô liu",
+      "slot": "bottom",
+      "icon": "🌿",
+      "color": "#71866c",
+      "kindnessPrice": 85,
+      "price": 0,
+      "level": 1
+    },
+    {
+      "id": "acc_lily",
+      "name": "Hoa ly nhỏ",
+      "slot": "acc",
+      "icon": "🌼",
+      "color": "#f7dca6",
+      "kindnessPrice": 55,
+      "price": 0,
+      "level": 1
+    }
+  ]
+}

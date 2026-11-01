@@ -1,0 +1,2 @@
+Saved private persistence fingerprints.
+PASS restart preserves wallets, player states, ledger, catalog and shared projects.

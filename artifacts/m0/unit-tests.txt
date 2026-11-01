@@ -1,0 +1,15 @@
+✔ M0 freezes the ten existing runtime files; a changed byte is detected (3.557734ms)
+✔ V4 tasks form a complete acyclic plan and completed tasks have evidence (0.937853ms)
+✔ RBAC decision contract excludes PLAYER/MODERATOR/EDITOR from internal stats (0.242049ms)
+✔ actor design contract reserves wallet/chat for players and protects fixed NPCs (0.159456ms)
+✔ legacy dry run preserves existing wallet, ownership, claimed rewards and deadlines without mutating input (1.406639ms)
+✔ dry run blocks unknown/archived items instead of silently deleting ownership (0.285514ms)
+✔ dry run blocks corrupt/hostile shapes and never copies role claims (3.928695ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28.733586

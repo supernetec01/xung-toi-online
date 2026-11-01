@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="vi">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Tài khoản · Giáo Xứ An Hòa</title
+  ><link rel="stylesheet" href="/shared/style.css" />
+  <main class="account">
+    <p class="eyebrow">Giáo Xứ An Hòa · V4</p>
+    <h1>Lưu lại hành trình của bạn</h1>
+    <p class="muted">
+      Tài khoản lưu tiến độ trên máy chủ. Bản chơi thử trên trình duyệt vẫn được giữ riêng.
+    </p>
+    <section class="card">
+      <div class="tabs">
+        <button id="tabLogin">Đăng nhập</button
+        ><button class="secondary" id="tabRegister">Tạo tài khoản</button>
+      </div>
+      <form id="authForm">
+        <label
+          ><span>Tài khoản</span
+          ><input
+            id="login"
+            autocomplete="username"
+            pattern="[a-zA-Z0-9_]{3,32}"
+            required
+            minlength="3"
+            maxlength="32" /></label
+        ><label id="nameField" hidden
+          ><span>Tên nhân vật</span
+          ><input id="displayName" maxlength="20" autocomplete="nickname" /></label
+        ><label
+          ><span>Mật khẩu (tối thiểu 12 ký tự)</span
+          ><input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            minlength="12"
+            maxlength="128" /></label
+        ><label id="codeField"
+          ><span>Mã MFA nếu là tài khoản quản trị</span
+          ><input
+            id="code"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            pattern="[0-9]{6}"
+            maxlength="6"
+        /></label>
+        <p class="error" id="authError" role="alert"></p>
+        <button id="submitAuth" type="submit">Đăng nhập</button>
+      </form>
+      <div id="accountActions" hidden></div>
+    </section>
+    <p><a href="/">← Về game</a> · <a href="/privacy">Quyền riêng tư & quy tắc chat</a></p>
+  </main>
+  <script src="/shared/auth.js"></script>
+</html>

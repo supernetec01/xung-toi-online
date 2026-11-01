@@ -1,0 +1,1 @@
+PASS 22 viewport/rig/performance checks; 6 viewports, 136 procedural rig combinations; see performance.json for measurements

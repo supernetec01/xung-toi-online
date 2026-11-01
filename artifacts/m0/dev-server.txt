@@ -1,0 +1,5 @@
+
+> giao-xu-an-hoa@0.4.0 dev
+> node scripts/serve.cjs
+
+Giáo Xứ An Hòa: local port 5001 (demo)

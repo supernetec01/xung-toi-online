@@ -1,0 +1,1000 @@
+{
+  "scenes": {
+    "courtyard": {
+      "name": "Sân giáo xứ",
+      "sub": "Quảng trường, cây xanh và những người bạn đầu tiên",
+      "icon": "🏡",
+      "group": "grounds",
+      "start": [
+        51,
+        79
+      ],
+      "hint": "Gặp Lucia để nhận nhiệm vụ đầu tiên. Cửa nhà thờ ở phía trên.",
+      "spots": [
+        [
+          "church",
+          "⛪ Vào nhà thờ",
+          50,
+          30,
+          "portal",
+          "foyer"
+        ],
+        [
+          "classroom",
+          "📖 Lớp giáo lý",
+          18,
+          41,
+          "portal",
+          "classroom"
+        ],
+        [
+          "garden",
+          "🌻 Vườn bác ái",
+          16,
+          76,
+          "portal",
+          "garden"
+        ],
+        [
+          "office",
+          "🏠 Nhà xứ",
+          84,
+          36,
+          "portal",
+          "office"
+        ],
+        [
+          "christmas",
+          "🎄 Quảng trường Noel",
+          84,
+          77,
+          "portal",
+          "christmas"
+        ],
+        [
+          "notice",
+          "📜 Bảng tin",
+          67,
+          56,
+          "action",
+          "notice"
+        ]
+      ]
+    },
+    "foyer": {
+      "name": "Tiền sảnh nhà thờ",
+      "sub": "Nơi đón tiếp, bảng giờ lễ và bình nước thánh",
+      "icon": "🚪",
+      "group": "church",
+      "start": [
+        51,
+        83
+      ],
+      "hint": "Chọn cửa giữa để vào gian chính; hai cánh cửa đưa tới phòng tìm hiểu bí tích.",
+      "spots": [
+        [
+          "nave",
+          "⛪ Gian chính",
+          50,
+          31,
+          "portal",
+          "nave"
+        ],
+        [
+          "baptistry",
+          "💧 Khu Rửa Tội",
+          20,
+          45,
+          "portal",
+          "baptistry"
+        ],
+        [
+          "confession",
+          "🕊️ Phòng Hòa Giải",
+          80,
+          45,
+          "portal",
+          "confession"
+        ],
+        [
+          "courtyard",
+          "↩ Sân giáo xứ",
+          50,
+          90,
+          "portal",
+          "courtyard"
+        ],
+        [
+          "holywater",
+          "💠 Tìm hiểu bình nước thánh",
+          16,
+          69,
+          "action",
+          "holywater"
+        ],
+        [
+          "schedule",
+          "🗓️ Bảng giờ lễ",
+          84,
+          69,
+          "action",
+          "schedule"
+        ]
+      ]
+    },
+    "nave": {
+      "name": "Gian chính nhà thờ",
+      "sub": "Gian giáo dân, lối đi giữa, giảng đài và cung thánh",
+      "icon": "⛪",
+      "group": "church",
+      "start": [
+        50,
+        89
+      ],
+      "hint": "Bạn có thể chọn một ghế trống để ngồi, tìm hiểu gian cung thánh hoặc tham dự buổi hướng dẫn về Thánh lễ.",
+      "spots": [
+        [
+          "pewL1",
+          "🪑 Ngồi hàng A1",
+          31,
+          60,
+          "action",
+          "sit"
+        ],
+        [
+          "pewR1",
+          "🪑 Ngồi hàng B1",
+          70,
+          60,
+          "action",
+          "sit"
+        ],
+        [
+          "pewL2",
+          "🪑 Ngồi hàng A2",
+          31,
+          75,
+          "action",
+          "sit"
+        ],
+        [
+          "pewR2",
+          "🪑 Ngồi hàng B2",
+          70,
+          75,
+          "action",
+          "sit"
+        ],
+        [
+          "altar",
+          "✝️ Tìm hiểu bàn thờ",
+          50,
+          30,
+          "action",
+          "altar"
+        ],
+        [
+          "ambo",
+          "📖 Giảng đài",
+          24,
+          34,
+          "action",
+          "ambo"
+        ],
+        [
+          "mass",
+          "🕯️ Tìm hiểu Thánh lễ",
+          80,
+          33,
+          "action",
+          "mass"
+        ],
+        [
+          "choir",
+          "🎶 Phòng ca đoàn",
+          89,
+          87,
+          "portal",
+          "choir"
+        ],
+        [
+          "foyer",
+          "↩ Tiền sảnh",
+          49,
+          94,
+          "portal",
+          "foyer"
+        ]
+      ]
+    },
+    "confession": {
+      "name": "Góc Hòa Giải",
+      "sub": "Không gian yên tĩnh để tìm hiểu Bí tích Giải Tội",
+      "icon": "🕊️",
+      "group": "church",
+      "start": [
+        48,
+        82
+      ],
+      "hint": "Nội dung này chỉ giải thích về Bí tích Hòa Giải, không hỏi hoặc ghi lại tội riêng tư.",
+      "spots": [
+        [
+          "reconcile",
+          "📖 Tìm hiểu bí tích",
+          50,
+          51,
+          "action",
+          "reconcile"
+        ],
+        [
+          "quiet",
+          "🕯️ Góc suy ngẫm",
+          74,
+          65,
+          "action",
+          "quiet"
+        ],
+        [
+          "foyer",
+          "↩ Tiền sảnh",
+          18,
+          86,
+          "portal",
+          "foyer"
+        ]
+      ]
+    },
+    "baptistry": {
+      "name": "Khu giếng Rửa Tội",
+      "sub": "Tìm hiểu ý nghĩa của Bí tích Thánh Tẩy",
+      "icon": "💧",
+      "group": "church",
+      "start": [
+        50,
+        84
+      ],
+      "hint": "Khám phá giếng Rửa Tội và làm câu hỏi giáo lý. Đây chỉ là mô phỏng giáo dục.",
+      "spots": [
+        [
+          "font",
+          "💧 Giếng Rửa Tội",
+          52,
+          45,
+          "action",
+          "font"
+        ],
+        [
+          "baptquiz",
+          "❓ Câu hỏi Rửa Tội",
+          78,
+          69,
+          "action",
+          "baptquiz"
+        ],
+        [
+          "foyer",
+          "↩ Tiền sảnh",
+          18,
+          87,
+          "portal",
+          "foyer"
+        ]
+      ]
+    },
+    "classroom": {
+      "name": "Lớp giáo lý",
+      "sub": "Học hỏi về nhà thờ, cộng đồng và các bí tích",
+      "icon": "📚",
+      "group": "grounds",
+      "start": [
+        45,
+        85
+      ],
+      "hint": "Chạm vào bảng học hoặc kệ sách. Sơ Maria có thể hướng dẫn bạn.",
+      "spots": [
+        [
+          "lesson",
+          "🧠 Bài học nhỏ",
+          57,
+          32,
+          "action",
+          "catequiz"
+        ],
+        [
+          "books",
+          "📚 Kệ sách",
+          19,
+          56,
+          "action",
+          "books"
+        ],
+        [
+          "courtyard",
+          "↩ Ra sân",
+          49,
+          94,
+          "portal",
+          "courtyard"
+        ]
+      ]
+    },
+    "choir": {
+      "name": "Phòng ca đoàn",
+      "sub": "Học nhịp điệu và luyện tập một giai điệu tự sáng tác",
+      "icon": "🎼",
+      "group": "grounds",
+      "start": [
+        48,
+        83
+      ],
+      "hint": "Thử trò chơi nhịp điệu. Nhạc trong demo là nhịp tự tạo, không dùng bài hát có bản quyền.",
+      "spots": [
+        [
+          "music",
+          "🎵 Tập nhịp",
+          54,
+          50,
+          "action",
+          "choirgame"
+        ],
+        [
+          "nave",
+          "↩ Vào gian chính",
+          20,
+          89,
+          "portal",
+          "nave"
+        ]
+      ]
+    },
+    "garden": {
+      "name": "Vườn cộng đồng",
+      "sub": "Chăm sóc cây xanh và chia sẻ với cư dân",
+      "icon": "🌼",
+      "group": "grounds",
+      "start": [
+        50,
+        87
+      ],
+      "hint": "Tưới đủ ba luống hoa, rồi tìm bà Anna ở bên trái vườn.",
+      "spots": [
+        [
+          "plot1",
+          "💦 Tưới luống 1",
+          36,
+          41,
+          "action",
+          "water"
+        ],
+        [
+          "plot2",
+          "💦 Tưới luống 2",
+          58,
+          44,
+          "action",
+          "water"
+        ],
+        [
+          "plot3",
+          "💦 Tưới luống 3",
+          77,
+          43,
+          "action",
+          "water"
+        ],
+        [
+          "courtyard",
+          "↩ Ra sân",
+          50,
+          93,
+          "portal",
+          "courtyard"
+        ]
+      ]
+    },
+    "office": {
+      "name": "Nhà xứ",
+      "sub": "Gặp cha xứ, hỏi thông tin và hỗ trợ các hoạt động",
+      "icon": "🏠",
+      "group": "grounds",
+      "start": [
+        48,
+        85
+      ],
+      "hint": "Gặp cha Minh để nghe câu chuyện và nhận hướng dẫn. Bàn quà hỗ trợ hoạt động cộng đồng.",
+      "spots": [
+        [
+          "gifts",
+          "🎁 Gói quà sẻ chia",
+          71,
+          60,
+          "action",
+          "packgift"
+        ],
+        [
+          "courtyard",
+          "↩ Ra sân",
+          50,
+          93,
+          "portal",
+          "courtyard"
+        ]
+      ]
+    },
+    "christmas": {
+      "name": "Quảng trường Giáng sinh",
+      "sub": "Trang trí hang đá và chuẩn bị đón Noel",
+      "icon": "🎄",
+      "group": "grounds",
+      "start": [
+        48,
+        86
+      ],
+      "hint": "Trang trí đủ ba vị trí có ngôi sao để hoàn thành nhiệm vụ mùa Giáng sinh.",
+      "spots": [
+        [
+          "decor1",
+          "⭐ Treo sao 1",
+          22,
+          41,
+          "action",
+          "decorate"
+        ],
+        [
+          "decor2",
+          "⭐ Treo sao 2",
+          80,
+          42,
+          "action",
+          "decorate"
+        ],
+        [
+          "decor3",
+          "⭐ Trang trí hang đá",
+          52,
+          31,
+          "action",
+          "decorate"
+        ],
+        [
+          "shop",
+          "👕 Gian trang phục",
+          87,
+          79,
+          "portal",
+          "shop"
+        ],
+        [
+          "courtyard",
+          "↩ Ra sân",
+          14,
+          87,
+          "portal",
+          "courtyard"
+        ]
+      ]
+    },
+    "shop": {
+      "name": "Gian trang phục",
+      "sub": "Chọn quần áo đẹp mắt, không mua bán nghi thức tôn giáo",
+      "icon": "🛍️",
+      "group": "grounds",
+      "start": [
+        50,
+        84
+      ],
+      "hint": "Mở tủ đồ để mua trang phục bằng Xu giáo xứ. Trang phục được mở theo cấp độ.",
+      "spots": [
+        [
+          "wardrobe",
+          "👕 Tủ quần áo",
+          57,
+          47,
+          "action",
+          "store"
+        ],
+        [
+          "courtyard",
+          "↩ Quảng trường Noel",
+          20,
+          86,
+          "portal",
+          "christmas"
+        ]
+      ]
+    }
+  },
+  "NPC": {
+    "lucia": {
+      "name": "Lucia",
+      "scene": "courtyard",
+      "x": 36,
+      "y": 65,
+      "role": "volunteer",
+      "color": "#c67d57",
+      "detail": "Tình nguyện viên đón tiếp",
+      "lines": [
+        "Chào mừng bạn đến Giáo Xứ An Hòa! Mình là Lucia.",
+        "Bạn cứ đi tham quan tự nhiên. Có một bảng nhiệm vụ ở bên phải màn hình để nhận việc nhỏ."
+      ],
+      "event": "talk_lucia"
+    },
+    "peter": {
+      "name": "Bác Phêrô",
+      "scene": "courtyard",
+      "x": 74,
+      "y": 72,
+      "role": "elder",
+      "color": "#5f819e",
+      "detail": "Người giữ vườn và bảo vệ",
+      "lines": [
+        "Bình an nhé! Nhớ đi lại nhẹ nhàng trong nhà thờ.",
+        "Nếu thích cây xanh, con thử đến vườn cộng đồng phía bên trái."
+      ]
+    },
+    "joseph": {
+      "name": "Ông Giuse",
+      "scene": "foyer",
+      "x": 24,
+      "y": 70,
+      "role": "elder",
+      "color": "#6b7193",
+      "detail": "Người đón tiếp nhà thờ",
+      "lines": [
+        "Đây là tiền sảnh. Con có thể tìm hiểu các khu vực trong nhà thờ từ đây.",
+        "Khi ở trong gian chính, hãy giữ trật tự và chọn ghế ngồi phù hợp."
+      ]
+    },
+    "father": {
+      "name": "Cha Minh",
+      "scene": "office",
+      "x": 30,
+      "y": 62,
+      "role": "priest",
+      "color": "#262e37",
+      "detail": "Cha xứ",
+      "lines": [
+        "Chào con, cha là linh mục phụ trách giáo xứ.",
+        "Ở đây, con có thể học về đời sống cộng đồng và tìm hiểu các nghi thức Công giáo."
+      ],
+      "event": "talk_father"
+    },
+    "maria": {
+      "name": "Sơ Maria",
+      "scene": "classroom",
+      "x": 78,
+      "y": 60,
+      "role": "nun",
+      "color": "#2e4053",
+      "detail": "Giáo lý viên",
+      "lines": [
+        "Chào em! Chúng ta học một vài điều rất đơn giản nhé.",
+        "Em thử bấm vào bảng học để mở câu hỏi đầu tiên."
+      ]
+    },
+    "anna": {
+      "name": "Bà Anna",
+      "scene": "garden",
+      "x": 18,
+      "y": 66,
+      "role": "elder",
+      "color": "#9c6682",
+      "detail": "Cư dân lớn tuổi",
+      "lines": [
+        "Cảm ơn con ghé thăm khu vườn!",
+        "Bà đang tìm một cuốn sách cũ trong lớp giáo lý. Con có thể giúp bà không?"
+      ]
+    },
+    "john": {
+      "name": "Anh Gioan",
+      "scene": "choir",
+      "x": 77,
+      "y": 66,
+      "role": "choir",
+      "color": "#365f84",
+      "detail": "Trưởng ca đoàn",
+      "lines": [
+        "Hoan nghênh đến phòng ca đoàn!",
+        "Ta sẽ tập một nhịp điệu đơn giản với 3 ký hiệu; hãy nhớ đúng thứ tự."
+      ]
+    },
+    "theresa": {
+      "name": "Cô Têrêsa",
+      "scene": "shop",
+      "x": 76,
+      "y": 67,
+      "role": "shopkeeper",
+      "color": "#b57662",
+      "detail": "Người phụ trách trang phục",
+      "lines": [
+        "Chào bạn! Các mẫu quần áo có thể mở khóa theo cấp độ.",
+        "Xu chỉ dùng cho vật phẩm trang trí, không liên quan đến các bí tích."
+      ]
+    },
+    "an": {
+      "name": "Bé An",
+      "scene": "christmas",
+      "x": 34,
+      "y": 72,
+      "role": "child",
+      "color": "#a95b50",
+      "detail": "Thiếu nhi giáo xứ",
+      "lines": [
+        "Noel đang đến gần! Bạn giúp mình trang trí ngôi sao nhé!",
+        "Mình thích nhất là lúc mọi người cùng chuẩn bị quà tặng cho nhau."
+      ]
+    },
+    "huong": {
+      "name": "Chị Hương",
+      "scene": "office",
+      "x": 54,
+      "y": 65,
+      "role": "volunteer",
+      "color": "#547f8a",
+      "detail": "Phụ trách hoạt động bác ái",
+      "lines": [
+        "Mình đang chuẩn bị những túi quà nhỏ.",
+        "Bạn có thể hỗ trợ gói quà ở chiếc bàn bên phải."
+      ]
+    }
+  },
+  "QUESTS": [
+    {
+      "id": "welcome",
+      "title": "Lời chào đầu tiên",
+      "from": "Lucia",
+      "desc": "Làm quen với tình nguyện viên tại sân giáo xứ.",
+      "requires": [],
+      "steps": [
+        [
+          "talk_lucia",
+          1,
+          "Nói chuyện với Lucia"
+        ]
+      ],
+      "reward": [
+        75,
+        50,
+        0
+      ]
+    },
+    {
+      "id": "tour",
+      "title": "Thăm gian chính",
+      "from": "Ông Giuse",
+      "desc": "Tìm đường tới gian chính của nhà thờ.",
+      "requires": [
+        "welcome"
+      ],
+      "steps": [
+        [
+          "enter_nave",
+          1,
+          "Đi vào gian chính nhà thờ"
+        ]
+      ],
+      "reward": [
+        55,
+        25,
+        0
+      ]
+    },
+    {
+      "id": "seat",
+      "title": "Chọn ghế lịch sự",
+      "from": "Ông Giuse",
+      "desc": "Tìm một vị trí ngồi và quan sát không gian.",
+      "requires": [
+        "welcome"
+      ],
+      "steps": [
+        [
+          "sit_pew",
+          1,
+          "Chọn một ghế trống"
+        ]
+      ],
+      "reward": [
+        45,
+        15,
+        0
+      ]
+    },
+    {
+      "id": "father",
+      "title": "Gặp cha xứ",
+      "from": "Lucia",
+      "desc": "Sang nhà xứ và trò chuyện với cha Minh.",
+      "requires": [
+        "welcome"
+      ],
+      "steps": [
+        [
+          "talk_father",
+          1,
+          "Nói chuyện với cha Minh"
+        ]
+      ],
+      "reward": [
+        60,
+        20,
+        0
+      ]
+    },
+    {
+      "id": "learn_baptism",
+      "title": "Tìm hiểu Rửa Tội",
+      "from": "Cha Minh",
+      "desc": "Học ý nghĩa của Bí tích Thánh Tẩy (không thực hiện bí tích trong game).",
+      "requires": [
+        "father"
+      ],
+      "steps": [
+        [
+          "learn_font",
+          1,
+          "Quan sát giếng Rửa Tội"
+        ],
+        [
+          "baptism_quiz",
+          1,
+          "Trả lời câu hỏi giáo lý"
+        ]
+      ],
+      "reward": [
+        85,
+        30,
+        0
+      ]
+    },
+    {
+      "id": "catechism",
+      "title": "Lớp học đầu tiên",
+      "from": "Sơ Maria",
+      "desc": "Trả lời một câu hỏi giáo lý cơ bản.",
+      "requires": [
+        "welcome"
+      ],
+      "steps": [
+        [
+          "catechism_quiz",
+          1,
+          "Hoàn thành câu hỏi lớp học"
+        ]
+      ],
+      "reward": [
+        80,
+        25,
+        0
+      ]
+    },
+    {
+      "id": "garden",
+      "title": "Ba luống hoa",
+      "from": "Bà Anna",
+      "desc": "Tưới đủ ba luống hoa khác nhau.",
+      "requires": [
+        "welcome"
+      ],
+      "steps": [
+        [
+          "water_plot",
+          3,
+          "Tưới luống hoa"
+        ]
+      ],
+      "reward": [
+        70,
+        30,
+        35
+      ]
+    },
+    {
+      "id": "lostbook",
+      "title": "Cuốn sách của bà Anna",
+      "from": "Bà Anna",
+      "desc": "Tìm cuốn sách trong lớp giáo lý và mang đến bà Anna.",
+      "requires": [
+        "garden"
+      ],
+      "steps": [
+        [
+          "pickup_book",
+          1,
+          "Nhặt sách ở lớp giáo lý"
+        ],
+        [
+          "give_book",
+          1,
+          "Đưa sách cho bà Anna"
+        ]
+      ],
+      "reward": [
+        95,
+        35,
+        45
+      ]
+    },
+    {
+      "id": "choir",
+      "title": "Nhịp điệu yêu thương",
+      "from": "Anh Gioan",
+      "desc": "Chơi thử trò tập nhịp trong phòng ca đoàn.",
+      "requires": [
+        "catechism"
+      ],
+      "steps": [
+        [
+          "choir_game",
+          1,
+          "Hoàn thành chuỗi nhịp"
+        ]
+      ],
+      "reward": [
+        80,
+        30,
+        0
+      ]
+    },
+    {
+      "id": "reconcile",
+      "title": "Không gian Hòa Giải",
+      "from": "Ông Giuse",
+      "desc": "Tìm hiểu ý nghĩa Bí tích Hòa Giải, không nhập dữ liệu riêng tư.",
+      "requires": [
+        "tour"
+      ],
+      "steps": [
+        [
+          "learn_confession",
+          1,
+          "Đọc giới thiệu Bí tích Hòa Giải"
+        ]
+      ],
+      "reward": [
+        50,
+        20,
+        0
+      ]
+    },
+    {
+      "id": "gift",
+      "title": "Gói quà sẻ chia",
+      "from": "Chị Hương",
+      "desc": "Giúp chuẩn bị một phần quà cho cư dân.",
+      "requires": [
+        "garden"
+      ],
+      "steps": [
+        [
+          "pack_gift",
+          1,
+          "Gói một phần quà"
+        ]
+      ],
+      "reward": [
+        70,
+        40,
+        35
+      ]
+    },
+    {
+      "id": "noel",
+      "title": "Thắp sáng mùa Noel",
+      "from": "Bé An",
+      "desc": "Trang trí ba vị trí khác nhau trong quảng trường.",
+      "requires": [
+        "catechism"
+      ],
+      "steps": [
+        [
+          "decorate_spot",
+          3,
+          "Hoàn thành vị trí trang trí"
+        ]
+      ],
+      "reward": [
+        130,
+        55,
+        35
+      ]
+    },
+    {
+      "id": "wardrobe",
+      "title": "Trang phục đầu tiên",
+      "from": "Cô Têrêsa",
+      "desc": "Mua một bộ đồ thường ngày tại gian trang phục.",
+      "requires": [
+        "welcome"
+      ],
+      "steps": [
+        [
+          "purchase_item",
+          1,
+          "Mua một trang phục"
+        ]
+      ],
+      "reward": [
+        50,
+        20,
+        0
+      ]
+    }
+  ],
+  "ITEMS": [
+    {
+      "id": "basic",
+      "name": "Bộ đi dạo",
+      "icon": "👕",
+      "color": "#eabda0",
+      "level": 1,
+      "price": 0
+    },
+    {
+      "id": "shirt",
+      "name": "Sơ mi thanh lịch",
+      "icon": "👔",
+      "color": "#89bbce",
+      "level": 1,
+      "price": 35
+    },
+    {
+      "id": "dress",
+      "name": "Váy màu kem",
+      "icon": "👗",
+      "color": "#dbb8c6",
+      "level": 2,
+      "price": 70
+    },
+    {
+      "id": "volunteer",
+      "name": "Áo tình nguyện",
+      "icon": "🦺",
+      "color": "#65ad8d",
+      "level": 3,
+      "price": 100
+    },
+    {
+      "id": "aodai",
+      "name": "Áo dài truyền thống",
+      "icon": "🪷",
+      "color": "#ad8ac4",
+      "level": 4,
+      "price": 160
+    },
+    {
+      "id": "winter",
+      "name": "Áo khoác Noel",
+      "icon": "🧥",
+      "color": "#c65e5e",
+      "level": 5,
+      "price": 220
+    },
+    {
+      "id": "festive",
+      "name": "Lễ hội ánh sao",
+      "icon": "✨",
+      "color": "#e0b05b",
+      "level": 7,
+      "price": 350
+    },
+    {
+      "id": "kindnesscoat",
+      "name": "Áo sẻ chia",
+      "icon": "💚",
+      "color": "#5ba78b",
+      "level": 3,
+      "price": 0,
+      "kindnessPrice": 70
+    },
+    {
+      "id": "staroutfit",
+      "name": "Trang phục ngôi sao",
+      "icon": "🌟",
+      "color": "#ddb769",
+      "level": 4,
+      "price": 0,
+      "kindnessPrice": 120
+    }
+  ]
+}

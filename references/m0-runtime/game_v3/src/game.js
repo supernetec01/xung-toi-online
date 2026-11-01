@@ -1,0 +1,1271 @@
+(() => {
+  'use strict';
+  const D = window.PARISH_DATA,
+    A = window.PARISH_ART,
+    ACT = window.PARISH_ACTIVITIES,
+    $ = (id) => document.getElementById(id),
+    fmt = (n) => Number(n).toLocaleString('vi-VN');
+  const R = window.PARISH_RULES,
+    N = window.PARISH_NAV;
+  const KEY = 'giao-xu-an-hoa-2d-v3',
+    initial = R.defaults;
+  function readState() {
+    try {
+      return R.migrate(
+        JSON.parse(
+          localStorage.getItem(KEY) || localStorage.getItem('giao-xu-an-hoa-2d-v2') || 'null',
+        ),
+        D,
+      );
+    } catch {
+      return initial();
+    }
+  }
+  let st = readState();
+  st.lowMotion = st.lowMotion || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let previewEquipment = null,
+    returnFocus = null,
+    activeTab = 'all',
+    shopSlot = 'top',
+    activityBusy = !!st.activeAction;
+  let movement = 0,
+    moving = false,
+    activityStarting = false,
+    completionTimer = null;
+  // Every write reads the newest state under the same cross-tab lock. UI state is separate.
+  async function mutate(fn) {
+    const run = () => {
+      const draft = readState();
+      let result;
+      const previous = st;
+      st = draft;
+      try {
+        result = fn();
+        localStorage.setItem(KEY, JSON.stringify(st));
+      } catch (error) {
+        st = previous;
+        toast('Không lưu được tiến độ. Hãy kiểm tra bộ nhớ trình duyệt.');
+        console.error(error);
+        return undefined;
+      }
+      activityBusy = !!st.activeAction;
+      renderHud();
+      renderCooldowns();
+      refreshMarkers();
+      return result;
+    };
+    if (!navigator.locks) {
+      toast('Trình duyệt cần hỗ trợ Web Locks để lưu tiến độ.');
+      return undefined;
+    }
+    return navigator.locks.request(KEY, run);
+  }
+  function item(id) {
+    return D.items.find((i) => i.id === id);
+  }
+  function dressed(e = st.equipped) {
+    return {
+      gender: st.gender,
+      skin: st.skin,
+      top: item(e.top)?.color || '#f8e8d6',
+      bottom: item(e.bottom)?.color || '#465b75',
+      shoes: item(e.shoes)?.color || '#6a443e',
+      hair: item(e.hair)?.color || '#543932',
+      acc: e.acc,
+    };
+  }
+  function npcDressed(id) {
+    const npc = D.npcs[id];
+    return {
+      gender: npc.gender,
+      shirt: npc.shirt,
+      hair: npc.hair,
+      bottom: npc.gender === 'female' ? '#5e5d7d' : '#3b475c',
+      skin: '#ecc5a5',
+      shoes: '#554642',
+    };
+  }
+  function toast(t) {
+    $('toastMount').innerHTML = `<div class="toast">${A.esc(t)}</div>`;
+    clearTimeout(window.__toast);
+    window.__toast = setTimeout(() => $('toastMount').replaceChildren(), 2600);
+  }
+  function log(t) {
+    st.logs.unshift({ time: new Date().toISOString(), text: t });
+    st.logs = st.logs.slice(0, 35);
+  }
+  function isAccepted(q) {
+    return st.accepted.includes(q.id);
+  }
+  function isClaimed(q) {
+    return R.status(st, q) === 'claimed';
+  }
+  function canAccept(q) {
+    return q.requires.every((id) => st.claimed.includes(id));
+  }
+  function obj(q, event) {
+    return st.progress[q.id]?.[event] || { count: 0, ids: [] };
+  }
+  function progressOf(q) {
+    const p = R.progress(st, q);
+    return { ...p, done: p.cur === p.total };
+  }
+  function record(event, unique) {
+    R.record(st, D, event, unique);
+  }
+  async function acceptQuest(id) {
+    const ok = await mutate(() => {
+      if (!R.accept(st, D, id)) return false;
+      log('Đã nhận nhiệm vụ: ' + D.quests.find((q) => q.id === id).name);
+      return true;
+    });
+    if (ok) {
+      toast('📜 Đã nhận nhiệm vụ! Các việc đã làm được ghi nhận.');
+      openQuests('active');
+    }
+  }
+  async function claimQuest(id) {
+    const ok = await mutate(() => {
+      if (!R.claim(st, D, id)) return false;
+      log('Nhận thưởng: ' + D.quests.find((q) => q.id === id).name);
+      return true;
+    });
+    if (ok) {
+      toast('🎁 Đã nhận ' + D.quests.find((q) => q.id === id).rewardCoins + ' Xu');
+      openQuests('active');
+    }
+  }
+  function nextTarget(q) {
+    if (!isAccepted(q))
+      return {
+        scene: Object.keys(D.scenes).find((id) => D.scenes[id].npc.includes(q.giverId)),
+        npc: q.giverId,
+        label: 'Gặp ' + q.giver,
+      };
+    for (let i = 0; i < q.steps.length; i++) {
+      const [event, n, label] = q.steps[i];
+      if (obj(q, event).count >= n) continue;
+      const target = { ...q.guidance[i], label };
+      if (target.spots)
+        target.spot = target.spots.find((id) => !(st.achievements[event] || []).includes(id));
+      return target;
+    }
+    return null;
+  }
+  function targetLabel(q) {
+    const t = nextTarget(q);
+    return t ? `${t.label} · ${D.scenes[t.scene].name}` : 'Đủ điều kiện nhận quà';
+  }
+  function refreshMarkers() {
+    document.querySelectorAll('[data-npc]').forEach((el) => {
+      const id = el.dataset.npc;
+      const quests = D.quests.filter((q) => q.giverId === id);
+      const badge = el.querySelector('.actor-badge');
+      const ready = quests.some((q) => R.status(st, q) === 'ready'),
+        available = quests.some((q) => R.status(st, q) === 'available');
+      badge.textContent = ready
+        ? '🎁'
+        : available
+          ? '!'
+          : quests.some((q) => R.status(st, q) === 'active')
+            ? '…'
+            : '';
+      badge.hidden = !badge.textContent;
+    });
+    document.querySelectorAll('[data-spot]').forEach((el) => {
+      const id = el.dataset.spot;
+      el.classList.toggle(
+        'done',
+        st.watered.includes(id) || st.decorated.includes(id) || (id === 'book' && st.bookReturned),
+      );
+    });
+  }
+  async function guideQuest(id) {
+    const q = D.quests.find((q) => q.id === id);
+    if (!q) return;
+    if (R.status(st, q) === 'locked') {
+      toast('Hãy hoàn thành nhiệm vụ trước đó.');
+      return;
+    }
+    const target = nextTarget(q);
+    if (!target) {
+      openQuests('active');
+      return;
+    }
+    await mutate(() => {
+      st.tracked = id;
+    });
+    closeModal();
+    if (st.scene !== target.scene && !(await travel(target.scene))) return;
+    if (target.npc) {
+      await visitNPC(target.npc);
+    } else if (target.spot) {
+      const spot = D.scenes[st.scene].spots.find((s) => s[0] === target.spot);
+      if (spot) await approach(spot);
+    } else toast(target.label);
+  }
+  function renderHud() {
+    $('hudName').textContent = st.username || 'Khách mới';
+    $('hudCoins').textContent = fmt(st.coins);
+    $('hudFace').innerHTML = A.avatar(dressed());
+    $('sceneName').textContent = D.scenes[st.scene].name;
+    $('sceneSubtitle').textContent = D.scenes[st.scene].sub;
+    const q =
+      D.quests.find((q) => q.id === st.tracked && !isClaimed(q)) ||
+      D.quests.find((q) => isAccepted(q) && !isClaimed(q)) ||
+      D.quests.find((q) => canAccept(q) && !isClaimed(q));
+    $('trackerTitle').textContent = q ? q.name : 'Đã hoàn tất nhiệm vụ';
+    const p = q ? progressOf(q) : null;
+    $('trackerProgress').textContent = p
+      ? `${p.cur}/${p.total} · ${p.done ? 'Có quà để nhận' : targetLabel(q)}`
+      : 'Khám phá các khu vực';
+    $('questDot').classList.toggle(
+      'active',
+      D.quests.some((q) => isAccepted(q) && !isClaimed(q) && progressOf(q).done),
+    );
+  }
+  function actorPoint(npcId, scene) {
+    return D.scenes[scene].npcPoints[npcId];
+  }
+  function renderScene() {
+    const sc = D.scenes[st.scene];
+    $('scenery').innerHTML = A.scene(st.scene);
+    $('actors').replaceChildren();
+    for (const id of sc.npc) {
+      const npc = D.npcs[id],
+        pos = actorPoint(id, st.scene),
+        b = document.createElement('button');
+      b.className = 'actor';
+      b.dataset.npc = id;
+      b.style.left = pos[0] + '%';
+      b.style.top = pos[1] + '%';
+      b.style.zIndex = Math.round(pos[1]);
+      b.style.transform = `translate(-50%,-100%) scale(${(0.6 + pos[1] * 0.0054).toFixed(3)})`;
+      b.setAttribute('aria-label', 'Trò chuyện với ' + npc.name);
+      b.innerHTML = `${A.avatar(npcDressed(id))}<span class="actor-name">${A.esc(npc.name)}</span><span class="actor-badge" hidden></span>`;
+      b.onclick = (e) => {
+        e.stopPropagation();
+        visitNPC(id);
+      };
+      $('actors').append(b);
+    }
+    for (const spot of sc.spots) {
+      const [id, icon, label, x, y] = spot,
+        b = document.createElement('button');
+      b.className = 'hotspot';
+      b.dataset.spot = id;
+      b.style.left = x + '%';
+      b.style.top = y + '%';
+      b.style.zIndex = Math.round(y);
+      b.setAttribute('aria-label', label);
+      b.innerHTML = `${icon}<small>${A.esc(label)}</small>`;
+      b.onclick = (e) => {
+        e.stopPropagation();
+        approach(spot);
+      };
+      $('actors').append(b);
+    }
+    $('hint').textContent = 'Chạm NPC hoặc điểm tương tác • Sổ nhiệm vụ có nút Đến mục tiêu';
+    refreshMarkers();
+    showPlayer();
+    renderDecorations();
+  }
+  function renderDecorations() {
+    let el = $('worldDecor');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'worldDecor';
+      $('stage').append(el);
+    }
+    el.innerHTML =
+      st.scene === 'christmas'
+        ? st.decorated
+            .map((id) => {
+              const sp = D.scenes.christmas.spots.find((s) => s[0] === id);
+              return `<span style="left:${sp[3]}%;top:${sp[4]}%">${sp[1]} ✓</span>`;
+            })
+            .join('')
+        : st.scene === 'garden'
+          ? st.watered
+              .map((id) => {
+                const sp = D.scenes.garden.spots.find((s) => s[0] === id);
+                return `<span style="left:${sp[3]}%;top:${sp[4]}%">🌸</span>`;
+              })
+              .join('')
+          : '';
+  }
+  function showPlayer() {
+    const el = $('worldPlayer');
+    el.style.left = st.x + '%';
+    el.style.top = st.y + '%';
+    el.style.zIndex = Math.round(st.y);
+    el.style.transform = `translate(-50%,-100%) scale(${(0.6 + st.y * 0.0054).toFixed(3)})`;
+    el.innerHTML =
+      A.avatar(dressed()) + `<span class="name">${A.esc(st.username || 'Người chơi')}</span>`;
+    el.classList.toggle('sitting', !!st.seated);
+  }
+  function cameraTo(x) {
+    if (innerWidth < 900) {
+      const v = $('viewport'),
+        stage = $('stage');
+      v.scrollLeft = Math.max(
+        0,
+        Math.min(
+          stage.clientWidth - v.clientWidth,
+          (stage.clientWidth * x) / 100 - v.clientWidth * 0.48,
+        ),
+      );
+    }
+  }
+  async function moveTo(x, y, cb) {
+    if (activityBusy || activityStarting) return false;
+    if (!st.username) {
+      onboard();
+      return false;
+    }
+    const scene = st.scene,
+      sc = D.scenes[scene],
+      token = ++movement,
+      path = N.route(sc, [st.x, st.y], [x, y]);
+    if (!path.length) {
+      toast('Không có lối đi đến đây.');
+      return false;
+    }
+    const actor = $('worldPlayer');
+    moving = true;
+    actor.classList.remove('sitting');
+    actor.classList.add('walking');
+    for (const point of path) {
+      if (token !== movement || st.scene !== scene) return false;
+      actor.style.left = point[0] + '%';
+      actor.style.top = point[1] + '%';
+      actor.style.zIndex = Math.round(point[1]);
+      cameraTo(point[0]);
+      await new Promise((resolve) => setTimeout(resolve, st.lowMotion ? 15 : 160));
+    }
+    if (token !== movement || st.scene !== scene) return false;
+    moving = false;
+    actor.classList.remove('walking');
+    const committed = await mutate(() => {
+      if (token !== movement || st.scene !== scene || st.activeAction) return false;
+      st.x = path.at(-1)[0];
+      st.y = path.at(-1)[1];
+      st.seated = false;
+      st.seatId = null;
+      return true;
+    });
+    if (!committed) return false;
+    showPlayer();
+    if (token === movement && st.scene === scene) await cb?.();
+    return true;
+  }
+  async function approach(spot) {
+    const anchor = D.scenes[st.scene].anchors[spot[0]] || [spot[3], spot[4]];
+    return moveTo(...anchor, () => act(spot));
+  }
+  async function travel(target) {
+    if (activityBusy || activityStarting) {
+      toast('Hãy đợi hoàn tất hành động.');
+      return false;
+    }
+    if (!D.scenes[target]) return false;
+    movement++;
+    moving = false;
+    const ok = await mutate(() => {
+      if (st.activeAction) return false;
+      st.scene = target;
+      st.seated = false;
+      st.seatId = null;
+      const p = N.nearest(D.scenes[target], D.scenes[target].entry);
+      [st.x, st.y] = p;
+      if (target === 'nave') record('enter_nave', 'nave');
+      return true;
+    });
+    if (!ok) return false;
+    renderScene();
+    cameraTo(st.x);
+    toast('📍 ' + D.scenes[target].name);
+    return true;
+  }
+  async function visitNPC(id) {
+    const pos = actorPoint(id, st.scene);
+    return moveTo(pos[0] + 5, pos[1] + 3, () => talk(id));
+  }
+  async function talk(id) {
+    if (!D.scenes[st.scene].npc.includes(id)) return;
+    await mutate(() => record(D.npcs[id].event, 'npc:' + id));
+    const n = D.npcs[id],
+      related = D.quests.filter((q) => q.giverId === id),
+      buttons = [['Tiếp tục', closeModal, 'secondary']];
+    let line = n.line;
+    if (id === 'anna' && st.bookReturned)
+      line = 'Cảm ơn cháu đã trả sách! Nếu muốn, cháu có thể giúp bác Phêrô chăm ba luống hoa.';
+    else if (id === 'anna' && st.book)
+      line = 'Cháu đã tìm thấy sách rồi! Cảm ơn cháu, hãy trao lại cho bà nhé.';
+    else if (related.length && related.every(isClaimed))
+      line =
+        'Cảm ơn bạn đã hoàn thành mọi việc cùng mình! Mở sổ nhiệm vụ để tìm những người còn cần giúp nhé.';
+    if (id === 'anna' && st.book)
+      buttons.unshift([
+        'Trả cuốn sách',
+        async () => {
+          await mutate(() => {
+            if (!st.book) return;
+            st.book = false;
+            st.bookReturned = true;
+            record('pickup_book', 'book');
+            record('return_book', 'anna');
+            log('Đã trả sách cho bà Anna');
+          });
+          await talk(id);
+          toast('📚 Đã trả sách cho bà Anna!');
+        },
+        'primary',
+      ]);
+    if (id === 'shopkeeper') buttons.unshift(['Mở Shop', () => openShop(), 'primary']);
+    if (id === 'guard') buttons.unshift(['Xem bản đồ', openMap, 'primary']);
+    const rows = related
+      .map((q) => {
+        const status = R.status(st, q),
+          p = progressOf(q);
+        return `<div class="npc-quest"><b>${A.esc(q.name)}</b><p>${A.esc(isAccepted(q) && !isClaimed(q) ? targetLabel(q) : q.desc)}</p><small>${status === 'claimed' ? '✓ Đã nhận quà' : status === 'locked' ? 'Cần hoàn thành: ' + q.requires.map((id) => D.quests.find((q) => q.id === id).name).join(', ') : `${p.cur}/${p.total} · +${q.rewardCoins} Xu`}</small>${status === 'available' ? `<button class="btn small" data-npc-accept="${q.id}">Nhận nhiệm vụ</button>` : status === 'ready' ? `<button class="btn small" data-npc-claim="${q.id}">Nhận quà</button>` : status === 'active' ? `<button class="btn small secondary" data-guide="${q.id}">Đến mục tiêu</button>` : ''}</div>`;
+      })
+      .join('');
+    openWindow(
+      n.name,
+      n.role,
+      `<div class="npc-dialogue"><div class="npc-portrait">${A.avatar(npcDressed(id))}</div><div><div class="dialogue-name">${A.esc(n.role)}</div><p class="dialogue-text">${A.esc(line)}</p></div></div>${rows}`,
+      buttons,
+    );
+    document
+      .querySelectorAll('[data-npc-accept]')
+      .forEach((b) => (b.onclick = () => acceptQuest(b.dataset.npcAccept)));
+    document
+      .querySelectorAll('[data-npc-claim]')
+      .forEach((b) => (b.onclick = () => claimQuest(b.dataset.npcClaim)));
+    bindGuides();
+  }
+  function bindGuides() {
+    document
+      .querySelectorAll('[data-guide]')
+      .forEach((b) => (b.onclick = () => guideQuest(b.dataset.guide)));
+  }
+  const info = {
+    altar: [
+      'Bàn thờ trong Thánh lễ',
+      'Bàn thờ là trung tâm cử hành Thánh lễ. Trong game, đây là điểm tìm hiểu kiến thức; người chơi không đi vào cung thánh tự do.',
+    ],
+    schedule: [
+      'Bảng giờ lễ (hư cấu)',
+      'Chủ nhật: 07:00 và 17:30. Ngày thường: 06:00. Đây chỉ là lịch minh họa trong trò chơi, không phải giờ lễ thực tế.',
+    ],
+  };
+  async function act(spot) {
+    const [id, , , x, y, kind, arg] = spot;
+    switch (kind) {
+      case 'go':
+        await travel(arg);
+        break;
+      case 'repeat':
+        openActivity(arg);
+        break;
+      case 'activity_hub':
+        openActivities('here');
+        break;
+      case 'seat':
+        openWindow(
+          'Chọn chỗ ngồi',
+          'Ghế trong bản chơi một người',
+          `<p>Chọn một vị trí trên hàng ghế.</p><div class="choices">${[0, 1, 2].map((i) => `<button class="choice" data-seat="${i}">Chỗ ${i + 1}</button>`).join('')}</div>`,
+          [['Đứng dậy', closeModal, 'secondary']],
+        );
+        document.querySelectorAll('[data-seat]').forEach(
+          (b) =>
+            (b.onclick = async () => {
+              await mutate(() => {
+                st.seated = true;
+                st.seatId = id + ':' + b.dataset.seat;
+                st.x = x + (Number(b.dataset.seat) - 1) * 3;
+                st.y = y;
+                record('sit_pew', st.seatId);
+              });
+              closeModal();
+              showPlayer();
+              toast('🪑 Đã ngồi. Chạm lối đi để đứng dậy.');
+            }),
+        );
+        break;
+      case 'info':
+        openWindow(info[arg][0], 'Tìm hiểu nhà thờ', `<p>${A.esc(info[arg][1])}</p>`, [
+          ['Đã hiểu', closeModal, 'primary'],
+        ]);
+        break;
+      case 'learn':
+        await mutate(() => record(arg === 'baptism' ? 'learn_baptism' : 'learn_confession', arg));
+        if (arg === 'baptism')
+          openWindow(
+            'Tìm hiểu Rửa Tội',
+            'Bài học giáo lý',
+            '<p>Bí tích Rửa Tội là nghi thức khai tâm Kitô giáo; theo đức tin Công giáo, một người chỉ lãnh nhận bí tích này một lần.</p><p class="muted">Đây là bài học, không cử hành Rửa Tội thật.</p>',
+            [
+              ['Làm câu hỏi', () => quiz('baptism'), 'primary'],
+              ['Đóng', closeModal, 'secondary'],
+            ],
+          );
+        else
+          openWindow(
+            'Tìm hiểu Hòa Giải',
+            'Bài học giáo lý',
+            '<p>Bí tích Hòa Giải gắn với ăn năn, xưng tội, đón nhận ơn tha thứ và quyết tâm sửa đổi.</p><p class="muted">Trò chơi không hỏi hay lưu lời xưng tội và không giả lập ban ơn xá giải.</p>',
+            [['Đã hiểu', closeModal, 'primary']],
+          );
+        break;
+      case 'quiz':
+        quiz(arg);
+        break;
+      case 'book':
+        await mutate(() => {
+          if (st.bookReturned) {
+            toast('Cuốn sách đã được trả lại bà Anna.');
+            return;
+          }
+          st.book = true;
+          record('pickup_book', 'book');
+          toast('📗 Đã nhặt sách! Đến vườn tìm bà Anna.');
+        });
+        refreshMarkers();
+        break;
+      case 'water':
+      case 'decorate': {
+        const list = kind === 'water' ? 'watered' : 'decorated';
+        await mutate(() => {
+          if (st[list].includes(id)) {
+            toast('Điểm này đã hoàn thành. Hãy chọn điểm khác.');
+            return;
+          }
+          st[list].push(id);
+          record(kind === 'water' ? 'water_flower' : 'decorate', id);
+          toast(kind === 'water' ? '💧 Đã tưới một luống hoa!' : '⭐ Đã thêm một món trang trí!');
+        });
+        renderDecorations();
+        break;
+      }
+      case 'pack':
+        giftGame();
+        break;
+      case 'rhythm':
+        rhythmGame();
+        break;
+      case 'shop':
+        openShop();
+        break;
+    }
+  }
+  function quiz(type) {
+    const q = D.quizzes[type];
+    openWindow(
+      q.title,
+      'Học mà chơi',
+      `<p><b>${A.esc(q.question)}</b></p><div class="choices">${q.choices.map((c, i) => `<button class="choice" data-answer="${i}">${A.esc(c)}</button>`).join('')}</div><p class="helper">Có thể thử lại nếu chọn nhầm.</p>`,
+      [['Để sau', closeModal, 'secondary']],
+    );
+    document.querySelectorAll('[data-answer]').forEach(
+      (b) =>
+        (b.onclick = async () => {
+          if (+b.dataset.answer !== q.correct) {
+            toast('Chưa đúng, hãy thử lại.');
+            return;
+          }
+          await mutate(() => record(q.event, type));
+          closeModal();
+          toast('🌟 Chính xác! Tiến độ đã được lưu.');
+        }),
+    );
+  }
+  function giftGame() {
+    openWindow(
+      'Gói hộp quà sẻ chia',
+      'Chọn ba món khác nhau',
+      `<p>${st.giftDone ? '🎁 Hộp quà đã sẵn sàng!' : 'Tiến độ được giữ khi đóng cửa sổ hoặc tải lại.'}</p><div class="choices">${D.giftItems.map((name, i) => `<button class="choice" data-gift="${i}" ${st.giftDone || st.giftItems.includes(i) ? 'disabled' : ''}>${st.giftDone || st.giftItems.includes(i) ? '✅ ' : ''}${A.esc(name)}</button>`).join('')}</div><p>Đã chuẩn bị ${st.giftDone ? 3 : st.giftItems.length}/3 món</p>`,
+      [['Đóng', closeModal, 'secondary']],
+    );
+    document.querySelectorAll('[data-gift]').forEach(
+      (b) =>
+        (b.onclick = async () => {
+          await mutate(() => {
+            const i = +b.dataset.gift;
+            if (!st.giftItems.includes(i)) st.giftItems.push(i);
+            if (st.giftItems.length === 3) {
+              st.giftDone = true;
+              record('complete_gift', 'gift');
+            }
+          });
+          giftGame();
+          if (st.giftDone) toast('🎁 Hộp quà hoàn tất!');
+        }),
+    );
+  }
+  function rhythmGame() {
+    let index = 0;
+    const sequence = D.rhythmSequence;
+    const paint = () => {
+      openWindow(
+        'Nhịp chuông vui',
+        'Nhớ và chạm theo đúng thứ tự',
+        `<p>Thứ tự: <b>${sequence.join(' → ')}</b></p><div class="progress-rail"><i style="width:${(index / sequence.length) * 100}%"></i></div><p>${index}/${sequence.length} nhịp đúng</p><div class="choices rhythm-keys">${sequence.map((s, i) => `<button class="choice" data-rhythm="${i}">${s}</button>`).join('')}</div>`,
+        [['Rời trò chơi', closeModal, 'secondary']],
+      );
+      document.querySelectorAll('[data-rhythm]').forEach(
+        (b) =>
+          (b.onclick = async () => {
+            if (+b.dataset.rhythm !== index) {
+              index = 0;
+              paint();
+              toast('Lệch nhịp! Thử lại từ đầu.');
+              return;
+            }
+            index++;
+            if (index === sequence.length) {
+              await mutate(() => record('complete_rhythm', 'rhythm'));
+              closeModal();
+              toast('🎵 Hoàn thành bài nhịp!');
+            } else paint();
+          }),
+      );
+    };
+    paint();
+  }
+  function openWindow(title, subtitle, body, buttons = [], wide = false) {
+    movement++;
+    moving = false;
+    $('worldPlayer').classList.remove('walking');
+    const m = $('modalMount');
+    if (!m.childNodes.length) returnFocus = document.activeElement;
+    document
+      .querySelectorAll('#game > :not(#modalMount):not(#toastMount)')
+      .forEach((el) => (el.inert = true));
+    m.innerHTML = `<div class="scrim"><section class="window ${wide ? 'wide' : ''}" role="dialog" aria-modal="true" aria-label="${A.esc(title)}"><header class="window-head"><div><h2>${A.esc(title)}</h2>${subtitle ? `<small>${A.esc(subtitle)}</small>` : ''}</div><button class="close" aria-label="Đóng">×</button></header><div class="window-body">${body}</div><footer class="window-foot"></footer></section></div>`;
+    m.querySelector('.close').onclick = closeModal;
+    m.querySelector('.scrim').onclick = (e) => {
+      if (e.target.classList.contains('scrim') && st.username) closeModal();
+    };
+    const ft = m.querySelector('.window-foot');
+    for (const [name, fn, type] of buttons) {
+      const b = document.createElement('button');
+      b.className = 'btn' + (type === 'secondary' ? ' secondary' : '');
+      b.textContent = name;
+      b.onclick = fn;
+      ft.append(b);
+    }
+    if (!buttons.length) ft.remove();
+    queueMicrotask(() => m.querySelector('input,button')?.focus());
+  }
+  function closeModal() {
+    $('modalMount').replaceChildren();
+    previewEquipment = null;
+    document.querySelectorAll('#game > [inert]').forEach((el) => (el.inert = false));
+    if (returnFocus?.isConnected) returnFocus.focus();
+    returnFocus = null;
+  }
+  function openMap() {
+    const cards = Object.entries(D.scenes)
+      .map(
+        ([id, s]) =>
+          `<button class="map-tile ${st.scene === id ? 'active' : ''}" data-travel="${id}"><span>${s.icon}</span><strong>${A.esc(s.name)}</strong><small>${st.scene === id ? 'Đang ở đây' : 'Chạm để di chuyển'}</small></button>`,
+      )
+      .join('');
+    openWindow(
+      'Bản đồ giáo xứ',
+      'Ẩn khi không sử dụng',
+      `<p class="muted">Mỗi khu vực có NPC và hoạt động riêng. Chọn một địa điểm để chuyển cảnh.</p><div class="map-grid">${cards}</div>`,
+      [['Đóng', closeModal, 'secondary']],
+      true,
+    );
+    document.querySelectorAll('[data-travel]').forEach(
+      (b) =>
+        (b.onclick = () => {
+          closeModal();
+          travel(b.dataset.travel);
+        }),
+    );
+  }
+  function openQuests(filter = 'active') {
+    activeTab = filter;
+    const tabs = [
+      ['active', 'Đang làm'],
+      ['all', 'Có thể nhận'],
+      ['done', 'Đã nhận quà'],
+    ];
+    const quests = D.quests.filter((q) =>
+      filter === 'active'
+        ? ['active', 'ready'].includes(R.status(st, q))
+        : filter === 'all'
+          ? ['available', 'locked'].includes(R.status(st, q))
+          : isClaimed(q),
+    );
+    const body =
+      `<p class="muted">Đã hoàn thành ${st.claimed.length}/${D.quests.length} nhiệm vụ. Hoạt động khám phá trước khi nhận nhiệm vụ vẫn được ghi nhận.</p><div class="pilltabs">${tabs.map(([id, n]) => `<button data-quest-tab="${id}" class="${id === filter ? 'active' : ''}">${n}</button>`).join('')}</div>` +
+      quests
+        .map((q) => {
+          const p = progressOf(q),
+            status = R.status(st, q);
+          return `<div class="quest-row"><div><h3>${A.esc(q.name)}</h3><p>${A.esc(q.desc)}</p><div class="step">${q.steps.map(([event, n, title]) => `${A.esc(title)} (${Math.min(n, obj(q, event).count)}/${n})`).join(' · ')}</div><p class="quest-destination">${status === 'locked' ? 'Cần hoàn thành: ' + q.requires.map((id) => D.quests.find((q) => q.id === id).name).join(', ') : status === 'claimed' ? '✓ Đã nhận quà' : A.esc(targetLabel(q))}</p><div class="reward">+${q.rewardCoins} Xu</div></div><div class="quest-buttons"><button class="btn small" data-quest-action="${q.id}" ${['locked', 'claimed'].includes(status) ? 'disabled' : ''}>${{ locked: 'Chưa mở', claimed: 'Đã hoàn thành', available: 'Nhận nhiệm vụ', active: 'Theo dõi', ready: 'Nhận quà' }[status]}</button>${['available', 'active'].includes(status) ? `<button class="btn small secondary" data-guide="${q.id}">Đến mục tiêu</button>` : ''}</div></div>`;
+        })
+        .join('') +
+      (quests.length
+        ? ''
+        : `<p class="empty">${st.claimed.length === D.quests.length ? '🎉 Bạn đã hoàn thành tất cả nhiệm vụ! Tiếp tục gặp bạn bè, làm hoạt động và phối trang phục.' : 'Không còn nhiệm vụ trong nhóm này. Mở Có thể nhận để tiếp tục khám phá.'}</p>`);
+    openWindow(
+      'Sổ nhiệm vụ',
+      'Làm việc nhỏ, khám phá và nhận Xu',
+      body,
+      [['Đóng', closeModal, 'secondary']],
+      true,
+    );
+    document
+      .querySelectorAll('[data-quest-tab]')
+      .forEach((b) => (b.onclick = () => openQuests(b.dataset.questTab)));
+    document.querySelectorAll('[data-quest-action]').forEach(
+      (b) =>
+        (b.onclick = async () => {
+          const q = D.quests.find((q) => q.id === b.dataset.questAction),
+            status = R.status(st, q);
+          if (status === 'available') return acceptQuest(q.id);
+          if (status === 'ready') return claimQuest(q.id);
+          if (status !== 'active') {
+            openQuests(activeTab);
+            return;
+          }
+          await mutate(() => {
+            st.tracked = q.id;
+          });
+          closeModal();
+          toast(targetLabel(q));
+        }),
+    );
+    bindGuides();
+  }
+  const slotTitles = { top: 'Áo', bottom: 'Quần/Váy', shoes: 'Giày', hair: 'Tóc', acc: 'Phụ kiện' };
+  function shopCards(slot, onlyOwned = false) {
+    return D.items
+      .filter((i) => i.slot === slot && (!onlyOwned || st.inventory.includes(i.id)))
+      .map((i) => {
+        const owned = st.inventory.includes(i.id),
+          equip = st.equipped[i.slot] === i.id;
+        return `<div class="item-card ${equip ? 'equipped' : ''}"><span class="item-visual">${i.icon}</span><strong>${A.esc(i.name)}</strong><small>${i.price ? '🪙 ' + fmt(i.price) + ' Xu' : 'Miễn phí'}</small>${!onlyOwned ? `<button class="btn small secondary" data-preview="${i.id}">Thử</button>` : ''}<button class="btn small" data-item="${i.id}" ${equip ? 'disabled' : ''}>${equip ? 'Đang mặc' : owned ? 'Mặc' : 'Mua'}</button></div>`;
+      })
+      .join('');
+  }
+  function openShop(slot = shopSlot) {
+    shopSlot = slot;
+    previewEquipment ??= { ...st.equipped };
+    const tabs = Object.entries(slotTitles)
+      .map(
+        ([id, name]) =>
+          `<button class="${id === slot ? 'active' : ''}" data-slot="${id}">${name}</button>`,
+      )
+      .join('');
+    openWindow(
+      'Shop trang phục',
+      `🪙 ${fmt(st.coins)} Xu · thử đồ miễn phí`,
+      `<div class="outfit-layout"><div><div class="avatar-stage" id="shopPreview">${A.avatar(dressed(previewEquipment))}</div><p class="equip-label" id="previewLabel">Bản xem thử · chưa thay trang phục</p></div><div><div class="pilltabs">${tabs}</div><div class="items-grid">${shopCards(slot)}</div></div></div><p class="helper">Thử không trừ Xu. Chỉ mua khi xác nhận; đóng Shop để bỏ bản thử. Trang phục thường ngày và lễ hội.</p>`,
+      [['Đóng', closeModal, 'secondary']],
+      true,
+    );
+    document
+      .querySelectorAll('[data-slot]')
+      .forEach((b) => (b.onclick = () => openShop(b.dataset.slot)));
+    document.querySelectorAll('[data-preview]').forEach(
+      (b) =>
+        (b.onclick = () => {
+          const i = item(b.dataset.preview);
+          previewEquipment[i.slot] = i.id;
+          $('shopPreview').innerHTML = A.avatar(dressed(previewEquipment));
+          $('previewLabel').textContent = 'Đang thử: ' + i.name + ' · chưa mua';
+        }),
+    );
+    document.querySelectorAll('[data-item]').forEach(
+      (b) =>
+        (b.onclick = () => {
+          const i = item(b.dataset.item);
+          if (st.inventory.includes(i.id)) return buyOrEquip(i.id, () => openShop(shopSlot));
+          openWindow(
+            'Xác nhận mua',
+            i.name,
+            `<p>Mua <b>${A.esc(i.name)}</b> với <b>${fmt(i.price)} Xu</b>?</p><p>Đồ sẽ được lưu vào túi và mặc ngay.</p>`,
+            [
+              ['Mua và mặc', () => buyOrEquip(i.id, () => openShop(shopSlot)), 'primary'],
+              ['Quay lại', () => openShop(shopSlot), 'secondary'],
+            ],
+          );
+        }),
+    );
+  }
+  async function buyOrEquip(id, rerender) {
+    const result = await mutate(() => R.purchase(st, D, id));
+    if (result === 'insufficient') {
+      toast('Chưa đủ Xu. Hãy làm nhiệm vụ hoặc các hành động nhỏ!');
+      openShop(shopSlot);
+      return;
+    }
+    if (result !== 'ok') return;
+    previewEquipment = { ...st.equipped };
+    showPlayer();
+    rerender?.();
+  }
+  function openBag(slot = 'top') {
+    const tabs = Object.entries(slotTitles)
+      .map(
+        ([id, n]) =>
+          `<button class="${id === slot ? 'active' : ''}" data-bag-tab="${id}">${n}</button>`,
+      )
+      .join('');
+    openWindow(
+      'Túi đồ',
+      'Chỉ hiển thị những món đã sở hữu',
+      `<div class="pilltabs">${tabs}</div><div class="items-grid">${shopCards(slot, true)}</div><p class="muted">Bạn có ${st.inventory.length} món đồ. Nhấn Mặc để cập nhật ngay trang phục nhân vật trên bản đồ.</p>`,
+      [['Đóng', closeModal, 'secondary']],
+      true,
+    );
+    document
+      .querySelectorAll('[data-bag-tab]')
+      .forEach((b) => (b.onclick = () => openBag(b.dataset.bagTab)));
+    document
+      .querySelectorAll('[data-item]')
+      .forEach((b) => (b.onclick = () => buyOrEquip(b.dataset.item, () => openBag(slot))));
+  }
+  function openAvatar() {
+    openWindow(
+      'Nhân vật',
+      'Chọn giới tính nhân vật và phối đồ',
+      `<div class="outfit-layout"><div class="avatar-stage">${A.avatar(dressed())}</div><div><p><b>${A.esc(st.username)}</b> · Cư dân giáo xứ</p><p class="muted">Avatar được vẽ bằng các lớp: đầu, tóc, thân, tay, chân, áo, quần/váy và phụ kiện.</p><div class="gender-select"><button class="btn ${st.gender === 'male' ? '' : 'secondary'}" data-gender="male">👦 Nam</button><button class="btn ${st.gender === 'female' ? '' : 'secondary'}" data-gender="female">👧 Nữ</button></div><div class="pilltabs"><button class="active" data-color="#f7cfac">Da sáng</button><button data-color="#d9a77f">Da ấm</button><button data-color="#ae7658">Da nâu</button></div><button class="btn block" data-open="bag">🎒 Chọn trang phục đã mua</button></div></div>`,
+      [['Xong', closeModal, 'primary']],
+      true,
+    );
+    document.querySelectorAll('[data-gender]').forEach(
+      (b) =>
+        (b.onclick = async () => {
+          await mutate(() => {
+            st.gender = b.dataset.gender;
+          });
+          showPlayer();
+          openAvatar();
+        }),
+    );
+    document.querySelectorAll('[data-color]').forEach(
+      (b) =>
+        (b.onclick = async () => {
+          await mutate(() => {
+            st.skin = b.dataset.color;
+          });
+          showPlayer();
+          openAvatar();
+        }),
+    );
+    document.querySelectorAll('.window [data-open]').forEach((b) => (b.onclick = () => openBag()));
+  }
+  function openEvents() {
+    const q = D.quests.find((q) => q.id === 'q_noel');
+    openWindow(
+      'Sự kiện Giáng sinh',
+      'Lễ hội trong thế giới hư cấu của game',
+      `<div class="event-art"><strong>⭐ Đêm ánh sáng An Hòa</strong><p>Giúp mọi người hoàn thiện khu vực hang đá và cây thông, không cần cày điểm vô hạn.</p></div><div class="card" style="margin-top:12px"><h3>🎄 Nhiệm vụ: ${q.name}</h3><p>${q.desc}</p><div class="reward">${q.rewardCoins} Xu</div><button class="btn" data-noel>Đến quảng trường</button></div><p class="helper">Sự kiện này có thể chơi thử ngay trong bản offline. Phiên bản online có thể thêm lịch theo mùa, nhưng không dùng ngày ngoài đời làm điều kiện bắt buộc.</p>`,
+      [['Đóng', closeModal, 'secondary']],
+    );
+    document.querySelector('[data-noel]').onclick = () => {
+      closeModal();
+      travel('christmas');
+    };
+  }
+  function openMenu() {
+    openWindow(
+      'Cài đặt & thông tin',
+      'Tối ưu máy yếu, lưu tiến độ',
+      `<p><b>Điều khiển:</b> chạm NPC để nói chuyện; chạm điểm sáng để hành động; chạm nền để nhân vật đi tới. Trên điện thoại dọc, vuốt ngang để ngắm toàn bộ bản đồ.</p><label class="theme-checkbox"><input type="checkbox" id="reduceMotion" ${st.lowMotion ? 'checked' : ''}> Chế độ tiết kiệm hiệu ứng</label><p class="helper">Đồ họa SVG 2D tĩnh và animation CSS nhẹ. Bản demo offline lưu bằng localStorage; chưa có đăng nhập máy chủ hay đồng bộ giữa thiết bị.</p><div class="choices"><button class="choice" id="goDonation">💝 Hòm ủng hộ & bảng tri ân</button><button class="choice" id="goActivities">🙌 Xem các hoạt động</button><button class="choice" id="goWardrobe">🎒 Túi đồ đã mua</button><button class="choice" id="goEvents">🎄 Trang trí Giáng sinh</button><button class="choice" id="goFoyer">🚪 Đến tiền sảnh nhà thờ</button><button class="choice" id="goShopRoom">🛍️ Tham quan gian trang phục</button><button class="choice" id="resetGame" style="color:#a6454a">🗑️ Xóa dữ liệu chơi thử và tạo lại nhân vật</button></div>`,
+      [['Đóng', closeModal, 'secondary']],
+    );
+    $('goDonation').onclick = () => openDonations();
+    $('goActivities').onclick = () => openActivities();
+    $('goWardrobe').onclick = () => openBag();
+    $('goEvents').onclick = () => openEvents();
+    $('reduceMotion').onchange = async (e) => {
+      const checked = e.target.checked;
+      await mutate(() => {
+        st.lowMotion = checked;
+      });
+      document.body.classList.toggle('low-motion', st.lowMotion);
+    };
+    $('goFoyer').onclick = () => {
+      closeModal();
+      travel('foyer');
+    };
+    $('goShopRoom').onclick = () => {
+      closeModal();
+      travel('shoproom');
+    };
+    $('resetGame').onclick = async () => {
+      if (confirm('Xóa toàn bộ tiến độ trong trình duyệt này?')) {
+        movement++;
+        clearTimeout(completionTimer);
+        await mutate(() => {
+          st = initial();
+        });
+        closeModal();
+        renderScene();
+        onboard();
+      }
+    };
+  }
+  function open(name) {
+    if (!st.username) return onboard();
+    switch (name) {
+      case 'map':
+        openMap();
+        break;
+      case 'actions':
+        openActivities();
+        break;
+      case 'donations':
+        openDonations();
+        break;
+      case 'quests':
+        openQuests('active');
+        break;
+      case 'avatar':
+        openAvatar();
+        break;
+      case 'shop':
+        openShop();
+        break;
+      case 'bag':
+        openBag();
+        break;
+      case 'events':
+        openEvents();
+        break;
+      case 'menu':
+        openMenu();
+        break;
+    }
+  }
+  function onboard() {
+    let gender = st.gender,
+      name = '';
+    const paint = () => {
+      openWindow(
+        'Chào mừng đến Giáo Xứ An Hòa',
+        'Tạo nhân vật để bắt đầu hành trình',
+        `<div class="onboard"><div class="avatar-stage">${A.avatar({ ...dressed(), gender })}</div><div><p class="muted">Khám phá giáo xứ 2D, gặp NPC và giúp mọi người. Game hư cấu, không cử hành bí tích thật.</p><label class="field">Tên nhân vật<input id="inputName" maxlength="20" autocomplete="off" placeholder="Ví dụ: An Nhiên" value="${A.esc(name)}"></label><div class="gender-select"><button class="btn ${gender === 'male' ? '' : 'secondary'}" data-choose="male">👦 Nhân vật nam</button><button class="btn ${gender === 'female' ? '' : 'secondary'}" data-choose="female">👧 Nhân vật nữ</button></div></div></div>`,
+        [
+          [
+            'Bắt đầu chơi',
+            async () => {
+              const username = $('inputName')
+                .value.replace(/[\p{Cc}\p{Cf}<>]/gu, '')
+                .trim()
+                .slice(0, 20);
+              if (!username) {
+                toast('Hãy nhập tên hợp lệ!');
+                return;
+              }
+              const ok = await mutate(() => {
+                st.username = username;
+                st.gender = gender;
+                return true;
+              });
+              if (!ok) return;
+              closeModal();
+              renderScene();
+              toast('🌷 Chào ' + username + '! Hãy gặp Lucia ở sân.');
+            },
+            'primary',
+          ],
+        ],
+      );
+      document.querySelectorAll('[data-choose]').forEach(
+        (b) =>
+          (b.onclick = () => {
+            name = $('inputName').value;
+            gender = b.dataset.choose;
+            paint();
+          }),
+      );
+      $('modalMount').querySelector('.close').hidden = true;
+    };
+    paint();
+  }
+
+  // ======= CÁC HÀNH ĐỘNG LẶP LẠI (DEMO LOCAL; production phải xác thực trên server) =======
+  const cooldownFor = (id) => ACT.find((a) => a.id === id);
+  const remaining = (id) => Math.max(0, Number(st.cooldowns?.[id] || 0) - Date.now());
+  function formatRemaining(ms) {
+    const n = Math.ceil(ms / 1000),
+      m = Math.floor(n / 60),
+      s = n % 60;
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+  function renderCooldowns() {
+    document.querySelectorAll('[data-action-timer]').forEach((el) => {
+      const a = cooldownFor(el.dataset.actionTimer);
+      if (!a) return;
+      const rem = remaining(a.id);
+      el.textContent = rem ? formatRemaining(rem) : '+' + a.coins + ' Xu';
+      el.closest('.hotspot')?.classList.toggle('cooling', !!rem);
+    });
+    document.querySelectorAll('[data-activity-button]').forEach((b) => {
+      const a = cooldownFor(b.dataset.activityButton);
+      if (!a) return;
+      const rem = remaining(a.id);
+      b.textContent = activityStarting
+        ? 'Đang đi tới...'
+        : st.activeAction?.actionId === a.id
+          ? 'Đang thực hiện...'
+          : rem
+            ? '⏳ ' + formatRemaining(rem)
+            : 'Thực hiện +' + a.coins + ' Xu';
+      b.disabled = !!rem || activityBusy || activityStarting;
+    });
+  }
+  function openActivities(category = 'all') {
+    const tabs = [
+      ['here', 'Tại đây'],
+      ['all', 'Tất cả'],
+      ['cau_nguyen', 'Cầu nguyện'],
+      ['phuc_vu', 'Phục vụ'],
+      ['sinh_hoat', 'Sinh hoạt'],
+    ]
+      .map(
+        ([id, n]) =>
+          `<button data-act-category="${id}" class="${category === id ? 'active' : ''}">${n}</button>`,
+      )
+      .join('');
+    const rows = ACT.filter(
+      (a) =>
+        category === 'all' ||
+        (category === 'here' && a.scene === st.scene) ||
+        a.category === category,
+    )
+      .map(
+        (a) =>
+          `<div class="activity-row"><div class="activity-icon">${a.icon}</div><div class="activity-info"><b>${A.esc(a.name)}</b><small>${A.esc(D.scenes[a.scene].name)} · Hồi ${a.cooldown / 60} phút · +${a.coins} Xu</small></div><button class="btn small secondary" ${st.scene === a.scene ? `data-activity-button="${a.id}"` : `data-activity-open="${a.id}"`}>${st.scene === a.scene ? (remaining(a.id) ? '⏳ ' + formatRemaining(remaining(a.id)) : 'Thực hiện +' + a.coins + ' Xu') : 'Đến nơi'}</button></div>`,
+      )
+      .join('');
+    openWindow(
+      'Hành động',
+      'Công việc nhỏ, hoạt động ngắn; nút có thời gian hồi',
+      `<div class="pilltabs">${tabs}</div><div class="activity-rows">${rows}</div><p class="helper">Xu là điểm trò chơi, không đo công phúc và không thay thế việc cầu nguyện/Thánh lễ thật. Các hành động tôn kính mô phỏng đúng ngữ cảnh, không thực hiện trước bàn thờ như trò biểu diễn.</p>`,
+      [['Đóng', closeModal, 'secondary']],
+      true,
+    );
+    document
+      .querySelectorAll('[data-act-category]')
+      .forEach((b) => (b.onclick = () => openActivities(b.dataset.actCategory)));
+    document
+      .querySelectorAll('[data-activity-button]')
+      .forEach((b) => (b.onclick = () => runActivity(b.dataset.activityButton)));
+    renderCooldowns();
+    document.querySelectorAll('[data-activity-open]').forEach(
+      (b) =>
+        (b.onclick = () => {
+          let a = cooldownFor(b.dataset.activityOpen);
+          if (st.scene !== a.scene) {
+            closeModal();
+            travel(a.scene).then((ok) => {
+              if (ok) openActivity(a.id);
+            });
+          } else openActivity(a.id);
+        }),
+    );
+  }
+  function openActivity(id) {
+    const a = cooldownFor(id);
+    if (!a) return;
+    const rem = remaining(id);
+    openWindow(
+      a.name,
+      `Vị trí: ${D.scenes[a.scene].name}`,
+      `<div class="action-detail"><div class="action-big">${a.icon}</div><div><p>${A.esc(a.tip)}</p><p class="reward">🪙 +${a.coins} Xu · ⏱ Hồi ${a.cooldown / 60} phút</p><p class="muted">Sau khi hoàn tất, đồng hồ sẽ chạy ngay trong nút hành động tại đây và ngoài bản đồ.</p></div></div><button class="btn block" data-activity-button="${id}" ${rem ? 'disabled' : ''}>${rem ? '⏳ ' + formatRemaining(rem) : 'Thực hiện +' + a.coins + ' Xu'}</button>`,
+      [['Đóng', closeModal, 'secondary']],
+    );
+    document.querySelector('[data-activity-button]').onclick = () => runActivity(id);
+    renderCooldowns();
+  }
+  function playExecution() {
+    const execution = st.activeAction;
+    if (!execution) return;
+    const a = cooldownFor(execution.actionId);
+    if (!a) return;
+    activityBusy = true;
+    $('worldPlayer').classList.add('pose-' + a.pose);
+    let tool = $('actionTool');
+    if (!tool) {
+      tool = document.createElement('span');
+      tool.id = 'actionTool';
+      $('worldPlayer').append(tool);
+    }
+    tool.textContent = a.icon;
+    clearTimeout(completionTimer);
+    completionTimer = setTimeout(
+      () => finishExecution(execution.id),
+      Math.max(0, execution.completeAt - Date.now()),
+    );
+  }
+  async function finishExecution(id) {
+    const completed = await mutate(() => {
+      const a = R.complete(st, ACT, id, Date.now());
+      if (a) log(`Hoàn thành ${a.name} +${a.coins} Xu`);
+      return a;
+    });
+    $('worldPlayer').className = 'world-player';
+    showPlayer();
+    renderCooldowns();
+    if (completed) {
+      toast(`🪙 +${completed.coins} Xu!`);
+      if (!$('modalMount').childNodes.length) openActivity(completed.id);
+    } else if (st.activeAction?.id === id) {
+      completionTimer = setTimeout(() => finishExecution(id), 5000);
+    }
+  }
+  async function runActivity(id) {
+    const a = cooldownFor(id);
+    if (!a || activityBusy || activityStarting || remaining(id) || st.scene !== a.scene) return;
+    closeModal();
+    const arrived = await moveTo(...a.anchor);
+    if (!arrived) return;
+    activityStarting = true;
+    renderCooldowns();
+    try {
+      const started = await mutate(() => R.start(st, ACT, id, Date.now(), crypto.randomUUID()));
+      if (started) {
+        toast(`${a.icon} ${a.name}...`);
+        playExecution();
+      }
+    } finally {
+      activityStarting = false;
+      renderCooldowns();
+    }
+  }
+  window.addEventListener('storage', (e) => {
+    if (e.key !== KEY) return;
+    movement++;
+    moving = false;
+    st = readState();
+    activityBusy = !!st.activeAction;
+    const safe = N.nearest(D.scenes[st.scene], [st.x, st.y]);
+    if (!st.seated) [st.x, st.y] = safe;
+    document.body.classList.toggle('low-motion', st.lowMotion);
+    renderHud();
+    renderScene();
+    renderCooldowns();
+    if (st.activeAction) playExecution();
+    else clearTimeout(completionTimer);
+  });
+  // ======= HÒM ỦNG HỘ: QUỸ ẢO KHÁC HOÀN TOÀN TIỀN THẬT =======
+  function openDonations(tab = 'virtual') {
+    const tabs = [
+      ['virtual', '🏘️ Xu xây dựng'],
+      ['real', '💝 Ủng hộ thật'],
+      ['board', '🏅 Bảng tri ân'],
+    ]
+      .map(
+        ([id, n]) =>
+          `<button data-donation-tab="${id}" class="${tab === id ? 'active' : ''}">${n}</button>`,
+      )
+      .join('');
+    let body = '';
+    if (tab === 'virtual')
+      body = `<div class="card"><h3>🌷 Chung tay trang trí giáo xứ trong trò chơi</h3><p>Dùng Xu ảo để hỗ trợ mục tiêu chung; không phải tiền thật hoặc công đức tôn giáo.</p><p>Đã đóng góp trên máy này: <b>${fmt(st.virtualFund)} Xu</b> · ${st.virtualFund >= 300 ? '🌷 Góc hoa đã hoàn thiện' : 'Mục tiêu đầu: 300 Xu'}</p><p><b>Số Xu của bạn:</b> 🪙 ${fmt(st.coins)}</p><div class="choices"><button class="choice" data-virtual-give="50">Đóng góp 50 Xu · Trang trí chậu hoa</button><button class="choice" data-virtual-give="150">Đóng góp 150 Xu · Thêm đèn Noel</button><button class="choice" data-virtual-give="300">Đóng góp 300 Xu · Sửa góc sinh hoạt</button></div></div>`;
+    if (tab === 'real')
+      body = `<div class="card"><h3>Ủng hộ tiền thật chưa được bật</h3><p>Trò chơi hiện không nhận chuyển khoản. QR NGÂN HÀNG: chưa cấu hình.</p><p class="muted">Chỉ mở sau khi có máy chủ xác minh giao dịch, người thụ hưởng rõ ràng và kiểm duyệt. Không tạo yêu cầu hoặc tự xác nhận thanh toán ở bản chơi thử.</p></div>`;
+    if (tab === 'board')
+      body = `<div class="card"><h3>Những tấm lòng đồng hành</h3><p>Chưa có tên được công khai. Bảng tri ân cần giao dịch được xác minh, sự đồng ý công khai (donorConsent) và kiểm duyệt từ máy chủ.</p></div>`;
+    openWindow(
+      'Hòm ủng hộ & Tri ân',
+      'Hai hệ thống độc lập: Xu ảo và ủng hộ tiền thật',
+      `<div class="pilltabs">${tabs}</div>${body}`,
+      [['Đóng', closeModal, 'secondary']],
+      true,
+    );
+    document
+      .querySelectorAll('[data-donation-tab]')
+      .forEach((b) => (b.onclick = () => openDonations(b.dataset.donationTab)));
+    document.querySelectorAll('[data-virtual-give]').forEach(
+      (b) =>
+        (b.onclick = () => {
+          const amount = Number(b.dataset.virtualGive),
+            id = crypto.randomUUID();
+          openWindow(
+            'Xác nhận góp Xu',
+            'Chỉ dùng Xu ảo',
+            `<p>Đóng góp ${amount} Xu để trang trí trong trò chơi?</p>`,
+            [
+              [
+                'Xác nhận',
+                async () => {
+                  const ok = await mutate(() => R.contribute(st, amount, id));
+                  if (!ok) toast('Chưa đủ Xu hoặc khoản đóng góp đã được xử lý.');
+                  openDonations('virtual');
+                },
+                'primary',
+              ],
+              ['Quay lại', () => openDonations('virtual'), 'secondary'],
+            ],
+          );
+        }),
+    );
+  }
+  setInterval(() => {
+    if (st.username) renderCooldowns();
+  }, 1000);
+
+  // Events
+  for (const b of document.querySelectorAll('.dock [data-open]'))
+    b.onclick = () => open(b.dataset.open);
+  $('profileQuick').onclick = () => open('avatar');
+  $('tracker').onclick = () => openQuests('active');
+  $('stage').onclick = (e) => {
+    if (!st.username || $('modalMount').childNodes.length) return;
+    const r = $('stage').getBoundingClientRect(),
+      x = ((e.clientX - r.left) / r.width) * 100,
+      y = ((e.clientY - r.top) / r.height) * 100;
+    if (y > 41 && y < 93) moveTo(x, y);
+  };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab' && $('modalMount').childNodes.length) {
+      const nodes = [
+        ...document.querySelectorAll('.window button:not(:disabled),.window input'),
+      ].filter((el) => el.getClientRects().length);
+      const first = nodes[0],
+        last = nodes.at(-1);
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last?.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first?.focus();
+      }
+    }
+    if (e.key === 'Escape' && st.username) closeModal();
+    if (
+      ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key) &&
+      !$('modalMount').childNodes.length
+    ) {
+      e.preventDefault();
+      const n = 3;
+      moveTo(
+        st.x + ({ ArrowLeft: -n, ArrowRight: n }[e.key] || 0),
+        st.y + ({ ArrowUp: -n, ArrowDown: n }[e.key] || 0),
+      );
+    }
+  });
+  const safe = N.nearest(D.scenes[st.scene], [st.x, st.y]);
+  if (!st.seated) [st.x, st.y] = safe;
+  document.body.classList.toggle('low-motion', st.lowMotion);
+  renderHud();
+  renderScene();
+  if (st.activeAction) playExecution();
+  if (!st.username) onboard();
+  if (window.innerWidth < 650) {
+    setTimeout(() => cameraTo(st.scene === 'courtyard' ? 44 : st.x), 40);
+  }
+})();

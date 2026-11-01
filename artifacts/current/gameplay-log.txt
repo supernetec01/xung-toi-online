@@ -1,0 +1,28 @@
+PASS quest q_welcome
+PASS quest q_pew
+PASS quest q_father
+PASS quest q_baptism
+PASS quest q_confession
+PASS quest q_book
+PASS quest q_garden
+PASS quest q_choir
+PASS quest q_gift
+PASS quest q_noel
+PASS quest q_class
+PASS all 11 NPC dialogues
+PASS activity sign_cross
+PASS activity bow
+PASS activity genuflect
+PASS activity quiet
+PASS activity prayer
+PASS activity candle
+PASS activity pew_clean
+PASS activity sweep
+PASS activity welcome
+PASS activity water
+PASS activity books
+PASS activity gifts
+PASS activity choir
+PASS activity noel
+PASS all activity balances
+PASS 40 complete-game browser checks (11 quests / 14 activities / 11 NPCs)

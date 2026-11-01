@@ -1,0 +1,14 @@
+{
+  "command": "npm run dev",
+  "port": 5001,
+  "healthStatus": 200,
+  "health": {
+    "status": "ok",
+    "mode": "local-demo"
+  },
+  "rootStatus": 200,
+  "entryPointLoaded": true,
+  "adminStatus": 404,
+  "meaning": "static local demo; no auth or admin module implemented",
+  "observedAt": "2026-11-01T08:24:01.088Z"
+}

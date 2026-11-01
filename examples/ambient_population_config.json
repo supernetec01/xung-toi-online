@@ -1,0 +1,17 @@
+{
+  "sceneId": "courtyard",
+  "targetVisualActors": 20,
+  "fixedNpcCount": 2,
+  "ambientMinSoftTarget": 0,
+  "ambientMax": 18,
+  "renderCap": 32,
+  "spawnRatePerSecond": 1,
+  "releaseDelaySeconds": 5,
+  "presenceHeartbeatSeconds": 15,
+  "presenceLeaseTtlSeconds": 45,
+  "reconcilePeriodSeconds": 5,
+  "labelsForAmbientActors": "Cư dân giáo xứ",
+  "ambientMayPostToPlayerChat": false,
+  "publicOnlineMetrics": false,
+  "protectedMetricsRoles": ["ADMIN", "SUPER_ADMIN"]
+}

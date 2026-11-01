@@ -1,0 +1,124 @@
+{
+  "artifact": "Giao Xu An Hoa V4 Codex design handoff",
+  "date": "2026-11-01",
+  "repo_state": "Unknown current Codex repo; this is an implementation specification",
+  "contentTest": "All JSON files valid, task dependency graph acyclic",
+  "taskCount": 20,
+  "files": [
+    {
+      "path": "CODEX_MASTER_PROMPT.md",
+      "bytes": 4819,
+      "sha256": "1f3cae8e534979a09efbaa19a59099276f1626d482fa263025ec17281fff3387"
+    },
+    {
+      "path": "START_HERE.md",
+      "bytes": 4548,
+      "sha256": "eb8690193a2e77828c5cf533813ae0ff9d7f8ccbb119c046a438e71e0317662f"
+    },
+    {
+      "path": "db/001_v4_additive_reference.sql",
+      "bytes": 10419,
+      "sha256": "31396813ea1ddb62c7a4789deb60c800d38f009a36057068549912e947843bc5"
+    },
+    {
+      "path": "diagrams/SYSTEM_FLOW.mmd",
+      "bytes": 597,
+      "sha256": "a75f8833abf908ddb44a75d075cc714cc7d5069c8c3d6ee950a0a5b9c2b9ec86"
+    },
+    {
+      "path": "docs/00_SCOPE_RULES.md",
+      "bytes": 3480,
+      "sha256": "19d4bff955f21d094a637fa24f61f067a264bc70139b01d049aa24ab078009fa"
+    },
+    {
+      "path": "docs/01_GAMEPLAY_AND_WORLD.md",
+      "bytes": 4142,
+      "sha256": "be2723a26deebe951ec0e1d0041450a7ce94b78b62eb9254809bb46de6f49538"
+    },
+    {
+      "path": "docs/02_ADMIN_CONSOLE.md",
+      "bytes": 7680,
+      "sha256": "cc02489589ec9f41f2d1c3fd0f7880934741f075c92586498aef916370ca9c66"
+    },
+    {
+      "path": "docs/03_SHOP_AVATAR_ASSETS.md",
+      "bytes": 3543,
+      "sha256": "d5e1b6cbe89234cfef4ed08ec31d165b46835bb8fe8371fce0b7b44186d469c2"
+    },
+    {
+      "path": "docs/04_CHAT_AND_MODERATION.md",
+      "bytes": 5528,
+      "sha256": "e7770193a56ed392e6f27d1b3ca5a0d722f1f89b093b790d4a57d94bb6bd904d"
+    },
+    {
+      "path": "docs/05_NPC_POPULATION_PRESENCE.md",
+      "bytes": 5692,
+      "sha256": "1add2b287a273bb60941027bce1f69c493a8657b4ee1a6dce0dd5122aeaf9fde"
+    },
+    {
+      "path": "docs/06_TIKTOK_LIVE_GUEST.md",
+      "bytes": 5543,
+      "sha256": "2c83fa71b5429382bfd0b93a68a090583517dac0fe6a60f232134d0efbc8a817"
+    },
+    {
+      "path": "docs/07_ARCHITECTURE_DATABASE.md",
+      "bytes": 4915,
+      "sha256": "eb301164d20762a39077c9da8fb584e33a8148bacbe099d867cb5936d2fcc72d"
+    },
+    {
+      "path": "docs/08_API_WEBSOCKET_CONTRACTS.md",
+      "bytes": 5797,
+      "sha256": "3252bafd8da2fb774f8b5d5232cf51834a1095c7d123f67510e58eb40fe9ef2a"
+    },
+    {
+      "path": "docs/09_UI_SCENE_ADMIN_WIREFRAMES.md",
+      "bytes": 5557,
+      "sha256": "2550bce037bc2bdc14513a4749af1831e48f1b654650ee3f931ffd5af362eddb"
+    },
+    {
+      "path": "docs/10_QA_SECURITY_BUG_MATRIX.md",
+      "bytes": 6247,
+      "sha256": "b1ffa552b0b996f098bbb9ebf3417499a92402e32cc013fa505acdaa59ade5af"
+    },
+    {
+      "path": "docs/11_MILESTONE_TASKS.md",
+      "bytes": 3355,
+      "sha256": "0548c850fbf04f07a6958c2107df22e0215ccca3d3309b8ad4e1d22d23f4ca72"
+    },
+    {
+      "path": "docs/12_PUBLIC_SAFETY_AND_SOURCES.md",
+      "bytes": 2246,
+      "sha256": "26a2b7975371b59dd50fbe1c20c335db1fdad232e540b1cd07bcd12619344ffd"
+    },
+    {
+      "path": "examples/admin_live_config.json",
+      "bytes": 405,
+      "sha256": "ca0c2c9a4da36f93617bea8e2175de1ffe744ab849257d4ae17f88c94026f424"
+    },
+    {
+      "path": "examples/ambient_population_config.json",
+      "bytes": 475,
+      "sha256": "8475f7ae57743f061478b74b7dd766c1c00c077826ac5087c1dd4a7fa48feca9"
+    },
+    {
+      "path": "examples/chat_policy.json",
+      "bytes": 454,
+      "sha256": "415e832befaf9fcba61f4bc5a357e4cb1d95646add0796f5429fa129ddcf9d61"
+    },
+    {
+      "path": "examples/role_matrix.csv",
+      "bytes": 463,
+      "sha256": "6fc2ddff6a829f5ae5245d8007d50ef03a2294413ba263141d037d2f0714c363"
+    },
+    {
+      "path": "references/BASELINE_V3_REFERENCE_ONLY.zip",
+      "bytes": 7544590,
+      "sha256": "b834e841ca73c4e5bebd923cc743fc753f30dcadb8cac1cbabb51773f955db90"
+    },
+    {
+      "path": "tasks.json",
+      "bytes": 6995,
+      "sha256": "9d90fb700b9881c43539754e185915fd612ce4e9fee98cb9ff3a0e91b7a7af52"
+    }
+  ]
+}
