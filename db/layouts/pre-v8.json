@@ -1,0 +1,763 @@
+{
+  "source": "0991c79",
+  "scenes": {
+    "nave": {
+      "bounds": [
+        8,
+        36,
+        92,
+        96
+      ],
+      "blockers": [
+        [
+          30,
+          0,
+          70,
+          52
+        ],
+        [
+          10,
+          68,
+          35,
+          71
+        ],
+        [
+          65,
+          68,
+          90,
+          71
+        ],
+        [
+          10,
+          75.6,
+          35,
+          78.6
+        ],
+        [
+          65,
+          75.6,
+          90,
+          78.6
+        ],
+        [
+          10,
+          83.2,
+          35,
+          86.2
+        ],
+        [
+          65,
+          83.2,
+          90,
+          86.2
+        ],
+        [
+          10,
+          90.8,
+          35,
+          93.8
+        ],
+        [
+          65,
+          90.8,
+          90,
+          93.8
+        ]
+      ],
+      "anchors": {
+        "altar": [
+          50,
+          56
+        ],
+        "seat_a": [
+          40,
+          73
+        ],
+        "seat_b": [
+          60,
+          80.6
+        ],
+        "baptistry": [
+          15,
+          74
+        ],
+        "confession": [
+          85,
+          74
+        ],
+        "choir": [
+          30,
+          82
+        ],
+        "seat_right_0": [
+          60,
+          73
+        ],
+        "seat_left_1": [
+          40,
+          80.6
+        ],
+        "seat_left_2": [
+          40,
+          88.2
+        ],
+        "seat_right_2": [
+          60,
+          88.2
+        ],
+        "seat_left_3": [
+          40,
+          94
+        ],
+        "seat_right_3": [
+          60,
+          94
+        ]
+      },
+      "npcPoints": {
+        "father": [
+          57,
+          57
+        ],
+        "sister": [
+          40,
+          63
+        ]
+      },
+      "entry": [
+        50,
+        94
+      ],
+      "spots": [
+        [
+          "altar",
+          "✝",
+          "Tìm hiểu bàn thờ",
+          50,
+          48,
+          "info",
+          "altar"
+        ],
+        [
+          "baptistry",
+          "💧",
+          "Giếng Rửa Tội",
+          12,
+          53,
+          "go",
+          "baptistry"
+        ],
+        [
+          "confession",
+          "🕊️",
+          "Góc Hòa Giải",
+          88,
+          53,
+          "go",
+          "confession"
+        ],
+        [
+          "choir",
+          "🎼",
+          "Phòng ca đoàn",
+          12,
+          62,
+          "go",
+          "choir"
+        ],
+        [
+          "exit",
+          "🚪",
+          "Ra sân",
+          50,
+          92,
+          "go",
+          "courtyard"
+        ],
+        [
+          "action_hub_nave",
+          "🙌",
+          "Hành động tại đây",
+          78,
+          86,
+          "activity_hub"
+        ],
+        [
+          "seat_a",
+          "🪑",
+          "Hàng ghế trái 1",
+          22,
+          71,
+          "seat"
+        ],
+        [
+          "seat_right_0",
+          "🪑",
+          "Hàng ghế phải 1",
+          78,
+          71,
+          "seat"
+        ],
+        [
+          "seat_left_1",
+          "🪑",
+          "Hàng ghế trái 2",
+          22,
+          78.6,
+          "seat"
+        ],
+        [
+          "seat_b",
+          "🪑",
+          "Hàng ghế phải 2",
+          78,
+          78.6,
+          "seat"
+        ],
+        [
+          "seat_left_2",
+          "🪑",
+          "Hàng ghế trái 3",
+          22,
+          86.2,
+          "seat"
+        ],
+        [
+          "seat_right_2",
+          "🪑",
+          "Hàng ghế phải 3",
+          78,
+          86.2,
+          "seat"
+        ],
+        [
+          "seat_left_3",
+          "🪑",
+          "Hàng ghế trái 4",
+          22,
+          93.8,
+          "seat"
+        ],
+        [
+          "seat_right_3",
+          "🪑",
+          "Hàng ghế phải 4",
+          78,
+          93.8,
+          "seat"
+        ]
+      ]
+    },
+    "foyer": {
+      "bounds": [
+        8,
+        68,
+        92,
+        96
+      ],
+      "blockers": [],
+      "anchors": {},
+      "npcPoints": {
+        "guard": [
+          67,
+          73
+        ]
+      },
+      "entry": [
+        50,
+        86
+      ],
+      "spots": [
+        [
+          "schedule",
+          "📋",
+          "Bảng giờ lễ minh họa",
+          70,
+          58,
+          "info",
+          "schedule"
+        ],
+        [
+          "inside",
+          "⛪",
+          "Vào gian chính",
+          50,
+          60,
+          "go",
+          "nave"
+        ],
+        [
+          "out",
+          "🚪",
+          "Ra sân",
+          50,
+          92,
+          "go",
+          "courtyard"
+        ],
+        [
+          "action_hub_foyer",
+          "🙌",
+          "Hành động tại đây",
+          79,
+          76,
+          "activity_hub"
+        ]
+      ]
+    },
+    "choir": {
+      "bounds": [
+        8,
+        68,
+        92,
+        96
+      ],
+      "blockers": [
+        [
+          18,
+          72,
+          25,
+          93
+        ],
+        [
+          38,
+          72,
+          45,
+          93
+        ],
+        [
+          58,
+          72,
+          65,
+          93
+        ],
+        [
+          78,
+          72,
+          85,
+          93
+        ]
+      ],
+      "anchors": {
+        "rhythm": [
+          52,
+          91
+        ]
+      },
+      "npcPoints": {
+        "choirmaster": [
+          26,
+          74
+        ]
+      },
+      "entry": [
+        51,
+        86
+      ],
+      "spots": [
+        [
+          "rhythm",
+          "🎵",
+          "Trò chơi nhịp điệu",
+          55,
+          70,
+          "rhythm"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về gian chính",
+          20,
+          87,
+          "go",
+          "nave"
+        ],
+        [
+          "action_hub_choir",
+          "🙌",
+          "Hành động tại đây",
+          75,
+          80,
+          "activity_hub"
+        ]
+      ]
+    },
+    "garden": {
+      "bounds": [
+        8,
+        76,
+        92,
+        97
+      ],
+      "blockers": [
+        [
+          14,
+          81,
+          37,
+          96
+        ],
+        [
+          39,
+          81,
+          62,
+          96
+        ],
+        [
+          64,
+          81,
+          87,
+          96
+        ]
+      ],
+      "anchors": {},
+      "npcPoints": {
+        "anna": [
+          88,
+          82
+        ],
+        "gardener": [
+          10,
+          79
+        ]
+      },
+      "entry": [
+        50,
+        86
+      ],
+      "spots": [
+        [
+          "flower1",
+          "💧",
+          "Tưới luống 1",
+          24,
+          73,
+          "water"
+        ],
+        [
+          "flower2",
+          "💧",
+          "Tưới luống 2",
+          48,
+          70,
+          "water"
+        ],
+        [
+          "flower3",
+          "💧",
+          "Tưới luống 3",
+          72,
+          73,
+          "water"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về sân",
+          51,
+          93,
+          "go",
+          "courtyard"
+        ],
+        [
+          "action_hub_garden",
+          "🙌",
+          "Hành động tại đây",
+          56,
+          83,
+          "activity_hub"
+        ]
+      ]
+    },
+    "office": {
+      "bounds": [
+        8,
+        68,
+        92,
+        96
+      ],
+      "blockers": [
+        [
+          25,
+          68,
+          76,
+          89
+        ]
+      ],
+      "anchors": {
+        "pack": [
+          78,
+          91
+        ]
+      },
+      "npcPoints": {
+        "father": [
+          44,
+          94
+        ],
+        "volunteer": [
+          23,
+          86
+        ]
+      },
+      "entry": [
+        50,
+        85
+      ],
+      "spots": [
+        [
+          "pack",
+          "🎁",
+          "Gói quà cộng đồng",
+          65,
+          72,
+          "pack"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về sân",
+          25,
+          88,
+          "go",
+          "courtyard"
+        ],
+        [
+          "action_hub_office",
+          "🙌",
+          "Hành động tại đây",
+          75,
+          83,
+          "activity_hub"
+        ]
+      ]
+    },
+    "shoproom": {
+      "bounds": [
+        8,
+        68,
+        92,
+        96
+      ],
+      "blockers": [
+        [
+          25,
+          68,
+          75,
+          90
+        ]
+      ],
+      "anchors": {
+        "browse": [
+          78,
+          91
+        ]
+      },
+      "npcPoints": {
+        "shopkeeper": [
+          30,
+          71
+        ]
+      },
+      "entry": [
+        51,
+        86
+      ],
+      "spots": [
+        [
+          "browse",
+          "🛍️",
+          "Mở Shop",
+          62,
+          68,
+          "shop"
+        ],
+        [
+          "back",
+          "🚪",
+          "Về sân",
+          25,
+          88,
+          "go",
+          "courtyard"
+        ]
+      ]
+    },
+    "courtyard": {
+      "bounds": [
+        8,
+        62,
+        92,
+        94
+      ],
+      "blockers": [
+        [
+          8,
+          86,
+          30,
+          94
+        ],
+        [
+          73,
+          87,
+          92,
+          94
+        ],
+        [
+          45,
+          80,
+          55,
+          89
+        ]
+      ],
+      "anchors": {
+        "church": [
+          50,
+          65
+        ],
+        "classroom": [
+          24,
+          66
+        ],
+        "office": [
+          80,
+          66
+        ],
+        "garden": [
+          29,
+          78
+        ],
+        "christmas": [
+          79,
+          78
+        ]
+      },
+      "npcPoints": {
+        "lucia": [
+          36,
+          72
+        ],
+        "guard": [
+          67,
+          73
+        ]
+      },
+      "entry": [
+        51,
+        82
+      ],
+      "spots": [
+        [
+          "church",
+          "🚪",
+          "Vào nhà thờ",
+          50,
+          43,
+          "go",
+          "nave"
+        ],
+        [
+          "garden",
+          "🌷",
+          "Đến vườn",
+          23,
+          77,
+          "go",
+          "garden"
+        ],
+        [
+          "classroom",
+          "📖",
+          "Lớp giáo lý",
+          20,
+          47,
+          "go",
+          "classroom"
+        ],
+        [
+          "office",
+          "🏠",
+          "Nhà xứ",
+          81,
+          49,
+          "go",
+          "office"
+        ],
+        [
+          "christmas",
+          "⭐",
+          "Quảng trường Noel",
+          80,
+          78,
+          "go",
+          "christmas"
+        ],
+        [
+          "action_hub_courtyard",
+          "🙌",
+          "Hành động tại đây",
+          53,
+          77,
+          "activity_hub"
+        ]
+      ]
+    }
+  },
+  "actions": {
+    "sign_cross": [
+      73,
+      83
+    ],
+    "bow": [
+      73,
+      83
+    ],
+    "genuflect": [
+      73,
+      83
+    ],
+    "quiet": [
+      73,
+      83
+    ],
+    "prayer": [
+      73,
+      83
+    ],
+    "candle": [
+      73,
+      83
+    ],
+    "pew_clean": [
+      31,
+      83
+    ],
+    "sweep": [
+      53,
+      77
+    ],
+    "welcome": [
+      79,
+      76
+    ],
+    "water": [
+      50,
+      78
+    ],
+    "books": [
+      66,
+      92
+    ],
+    "gifts": [
+      78,
+      91
+    ],
+    "choir": [
+      52,
+      91
+    ],
+    "noel": [
+      60,
+      81
+    ]
+  }
+}

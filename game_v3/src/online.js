@@ -207,7 +207,9 @@
       el._position = actor.position;
       el.style.left = actor.position[0] + '%';
       el.style.top = actor.position[1] + '%';
-      el.style.zIndex = Math.round(actor.position[1]);
+      el.style.zIndex = Math.round(actor.position[1] * 10);
+      el.style.transform =
+        'translate(-50%,-100%) scale(' + window.PARISH_SCENE_ART.scale(actor.position[1]) + ')';
       el.classList.toggle('leaving', !!actor.leaving);
       el.dataset.pose = actor.pose;
     }

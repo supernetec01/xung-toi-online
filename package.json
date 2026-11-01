@@ -24,7 +24,9 @@
     "test:recovery": "node tests/recovery.cjs",
     "test:performance": "node tests/performance.cjs",
     "test:install": "node tests/setup-install.cjs",
-    "test:world": "node tests/world-upgrade.cjs"
+    "test:world": "node tests/world-upgrade.cjs",
+    "test:v8": "node tests/v8.cjs",
+    "scene:layout": "node scripts/scene-layout.cjs"
   },
   "devDependencies": {
     "playwright": "1.56.1",

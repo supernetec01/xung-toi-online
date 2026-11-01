@@ -336,7 +336,7 @@ class World {
             .flatMap((s) =>
               [0, 1, 2].map((choice) => ({
                 id: 'nave:' + s[0] + ':' + choice,
-                position: [s[3] + (choice - 1) * 3, s[4]],
+                position: sc.seats?.[s[0]]?.[choice]?.position || [s[3] + (choice - 1) * 3, s[4]],
               })),
             );
           const claimed = new Set(occupiedSeats);

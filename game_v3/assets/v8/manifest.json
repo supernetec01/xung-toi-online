@@ -1,0 +1,64 @@
+{
+  "version": "v8-layered-1",
+  "created": "2026-11-01",
+  "source": "New generated architecture and independent sprite artwork guided by user V8 references; approved screenshots are comparison-only in artifacts/v8/reference, never game textures.",
+  "runtime": "Each room splits architecture/floor into independent SVG layers; individual atlas props sorted by feet depth, V4 avatars/HUD/interaction services remain independent.",
+  "files": [
+    {
+      "file": "choir.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 251672,
+      "sha256": "9577491eff8573d3298dbdf7c940ee1ca5e6d2cd78197c1d362a3061e0cac67b",
+      "alpha": false
+    },
+    {
+      "file": "foyer.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 256356,
+      "sha256": "dc6c91e7c14cf0c7249292ffbb7705bc19786716f38eb61147fbd36d9bcfe963",
+      "alpha": false
+    },
+    {
+      "file": "garden.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 613426,
+      "sha256": "9b87c28c0447093e542b05c2cd4186e57f9657e96bcead71caadffcd3cac74b0",
+      "alpha": false
+    },
+    {
+      "file": "nave.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 432796,
+      "sha256": "529b8439bb33c7ea9237b4ed37280bce7e05807e1b347d3a9868f50b7ff9fa9e",
+      "alpha": false
+    },
+    {
+      "file": "objects.webp",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 561394,
+      "sha256": "132fc86860f386e57400aa704582bb19fc5157c87e8e64211c986ba22d971247",
+      "alpha": true
+    },
+    {
+      "file": "office.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 274212,
+      "sha256": "a6e83c49d2a1ba84c687befea40cc0cdbf345a69330b24e018e71b6ace5fcced",
+      "alpha": false
+    },
+    {
+      "file": "shoproom.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 285138,
+      "sha256": "7aa3b0d27aead2aa94f9bc126c0883d87aef72f0788057597b21c487374fd7b1",
+      "alpha": false
+    }
+  ]
+}

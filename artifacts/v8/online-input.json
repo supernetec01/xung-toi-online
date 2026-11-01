@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "input": "5 rapid pointer commands in authenticated game",
+  "serverMatchesLastPointer": true,
+  "inventoryPreserved": true,
+  "walletPreserved": true,
+  "reloadPersisted": true,
+  "errors": []
+}

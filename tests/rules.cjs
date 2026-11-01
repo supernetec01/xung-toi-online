@@ -3,7 +3,7 @@ const assert = require('node:assert/strict'),
   vm = require('node:vm');
 const ctx = { window: {} };
 vm.createContext(ctx);
-for (const file of ['data', 'activities', 'rules', 'gameplay', 'navigation'])
+for (const file of ['data', 'activities', 'rules', 'gameplay', 'scene-layout', 'navigation'])
   vm.runInContext(fs.readFileSync(`game_v3/src/${file}.js`, 'utf8'), ctx);
 const { PARISH_DATA: D, PARISH_ACTIVITIES: ACT, PARISH_RULES: R, PARISH_NAV: N } = ctx.window;
 let tests = 0;
@@ -27,7 +27,16 @@ check('all NPCs and interactive targets reachable without crossing blockers', ()
     }
   }
   assert(!N.walkable(D.scenes.nave, 50, 45), 'sanctuary protected');
-  assert(!N.walkable(D.scenes.office, 50, 80), 'table protected');
+  assert(!N.walkable(D.scenes.office, 50, 69), 'desk footprint protected');
+  assert(N.walkable(D.scenes.office, 50, 80), 'floor in front of desk is open');
+  for (const sc of Object.values(D.scenes).filter((s) => s.art)) {
+    for (const p of sc.art.props.filter((p) => p.solid)) {
+      const [l, t, r, b] = p.solid;
+      assert(!N.walkable(sc, (l + r) / 2, (t + b) / 2), `solid prop ${p.id}`);
+    }
+    assert(!N.walkable(sc, 5, 57), 'outside floor polygon');
+    assert(N.walkable(sc, ...sc.entry), 'entry on floor');
+  }
 });
 check('all 11 quests, dependencies, distinct targets, one reward', () => {
   const s = R.migrate(null, D);

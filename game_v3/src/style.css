@@ -1760,6 +1760,10 @@ svg[data-sprite-version][data-pose='walk'] [data-part='legs'] {
 .world-player.sitting svg {
   transform: none;
 }
+.stage[data-art='v8-layered-1'] .world-player.sitting,
+.stage[data-art='v8-layered-1'] .online-actor[data-pose='sit'] {
+  margin-top: -26px;
+}
 .online-actor[data-pose='sit'] {
   pointer-events: none;
 }
@@ -1781,5 +1785,120 @@ svg[data-sprite-version][data-pose='walk'] [data-part='legs'] {
 @media (prefers-reduced-motion: reduce) {
   .world-player {
     will-change: auto;
+  }
+}
+
+/* V8: architecture, floor, depth-sorted furniture and actors are separate layers. */
+.stage[data-art='v8-layered-1'] {
+  width: max(105vw, 1440px);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  background: #cdb28e;
+  overflow: visible;
+}
+.stage[data-art='v8-layered-1'] .scenery {
+  pointer-events: none;
+}
+.scenery .scene-wall {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 58%;
+}
+.scenery .scene-floor {
+  position: absolute;
+  inset: 58% 0 auto;
+  height: calc(42% + 190px);
+}
+.scene-prop {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  filter: drop-shadow(0 5px 3px #3d281a30);
+}
+.scene-prop svg {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.scene-prop.interactive-prop {
+  pointer-events: auto;
+  cursor: pointer;
+}
+.scene-prop.interactive-prop:focus-visible {
+  outline: 2px solid #ffe3a8;
+  outline-offset: 3px;
+}
+.stage[data-art='v8-layered-1'] .hotspot {
+  z-index: 1100 !important;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  background: #49362fcc;
+  border-color: #f1d0a5;
+}
+.stage[data-art='v8-layered-1'] .actor-name {
+  opacity: 0.85;
+  font-size: 10px;
+}
+.stage[data-art='v8-layered-1'] .hotspot[data-spot^='seat'] {
+  z-index: 1100 !important;
+}
+@media (max-width: 650px) {
+  .stage[data-art='v8-layered-1'] {
+    width: 1120px;
+    height: 900px;
+    aspect-ratio: auto;
+  }
+  .stage[data-art='v8-layered-1'] .scene-prop {
+    filter: none;
+  }
+}
+/* Camera overscan keeps the player's feet above the fixed dock. */
+.viewport.layered-world::after {
+  content: '';
+  display: block;
+  height: 190px;
+  pointer-events: none;
+}
+.mobile-pad {
+  display: none;
+}
+@media (pointer: coarse) and (max-width: 900px) {
+  .mobile-pad {
+    display: grid;
+    position: fixed;
+    bottom: 110px;
+    left: 12px;
+    z-index: 180;
+    grid-template-columns: repeat(3, 36px);
+    gap: 4px;
+    opacity: 0.8;
+  }
+  .mobile-pad button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ecd7b5;
+    border-radius: 12px;
+    background: #49362fcc;
+    color: #fff0d9;
+    touch-action: none;
+  }
+  .mobile-pad [data-dir='ArrowUp'] {
+    grid-column: 2;
+  }
+  .mobile-pad [data-dir='ArrowLeft'] {
+    grid-column: 1;
+  }
+}
+@media (max-width: 600px) {
+  #onlineControls {
+    gap: 2px;
+  }
+  #onlineControls small {
+    line-height: 10px;
+  }
+  .mobile-pad button {
+    font-size: 19px;
   }
 }

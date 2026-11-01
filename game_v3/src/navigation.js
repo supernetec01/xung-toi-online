@@ -1,6 +1,15 @@
 (function (root) {
   'use strict';
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  function inside(poly, x, y) {
+    let hit = false;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [a, b] = poly[i],
+        [c, d] = poly[j];
+      if (b > y !== d > y && x < ((c - a) * (y - b)) / (d - b) + a) hit = !hit;
+    }
+    return hit;
+  }
   function walkable(scene, x, y) {
     const [l, t, r, b] = scene.bounds;
     return (
@@ -8,10 +17,11 @@
       x <= r &&
       y >= t &&
       y <= b &&
+      (!scene.walkPolygons || scene.walkPolygons.some((p) => inside(p, x, y))) &&
       !scene.blockers.some(([l, t, r, b]) => x >= l && x <= r && y >= t && y <= b)
     );
   }
-  function nearest(scene, [x, y]) {
+  function nearest(scene, [x, y], connected = false) {
     if (
       walkable(scene, x, y) &&
       Math.abs((x - scene.bounds[0]) / 2 - Math.round((x - scene.bounds[0]) / 2)) < 0.0001 &&
@@ -24,7 +34,11 @@
     for (let px = l; px <= r; px += 2)
       for (let py = t; py <= b; py += 2) {
         const dist = (px - x) ** 2 + (py - y) ** 2;
-        if (walkable(scene, px, py) && dist < d) {
+        if (
+          walkable(scene, px, py) &&
+          dist < d &&
+          (!connected || segment(scene, [x, y], [px, py]))
+        ) {
           best = [px, py];
           d = dist;
         }
@@ -39,10 +53,14 @@
     return true;
   }
   function route(scene, from, to) {
-    const start = nearest(scene, from),
-      goal = nearest(scene, to);
+    const start = nearest(scene, from, walkable(scene, ...from)),
+      goal = nearest(scene, to, walkable(scene, ...to));
     if (!start || !goal) return [];
-    if (segment(scene, start, goal)) return [start, goal];
+    // Preserve an exact valid pointer position, but connect it to the path grid
+    // only with a tested segment. Snapping must never tunnel across a prop.
+    const prefix = walkable(scene, ...from) && segment(scene, from, start) ? [from] : [];
+    const suffix = walkable(scene, ...to) && segment(scene, goal, to) ? [to] : [];
+    if (segment(scene, start, goal)) return [...prefix, start, goal, ...suffix];
     const key = (p) => p.join(',');
     const queue = [start],
       previous = new Map([[key(start), null]]);
@@ -60,7 +78,7 @@
         [0, -2],
       ]) {
         const q = [p[0] + dx, p[1] + dy];
-        if (walkable(scene, ...q) && !previous.has(key(q))) {
+        if (walkable(scene, ...q) && segment(scene, p, q) && !previous.has(key(q))) {
           previous.set(key(q), p);
           queue.push(q);
         }
@@ -74,7 +92,7 @@
       if (!segment(scene, path.at(-1), full[i])) path.push(full[i - 1]);
     }
     if (key(path.at(-1)) !== key(goal)) path.push(goal);
-    return path;
+    return [...prefix, ...path, ...suffix];
   }
   root.PARISH_NAV = { walkable, nearest, segment, route, clamp };
 })(typeof window === 'undefined' ? globalThis : window);

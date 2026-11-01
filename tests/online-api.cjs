@@ -407,13 +407,18 @@ class Client {
     ok(!JSON.stringify(world).includes(forbidden), 'no public ' + forbidden);
   ok(
     (
-      await admin.c.call('/api/admin/catalog/publications/1/rollback', {
+      await admin.c.call('/api/admin/catalog/publications/' + catalog.version + '/rollback', {
         reason: 'QA restore baseline catalog',
       })
     ).status === 200,
     'catalog rollback',
   );
   const retained = await p.call('/api/catalog');
+  assert.deepEqual(
+    retained.scenes.nave,
+    catalog.scenes.nave,
+    'restore the starting layout, including V8 art and collision',
+  );
   ok(
     retained.items.some((x) => x.id === item.id && x.archived),
     'rollback preserves archived owned ID',

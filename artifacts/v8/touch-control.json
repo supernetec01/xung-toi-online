@@ -1,0 +1,10 @@
+{
+  "viewport": [
+    390,
+    844
+  ],
+  "input": "Native Chromium touchStart/hold650ms/touchEnd",
+  "startY": 90,
+  "endY": 72.17333333333333,
+  "passed": true
+}

@@ -86,8 +86,13 @@ function progressCatalog(st, c) {
   return { ...c, quests: c.quests.map((q) => st.questSnapshots?.[q.id] || q) };
 }
 function near(st, c, point) {
-  const target = C.N.nearest(c.scenes[st.scene], point);
-  if (!target || Math.hypot(st.x - target[0], st.y - target[1]) > 13)
+  const sc = c.scenes[st.scene],
+    target = C.N.nearest(sc, point);
+  if (
+    !target ||
+    Math.hypot(st.x - target[0], st.y - target[1]) > (sc.art ? 7 : 13) ||
+    (sc.art && !C.N.segment(sc, [st.x, st.y], target))
+  )
     S.fail(422, 'APPROACH_REQUIRED');
 }
 async function interact(user, key, p) {
@@ -162,8 +167,8 @@ async function interact(user, key, p) {
       }
       st.seated = true;
       st.seatId = seat;
-      st.x = spot[3] + (p.choice - 1) * 3;
-      st.y = spot[4];
+      const seatLayout = scene.seats?.[id]?.[p.choice];
+      [st.x, st.y] = seatLayout?.position || [spot[3] + (p.choice - 1) * 3, spot[4]];
       C.R.record(st, progressCatalog(st, c), 'sit_pew', seat);
     } else S.fail(422, 'NO_QUEST_EVENT');
   });
@@ -184,7 +189,11 @@ async function location(user, key, p, travel = false) {
       )
         S.fail(422, 'BLOCKED_LOCATION');
       point = [p.x, p.y];
-      if (!C.N.route(c.scenes[scene], [st.x, st.y], point).length) S.fail(422, 'NO_PATH');
+      const parts = st.seatId?.split(':') || [],
+        seat =
+          c.scenes[scene].seats?.[parts.length === 3 ? parts[1] : parts[0]]?.[Number(parts.at(-1))];
+      if (!C.N.route(c.scenes[scene], (st.seated && seat?.approach) || [st.x, st.y], point).length)
+        S.fail(422, 'NO_PATH');
     }
     st.scene = scene;
     [st.x, st.y] = point;

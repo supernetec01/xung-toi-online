@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="vi">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Đối chiếu V8 — ảnh game chạy thật</title
+  ><style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #241e22;
+      color: #fff0d8;
+      font: 16px/1.5 system-ui;
+    }
+    h1 {
+      font-size: 26px;
+    }
+    section {
+      margin: 38px 0;
+    }
+    figure {
+      margin: 0;
+    }
+    figcaption {
+      padding: 10px;
+    }
+    img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 0.42fr;
+      gap: 16px;
+      align-items: start;
+    }
+    a {
+      color: #f7ca8d;
+    }
+    p {
+      max-width: 900px;
+    }
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      figure:last-child {
+        max-width: 390px;
+      }
+    }
+  </style>
+  <h1>Giáo Xứ An Hòa — đối chiếu V8</h1>
+  <p>
+    Cột trái là ảnh mẫu người dùng duyệt (có HUD/nhân vật vẽ sẵn). Hai cột còn lại chụp game chạy
+    thật, dùng avatar, nhiệm vụ và trang phục V4. Ảnh mẫu chỉ để so sánh; không dùng làm texture
+    runtime. Chọn ảnh để mở kích thước gốc.
+  </p>
+  <p>
+    <a href="../../docs/V8_IMPLEMENTATION.md">Báo cáo, khác biệt, kiểm thử và rollback</a> ·
+    <a href="results.json">Kết quả kiểm thử</a>
+  </p>
+  <section>
+    <h2>Gian chính nhà thờ</h2>
+    <div class="grid">
+      <figure>
+        <figcaption>Ảnh tham chiếu đã duyệt</figcaption>
+        <a href="reference/nave.webp"
+          ><img
+            loading="lazy"
+            src="reference/nave.webp"
+            alt="Gian chính nhà thờ — Ảnh tham chiếu đã duyệt"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 1366 × 768</figcaption>
+        <a href="nave-1366x768.jpg"
+          ><img
+            loading="lazy"
+            src="nave-1366x768.jpg"
+            alt="Gian chính nhà thờ — Game thực tế · 1366 × 768"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 390 × 844</figcaption>
+        <a href="nave-390x844.jpg"
+          ><img
+            loading="lazy"
+            src="nave-390x844.jpg"
+            alt="Gian chính nhà thờ — Game thực tế · 390 × 844"
+        /></a>
+      </figure>
+    </div>
+    <p>
+      Ảnh thêm: <a href="nave-1920x1080.jpg">1920 × 1080</a> ·
+      <a href="nave-768x1024.jpg">768 × 1024</a>
+    </p>
+  </section>
+  <section>
+    <h2>Tiền sảnh</h2>
+    <div class="grid">
+      <figure>
+        <figcaption>Ảnh tham chiếu đã duyệt</figcaption>
+        <a href="reference/foyer.webp"
+          ><img loading="lazy" src="reference/foyer.webp" alt="Tiền sảnh — Ảnh tham chiếu đã duyệt"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 1366 × 768</figcaption>
+        <a href="foyer-1366x768.jpg"
+          ><img loading="lazy" src="foyer-1366x768.jpg" alt="Tiền sảnh — Game thực tế · 1366 × 768"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 390 × 844</figcaption>
+        <a href="foyer-390x844.jpg"
+          ><img loading="lazy" src="foyer-390x844.jpg" alt="Tiền sảnh — Game thực tế · 390 × 844"
+        /></a>
+      </figure>
+    </div>
+    <p>
+      Ảnh thêm: <a href="foyer-1920x1080.jpg">1920 × 1080</a> ·
+      <a href="foyer-768x1024.jpg">768 × 1024</a>
+    </p>
+  </section>
+  <section>
+    <h2>Phòng ca đoàn</h2>
+    <div class="grid">
+      <figure>
+        <figcaption>Ảnh tham chiếu đã duyệt</figcaption>
+        <a href="reference/choir.webp"
+          ><img
+            loading="lazy"
+            src="reference/choir.webp"
+            alt="Phòng ca đoàn — Ảnh tham chiếu đã duyệt"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 1366 × 768</figcaption>
+        <a href="choir-1366x768.jpg"
+          ><img
+            loading="lazy"
+            src="choir-1366x768.jpg"
+            alt="Phòng ca đoàn — Game thực tế · 1366 × 768"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 390 × 844</figcaption>
+        <a href="choir-390x844.jpg"
+          ><img
+            loading="lazy"
+            src="choir-390x844.jpg"
+            alt="Phòng ca đoàn — Game thực tế · 390 × 844"
+        /></a>
+      </figure>
+    </div>
+    <p>
+      Ảnh thêm: <a href="choir-1920x1080.jpg">1920 × 1080</a> ·
+      <a href="choir-768x1024.jpg">768 × 1024</a>
+    </p>
+  </section>
+  <section>
+    <h2>Vườn cộng đồng</h2>
+    <div class="grid">
+      <figure>
+        <figcaption>Ảnh tham chiếu đã duyệt</figcaption>
+        <a href="reference/garden.webp"
+          ><img
+            loading="lazy"
+            src="reference/garden.webp"
+            alt="Vườn cộng đồng — Ảnh tham chiếu đã duyệt"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 1366 × 768</figcaption>
+        <a href="garden-1366x768.jpg"
+          ><img
+            loading="lazy"
+            src="garden-1366x768.jpg"
+            alt="Vườn cộng đồng — Game thực tế · 1366 × 768"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 390 × 844</figcaption>
+        <a href="garden-390x844.jpg"
+          ><img
+            loading="lazy"
+            src="garden-390x844.jpg"
+            alt="Vườn cộng đồng — Game thực tế · 390 × 844"
+        /></a>
+      </figure>
+    </div>
+    <p>
+      Ảnh thêm: <a href="garden-1920x1080.jpg">1920 × 1080</a> ·
+      <a href="garden-768x1024.jpg">768 × 1024</a>
+    </p>
+  </section>
+  <section>
+    <h2>Nhà xứ</h2>
+    <div class="grid">
+      <figure>
+        <figcaption>Ảnh tham chiếu đã duyệt</figcaption>
+        <a href="reference/office.webp"
+          ><img loading="lazy" src="reference/office.webp" alt="Nhà xứ — Ảnh tham chiếu đã duyệt"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 1366 × 768</figcaption>
+        <a href="office-1366x768.jpg"
+          ><img loading="lazy" src="office-1366x768.jpg" alt="Nhà xứ — Game thực tế · 1366 × 768"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 390 × 844</figcaption>
+        <a href="office-390x844.jpg"
+          ><img loading="lazy" src="office-390x844.jpg" alt="Nhà xứ — Game thực tế · 390 × 844"
+        /></a>
+      </figure>
+    </div>
+    <p>
+      Ảnh thêm: <a href="office-1920x1080.jpg">1920 × 1080</a> ·
+      <a href="office-768x1024.jpg">768 × 1024</a>
+    </p>
+  </section>
+  <section>
+    <h2>Gian trang phục</h2>
+    <div class="grid">
+      <figure>
+        <figcaption>Ảnh tham chiếu đã duyệt</figcaption>
+        <a href="reference/shoproom.webp"
+          ><img
+            loading="lazy"
+            src="reference/shoproom.webp"
+            alt="Gian trang phục — Ảnh tham chiếu đã duyệt"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 1366 × 768</figcaption>
+        <a href="shoproom-1366x768.jpg"
+          ><img
+            loading="lazy"
+            src="shoproom-1366x768.jpg"
+            alt="Gian trang phục — Game thực tế · 1366 × 768"
+        /></a>
+      </figure>
+      <figure>
+        <figcaption>Game thực tế · 390 × 844</figcaption>
+        <a href="shoproom-390x844.jpg"
+          ><img
+            loading="lazy"
+            src="shoproom-390x844.jpg"
+            alt="Gian trang phục — Game thực tế · 390 × 844"
+        /></a>
+      </figure>
+    </div>
+    <p>
+      Ảnh thêm: <a href="shoproom-1920x1080.jpg">1920 × 1080</a> ·
+      <a href="shoproom-768x1024.jpg">768 × 1024</a>
+    </p>
+  </section>
+</html>

@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "layouts": [
+    "v4",
+    "v8"
+  ],
+  "committed": false,
+  "playerStateHashUnchanged": true
+}

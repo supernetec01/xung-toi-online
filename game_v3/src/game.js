@@ -288,9 +288,11 @@
   }
   function renderScene() {
     const sc = D.scenes[st.scene];
+    const seatedLayout = st.seated && seatOf(sc);
+    if (seatedLayout) [st.x, st.y] = seatedLayout.position;
     motionPoint = null;
     $('stage').dataset.scene = st.scene;
-    $('scenery').innerHTML = A.scene(st.scene);
+    if (!window.PARISH_SCENE_ART.mount($('stage'), sc)) $('scenery').innerHTML = A.scene(st.scene);
     $('actors').replaceChildren();
     for (const id of sc.npc) {
       const npc = D.npcs[id],
@@ -300,8 +302,8 @@
       b.dataset.npc = id;
       b.style.left = pos[0] + '%';
       b.style.top = pos[1] + '%';
-      b.style.zIndex = Math.round(pos[1]);
-      b.style.transform = `translate(-50%,-100%) scale(${(0.6 + pos[1] * 0.0054).toFixed(3)})`;
+      b.style.zIndex = Math.round(pos[1] * 10);
+      b.style.transform = `translate(-50%,-100%) scale(${window.PARISH_SCENE_ART.scale(pos[1]).toFixed(3)})`;
       b.setAttribute('aria-label', 'Trò chuyện với ' + npc.name);
       b.innerHTML = `${A.avatar(npcDressed(id))}<span class="actor-name">${A.esc(npc.name)}</span><span class="actor-badge" hidden></span>`;
       b.onclick = (e) => {
@@ -317,7 +319,7 @@
       b.dataset.spot = id;
       b.style.left = x + '%';
       b.style.top = y + '%';
-      b.style.zIndex = Math.round(y);
+      b.style.zIndex = Math.round(y * 10);
       b.setAttribute('aria-label', label);
       b.innerHTML = `${icon}<small>${A.esc(label)}</small>`;
       b.onclick = (e) => {
@@ -325,6 +327,44 @@
         approach(spot);
       };
       $('actors').append(b);
+    }
+    // Artwork itself is interactive; keep the existing V4 hotspot/service IDs.
+    const propLinks = {
+      choir: { piano: 'rhythm', stand_0: 'rhythm', stand_1: 'rhythm', stand_2: 'rhythm' },
+      office: { gifts: 'pack' },
+      shoproom: { rack_left: 'browse', rack_right: 'browse', counter: 'browse' },
+      foyer: { reception: 'schedule' },
+      garden: { bed_left: 'flower1', bed_back: 'flower2', bed_right: 'flower3' },
+    };
+    for (const el of $('stage').querySelectorAll('.scene-prop')) {
+      const id = el.dataset.prop,
+        target = sc.spots.find((s) => s[0] === (propLinks[st.scene]?.[id] || id));
+      let activate = target ? () => approach(target) : null,
+        label = target?.[2];
+      if (st.scene === 'shoproom' && id === 'mirror') {
+        activate = () => moveTo(67, 92, openAvatar);
+        label = 'Gương thử trang phục';
+      }
+      if (st.scene === 'foyer' && id === 'font') {
+        activate = () => moveTo(31, 79, () => travel('baptistry'));
+        label = 'Tìm hiểu tại giếng Rửa Tội';
+      }
+      if (!activate) continue;
+      el.classList.add('interactive-prop');
+      el.tabIndex = 0;
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-label', label);
+      el.onclick = (e) => {
+        e.stopPropagation();
+        activate();
+      };
+      el.onkeydown = (e) => {
+        if (['Enter', ' '].includes(e.key)) {
+          e.preventDefault();
+          e.stopPropagation();
+          activate();
+        }
+      };
     }
     $('hint').textContent = 'Chạm NPC hoặc điểm tương tác • Sổ nhiệm vụ có nút Đến mục tiêu';
     refreshMarkers();
@@ -360,12 +400,12 @@
     const el = $('worldPlayer');
     el.style.left = st.x + '%';
     el.style.top = st.y + '%';
-    el.style.zIndex = Math.round(st.y);
-    el.style.transform = `translate(-50%,-100%) scale(${(0.6 + st.y * 0.0054).toFixed(3)})`;
+    el.style.zIndex = Math.round(st.y * 10);
+    el.style.transform = `translate(-50%,-100%) scale(${window.PARISH_SCENE_ART.scale(st.y).toFixed(3)})`;
     el.innerHTML =
       A.avatar({
         ...dressed(),
-        direction: facing,
+        direction: st.seated ? 'up' : facing,
         pose: st.activeAction
           ? ACT.find((a) => a.id === st.activeAction.actionId)?.pose
           : st.seated
@@ -387,10 +427,14 @@
     v.scrollTop = Math.max(
       0,
       Math.min(
-        stage.clientHeight - v.clientHeight,
-        (stage.clientHeight * y) / 100 - v.clientHeight * 0.56,
+        v.scrollHeight - v.clientHeight,
+        (stage.clientHeight * y) / 100 - v.clientHeight * (D.scenes[st.scene].art ? 0.78 : 0.56),
       ),
     );
+  }
+  function seatOf(sc) {
+    const parts = st.seatId?.split(':') || [];
+    return sc.seats?.[parts.length === 3 ? parts[1] : parts[0]]?.[Number(parts.at(-1))];
   }
   async function moveTo(x, y, cb) {
     if (activityBusy || activityStarting) return false;
@@ -400,17 +444,24 @@
     }
     const scene = st.scene,
       sc = D.scenes[scene],
-      token = ++movement,
-      path = N.route(sc, motionPoint || [st.x, st.y], [x, y]);
+      token = movement + 1,
+      seat = st.seated ? seatOf(sc) : null,
+      origin = motionPoint || seat?.approach || [st.x, st.y],
+      path = N.route(sc, origin, [x, y]);
     if (!path.length) {
       toast('Không có lối đi đến đây.');
       return false;
     }
+    movement = token;
     const actor = $('worldPlayer');
     moving = true;
     actor.classList.remove('sitting');
     actor.classList.add('walking');
-    let previous = motionPoint || [st.x, st.y];
+    let previous = origin;
+    if (seat && !motionPoint) {
+      actor.style.left = origin[0] + '%';
+      actor.style.top = origin[1] + '%';
+    }
     for (const point of path) {
       if (token !== movement || st.scene !== scene) return false;
       const from = [...previous],
@@ -434,8 +485,8 @@
           motionPoint = [from[0] + dx * t, from[1] + dy * t];
           actor.style.left = motionPoint[0] + '%';
           actor.style.top = motionPoint[1] + '%';
-          actor.style.zIndex = Math.round(motionPoint[1]);
-          actor.style.transform = `translate(-50%,-100%) scale(${(0.6 + motionPoint[1] * 0.0054).toFixed(3)})`;
+          actor.style.zIndex = Math.round(motionPoint[1] * 10);
+          actor.style.transform = `translate(-50%,-100%) scale(${window.PARISH_SCENE_ART.scale(motionPoint[1]).toFixed(3)})`;
           cameraTo(...motionPoint);
           if (t < 1) requestAnimationFrame(frame);
           else resolve();
@@ -590,7 +641,7 @@
       case 'seat':
         openWindow(
           'Chọn chỗ ngồi',
-          'Ghế trong bản chơi một người',
+          'Hướng về cung thánh',
           `<p>Chọn một vị trí trên hàng ghế.</p><div class="choices">${[0, 1, 2].map((i) => `<button class="choice" data-seat="${i}">Chỗ ${i + 1}</button>`).join('')}</div>`,
           [['Đứng dậy', closeModal, 'secondary']],
         );
@@ -601,8 +652,8 @@
                 () => {
                   st.seated = true;
                   st.seatId = id + ':' + b.dataset.seat;
-                  st.x = x + (Number(b.dataset.seat) - 1) * 3;
-                  st.y = y;
+                  const seat = D.scenes[st.scene].seats?.[id]?.[Number(b.dataset.seat)];
+                  [st.x, st.y] = seat?.position || [x + (Number(b.dataset.seat) - 1) * 3, y];
                   record('sit_pew', st.seatId);
                 },
                 intent('/api/player/interact', { spotId: id, choice: Number(b.dataset.seat) }),
@@ -1453,6 +1504,37 @@
       y = ((e.clientY - r.top) / r.height) * 100;
     if (N.walkable(D.scenes[st.scene], x, y)) moveTo(x, y);
   };
+  let steerTimer;
+  function stopSteer() {
+    clearInterval(steerTimer);
+  }
+  function steer(key) {
+    stopSteer();
+    const step = () => {
+      if ($('modalMount').childNodes.length || !document.hasFocus()) {
+        stopSteer();
+        return;
+      }
+      const n = 3;
+      moveTo(
+        (motionPoint?.[0] ?? st.x) + ({ ArrowLeft: -n, ArrowRight: n, a: -n, d: n }[key] || 0),
+        (motionPoint?.[1] ?? st.y) + ({ ArrowUp: -n, ArrowDown: n, w: -n, s: n }[key] || 0),
+      );
+    };
+    step();
+    steerTimer = setInterval(step, 120);
+  }
+  document.addEventListener('keyup', stopSteer);
+  window.addEventListener('blur', stopSteer);
+  for (const button of document.querySelectorAll('.mobile-pad button')) {
+    button.onpointerdown = (e) => {
+      e.preventDefault();
+      button.setPointerCapture(e.pointerId);
+      steer(button.dataset.dir);
+    };
+    button.onpointerup = button.onpointercancel = stopSteer;
+    button.onlostpointercapture = stopSteer;
+  }
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Tab' && $('modalMount').childNodes.length) {
       const nodes = [
@@ -1470,15 +1552,12 @@
     }
     if (e.key === 'Escape' && st.username) closeModal();
     if (
-      ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key) &&
+      ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].includes(e.key) &&
       !$('modalMount').childNodes.length
     ) {
       e.preventDefault();
-      const n = 3;
-      moveTo(
-        st.x + ({ ArrowLeft: -n, ArrowRight: n }[e.key] || 0),
-        st.y + ({ ArrowUp: -n, ArrowDown: n }[e.key] || 0),
-      );
+      if (e.repeat) return;
+      steer(e.key);
     }
   });
   const safe = N.nearest(D.scenes[st.scene], [st.x, st.y]);

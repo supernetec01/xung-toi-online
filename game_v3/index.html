@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#372c42" />
-    <title>Giáo Xứ An Hòa | Game 2D V4</title>
+    <title>Giáo Xứ An Hòa | Game 2.5D V8</title>
     <link rel="stylesheet" href="src/style.css" />
   </head>
   <body>
@@ -60,6 +60,12 @@
 
         <button data-open="menu" title="Cài đặt"><span>☰</span><small>Khác</small></button>
       </nav>
+      <nav class="mobile-pad" aria-label="Điều khiển di chuyển">
+        <button data-dir="ArrowUp" aria-label="Đi lên">↑</button>
+        <button data-dir="ArrowLeft" aria-label="Sang trái">←</button>
+        <button data-dir="ArrowDown" aria-label="Đi xuống">↓</button>
+        <button data-dir="ArrowRight" aria-label="Sang phải">→</button>
+      </nav>
       <div id="modalMount" class="modal-mount"></div>
     </div>
     <script src="src/data.js"></script>
@@ -68,6 +74,8 @@
     <script src="src/activities.js"></script>
     <script src="src/rules.js"></script>
     <script src="src/gameplay.js"></script>
+    <script src="src/scene-layout.js"></script>
+    <script src="src/scene-art.js"></script>
     <script src="src/navigation.js"></script>
     <script src="src/online.js"></script>
     <script src="src/boot.js"></script>

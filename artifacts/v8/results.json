@@ -1,0 +1,259 @@
+{
+  "rooms": [
+    {
+      "id": "nave",
+      "viewport": [
+        1366,
+        768
+      ],
+      "props": 12,
+      "coinsPreserved": true
+    },
+    {
+      "id": "foyer",
+      "viewport": [
+        1366,
+        768
+      ],
+      "props": 3,
+      "coinsPreserved": true
+    },
+    {
+      "id": "choir",
+      "viewport": [
+        1366,
+        768
+      ],
+      "props": 7,
+      "coinsPreserved": true
+    },
+    {
+      "id": "garden",
+      "viewport": [
+        1366,
+        768
+      ],
+      "props": 5,
+      "coinsPreserved": true
+    },
+    {
+      "id": "office",
+      "viewport": [
+        1366,
+        768
+      ],
+      "props": 5,
+      "coinsPreserved": true
+    },
+    {
+      "id": "shoproom",
+      "viewport": [
+        1366,
+        768
+      ],
+      "props": 4,
+      "coinsPreserved": true
+    },
+    {
+      "id": "nave",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "props": 12,
+      "coinsPreserved": true
+    },
+    {
+      "id": "foyer",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "props": 3,
+      "coinsPreserved": true
+    },
+    {
+      "id": "choir",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "props": 7,
+      "coinsPreserved": true
+    },
+    {
+      "id": "garden",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "props": 5,
+      "coinsPreserved": true
+    },
+    {
+      "id": "office",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "props": 5,
+      "coinsPreserved": true
+    },
+    {
+      "id": "shoproom",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "props": 4,
+      "coinsPreserved": true
+    },
+    {
+      "id": "nave",
+      "viewport": [
+        768,
+        1024
+      ],
+      "props": 12,
+      "coinsPreserved": true
+    },
+    {
+      "id": "foyer",
+      "viewport": [
+        768,
+        1024
+      ],
+      "props": 3,
+      "coinsPreserved": true
+    },
+    {
+      "id": "choir",
+      "viewport": [
+        768,
+        1024
+      ],
+      "props": 7,
+      "coinsPreserved": true
+    },
+    {
+      "id": "garden",
+      "viewport": [
+        768,
+        1024
+      ],
+      "props": 5,
+      "coinsPreserved": true
+    },
+    {
+      "id": "office",
+      "viewport": [
+        768,
+        1024
+      ],
+      "props": 5,
+      "coinsPreserved": true
+    },
+    {
+      "id": "shoproom",
+      "viewport": [
+        768,
+        1024
+      ],
+      "props": 4,
+      "coinsPreserved": true
+    },
+    {
+      "id": "nave",
+      "viewport": [
+        390,
+        844
+      ],
+      "props": 12,
+      "coinsPreserved": true
+    },
+    {
+      "id": "foyer",
+      "viewport": [
+        390,
+        844
+      ],
+      "props": 3,
+      "coinsPreserved": true
+    },
+    {
+      "id": "choir",
+      "viewport": [
+        390,
+        844
+      ],
+      "props": 7,
+      "coinsPreserved": true
+    },
+    {
+      "id": "garden",
+      "viewport": [
+        390,
+        844
+      ],
+      "props": 5,
+      "coinsPreserved": true
+    },
+    {
+      "id": "office",
+      "viewport": [
+        390,
+        844
+      ],
+      "props": 5,
+      "coinsPreserved": true
+    },
+    {
+      "id": "shoproom",
+      "viewport": [
+        390,
+        844
+      ],
+      "props": 4,
+      "coinsPreserved": true
+    }
+  ],
+  "input": [
+    "independent mirror opens V4 wardrobe; piano opens V4 rhythm activity",
+    "five rapid commands; 20 blocked wall clicks; seated facing; collision-safe stand; held WASD"
+  ],
+  "performance": [
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "fps": 60.757386599932566,
+      "p95": 16.799999999999272
+    },
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "fps": 61.45668964383138,
+      "p95": 16.799999999999272
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "fps": 60.920391866416516,
+      "p95": 16.799999999999272
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "fps": 60.651379195671005,
+      "p95": 16.80000000000291
+    }
+  ],
+  "errors": []
+}

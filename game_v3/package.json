@@ -5,7 +5,7 @@
   "description": "Offline prototype and validation only; no production auth/payment.",
   "scripts": {
     "test": "node tests/validate_content.cjs && node tests/validate_v3.cjs",
-    "check:syntax": "node --check src/data.js && node --check src/art.js && node --check src/activities.js && node --check src/game.js && node --check src/rules.js && node --check src/navigation.js && node --check src/gameplay.js && node --check src/online.js && node --check src/boot.js && node --check src/wardrobe.js",
+    "check:syntax": "node --check src/data.js && node --check src/art.js && node --check src/activities.js && node --check src/game.js && node --check src/rules.js && node --check src/navigation.js && node --check src/gameplay.js && node --check src/online.js && node --check src/boot.js && node --check src/wardrobe.js && node --check src/scene-layout.js && node --check src/scene-art.js",
     "verify": "npm run check:syntax && npm test"
   }
 }
