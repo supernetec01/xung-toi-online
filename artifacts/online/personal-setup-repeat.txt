@@ -1,0 +1,10 @@
+
+> giao-xu-an-hoa@4.0.0-demo.1 db:start
+> node scripts/db-local.cjs
+
+PostgreSQL local sẵn sàng; cấu hình riêng ở .local/database.json (không commit).
+
+> giao-xu-an-hoa@4.0.0-demo.1 admin:bootstrap
+> node scripts/bootstrap-admin.cjs
+
+Đã có cấu hình operator tại .local/operator.json. Không đổi mật khẩu/quyền.

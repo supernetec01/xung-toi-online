@@ -1,6 +1,6 @@
 const fs = require('node:fs'),
   path = require('node:path'),
-  { execFileSync } = require('node:child_process'),
+  { docker } = require('./lib/docker-local.cjs'),
   { pool } = require('../server/db.cjs');
 (async () => {
   const root = path.resolve(__dirname, '..'),
@@ -13,22 +13,7 @@ const fs = require('node:fs'),
       .sort()
       .at(-1);
   if (!dump) throw Error('Run npm run db:backup first');
-  const name = 'anhoa_restore_' + Date.now(),
-    env = { ...process.env };
-  for (const k of [
-    'DOCKER_HOST',
-    'DOCKER_CONTEXT',
-    'DOCKER_TLS',
-    'DOCKER_TLS_VERIFY',
-    'DOCKER_CERT_PATH',
-  ])
-    delete env[k];
-  const docker = (args, input) =>
-    execFileSync('docker', ['--host=unix:///var/run/docker.sock', ...args], {
-      env,
-      input,
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
+  const name = 'anhoa_restore_' + Date.now();
   await pool.query('CREATE DATABASE ' + name);
   try {
     docker(
@@ -40,7 +25,7 @@ const fs = require('node:fs'),
         '-c',
         `PGPASSWORD="$POSTGRES_PASSWORD" exec pg_restore -U "$POSTGRES_USER" --dbname=${name} --no-owner --no-acl --exit-on-error`,
       ],
-      fs.readFileSync(path.join(folder, dump)),
+      { input: fs.readFileSync(path.join(folder, dump)), stdio: ['pipe', 'pipe', 'pipe'] },
     );
     const { Pool } = require('pg'),
       restored = new Pool({

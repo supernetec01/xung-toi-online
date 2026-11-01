@@ -2,6 +2,20 @@
 
 Game 2D tiếng Việt, tiếp tục renderer/gameplay hiện hành. Bản **demo online** dùng Node.js 24 + PostgreSQL 16, có tài khoản, Admin/MFA/RBAC, CMS, kinh tế server, chat kiểm duyệt, NPC cư dân, LIVE Simulator và Noel cộng đồng. Cổng game nội bộ cố định **5001**.
 
+## Cài trên máy của bạn
+
+Hướng dẫn từng bước, gồm Windows/WSL2, tạo tài khoản Admin và xử lý lỗi: **[docs/INSTALL_AND_RUN.md](docs/INSTALL_AND_RUN.md)**. Máy clone mới sẽ tạo database và Admin riêng; dữ liệu/credentials cloud không nằm trên GitHub.
+
+```sh
+git clone --branch main https://github.com/supernetec01/xung-toi-online.git
+cd xung-toi-online
+npm ci
+npm run db:start
+npm run db:migrate
+npm run admin:bootstrap
+npm start
+```
+
 ## Chạy trong workspace hiện tại
 
 ```sh
@@ -13,11 +27,11 @@ npm run admin:bootstrap
 npm start
 ```
 
-`db:start` dùng Docker local qua `/var/run/docker.sock`, kiểm tra PostgreSQL sẵn sàng; chỉ mở DB trên `127.0.0.1:55432`. Dữ liệu nằm ở `.local/pgdata`, cấu hình kết nối riêng tại `.local/database.json`. Lệnh lặp lại giữ nguyên DB và thông tin operator. Nếu dùng PostgreSQL ngoài, cung cấp biến môi trường `DATABASE_URL` rồi bỏ bước `db:start`. Các lệnh đọc biến môi trường của process; **không tự đọc `.env`**.
+`db:start` dùng Docker context trên máy cá nhân hoặc daemon `/var/run/docker.sock` trong cloud, tự tạo thư mục dữ liệu và kiểm tra PostgreSQL sẵn sàng; chỉ mở DB trên `127.0.0.1:55432`. Dữ liệu nằm ở `.local/pgdata`, cấu hình kết nối riêng tại `.local/database.json`. Lệnh lặp lại giữ nguyên DB và thông tin operator. Nếu dùng PostgreSQL ngoài, cung cấp biến môi trường `DATABASE_URL` rồi bỏ bước `db:start`. Các lệnh đọc biến môi trường của process; **không tự đọc `.env`**.
 
 `npm start` phục vụ game tại `/`, tài khoản tại `/account`, quản trị tại `/admin`, chính sách tại `/privacy`. Health check: `GET /healthz` trả `status: ok`, `mode: online-demo`. Muốn dùng tên miền/forwarding HTTPS, đặt `PUBLIC_ORIGIN` đúng origin được truy cập để qua kiểm tra Origin/CSRF.
 
-Super Admin đã được tạo. Lấy tên đăng nhập, mật khẩu ngẫu nhiên và khóa Authenticator trong **`.local/operator.json`** (quyền 600); thêm khóa vào ứng dụng TOTP rồi đăng nhập `/admin`. Không đăng file này lên Git hoặc gửi vào chat. Sau đăng nhập có thể đổi mật khẩu ở `/account`. Cấp quyền yêu cầu MFA trong 5 phút gần nhất và đối tượng đã bật MFA; vai trò thay đổi sẽ thu hồi phiên cũ. CLI bootstrap chỉ dùng khi khởi tạo, không là đường tự nâng quyền.
+Trong workspace hiện tại đã có Super Admin; máy clone mới tạo Admin bằng `npm run admin:bootstrap`. Lấy tên đăng nhập, mật khẩu ngẫu nhiên và khóa Authenticator trong **`.local/operator.json`** (quyền 600); thêm khóa vào ứng dụng TOTP rồi đăng nhập `/admin`. Không đăng file này lên Git hoặc gửi vào chat. Sau đăng nhập có thể đổi mật khẩu ở `/account`. Cấp quyền yêu cầu MFA trong 5 phút gần nhất và đối tượng đã bật MFA; vai trò thay đổi sẽ thu hồi phiên cũ. CLI bootstrap chỉ dùng khi khởi tạo, không là đường tự nâng quyền.
 
 ## Chơi và lưu dữ liệu
 

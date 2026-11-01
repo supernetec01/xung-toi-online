@@ -22,7 +22,8 @@
     "db:restore-drill": "node scripts/restore-drill.cjs",
     "test:online": "node tests/static-boundaries.cjs && node tests/online-api.cjs && node tests/updates.cjs && node tests/realtime.cjs && node tests/wardrobe.cjs && node tests/online-browser.cjs && node tests/live-ui.cjs && node tests/recovery.cjs && node tests/performance.cjs",
     "test:recovery": "node tests/recovery.cjs",
-    "test:performance": "node tests/performance.cjs"
+    "test:performance": "node tests/performance.cjs",
+    "test:install": "node tests/setup-install.cjs"
   },
   "devDependencies": {
     "playwright": "1.56.1",
@@ -33,5 +34,9 @@
     "pg": "8.16.3",
     "sharp": "0.34.5",
     "ws": "8.18.3"
+  },
+  "engines": {
+    "node": ">=24 <25",
+    "npm": ">=11"
   }
 }

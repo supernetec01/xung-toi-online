@@ -10,16 +10,20 @@ const fs = require('node:fs'),
   await migrate();
   await C.initCatalog();
   const file = path.join(root, '.local/operator.json');
+  fs.mkdirSync(path.dirname(file), { recursive: true, mode: 0o700 });
   if (fs.existsSync(file)) {
     console.log('Đã có cấu hình operator tại .local/operator.json. Không đổi mật khẩu/quyền.');
     return;
   }
   if ((await pool.query("SELECT 1 FROM game_users WHERE 'SUPER_ADMIN'=ANY(roles)")).rowCount)
     throw Error('Super Admin already exists; use authenticated role management.');
-  const login = process.env.ADMIN_BOOTSTRAP_LOGIN || 'operator',
+  const login = (process.env.ADMIN_BOOTSTRAP_LOGIN || 'operator').trim().toLowerCase(),
     password = process.env.ADMIN_BOOTSTRAP_PASSWORD || S.random(),
     secret = S.authenticator.generateSecret();
-  if (password.length < 16) throw Error('Bootstrap password requires at least 16 characters');
+  if (!/^[a-z0-9_]{3,32}$/.test(login))
+    throw Error('Bootstrap login requires 3–32 characters a-z/0-9/_.');
+  if (password.length < 16 || password.length > 128)
+    throw Error('Bootstrap password requires 16–128 characters');
   await tx(async (db) => {
     await db.query('SELECT pg_advisory_xact_lock(40002)');
     if ((await db.query("SELECT 1 FROM game_users WHERE 'SUPER_ADMIN'=ANY(roles)")).rowCount)

@@ -1,0 +1,43 @@
+
+added 33 packages in 693ms
+
+> giao-xu-an-hoa@4.0.0-demo.1 db:start
+> node scripts/db-local.cjs
+
+PostgreSQL local sẵn sàng; cấu hình riêng ở .local/database.json (không commit).
+
+> giao-xu-an-hoa@4.0.0-demo.1 db:migrate
+> node scripts/migrate.cjs
+
+Database migrations ready.
+
+> giao-xu-an-hoa@4.0.0-demo.1 admin:bootstrap
+> node scripts/bootstrap-admin.cjs
+
+Đã tạo Super Admin. Thông tin và khóa MFA nằm trong .local/operator.json (600); không in credentials ra log.
+
+> giao-xu-an-hoa@4.0.0-demo.1 db:start
+> node scripts/db-local.cjs
+
+PostgreSQL local sẵn sàng; cấu hình riêng ở .local/database.json (không commit).
+
+> giao-xu-an-hoa@4.0.0-demo.1 db:migrate
+> node scripts/migrate.cjs
+
+Database migrations ready.
+
+> giao-xu-an-hoa@4.0.0-demo.1 admin:bootstrap
+> node scripts/bootstrap-admin.cjs
+
+Đã có cấu hình operator tại .local/operator.json. Không đổi mật khẩu/quyền.
+PASS fresh Super Admin password/MFA login
+
+> giao-xu-an-hoa@4.0.0-demo.1 db:backup
+> node scripts/backup-db.cjs
+
+Đã lưu backup riêng tại .local/backups/2026-11-01T12-01-03-470Z.tar.gz
+
+> giao-xu-an-hoa@4.0.0-demo.1 db:restore-drill
+> node scripts/restore-drill.cjs
+
+PASS backup restore: account count, ledger invariant and MFA decryption; original DB unchanged.

@@ -1,0 +1,11 @@
+{
+  "at": "2026-11-01T12:01:04.028Z",
+  "emptyLocalDirectory": true,
+  "pgdataCreated": true,
+  "dockerContextsPreservedOutsideCloud": true,
+  "repeatedStartup": true,
+  "bootstrapCredentialsPreserved": true,
+  "freshSuperAdminMfaLogin": true,
+  "backupRestore": true,
+  "existingDatabaseChanged": false
+}

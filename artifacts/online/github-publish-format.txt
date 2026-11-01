@@ -1,0 +1,6 @@
+
+> giao-xu-an-hoa@4.0.0-demo.1 format:check
+> prettier --check "game_v3/src/*.{js,css}" game_v3/index.html "tests/*.cjs" "scripts/**/*.cjs" "server/*.cjs" "public/**/*.{js,css,html}"
+
+Checking formatting...
+All matched files use Prettier code style!

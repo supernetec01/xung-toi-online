@@ -2,7 +2,8 @@
 const fs = require('node:fs'),
   path = require('node:path'),
   crypto = require('node:crypto'),
-  { execFileSync } = require('node:child_process');
+  { execFileSync } = require('node:child_process'),
+  { docker } = require('./lib/docker-local.cjs');
 const root = path.resolve(__dirname, '..'),
   dir = path.join(root, '.local'),
   c = JSON.parse(fs.readFileSync(path.join(dir, 'database.json'))),
@@ -10,28 +11,17 @@ const root = path.resolve(__dirname, '..'),
 fs.mkdirSync(out, { recursive: true, mode: 0o700 });
 const stamp = new Date().toISOString().replace(/[:.]/g, '-'),
   target = path.join(out, stamp + '.dump');
-const env = { ...process.env };
-for (const k of [
-  'DOCKER_HOST',
-  'DOCKER_CONTEXT',
-  'DOCKER_TLS',
-  'DOCKER_TLS_VERIFY',
-  'DOCKER_CERT_PATH',
-])
-  delete env[k];
 const fd = fs.openSync(target, 'wx', 0o600);
 try {
-  execFileSync(
-    'docker',
+  docker(
     [
-      '--host=unix:///var/run/docker.sock',
       'exec',
       c.container,
       'sh',
       '-c',
       'PGPASSWORD="$POSTGRES_PASSWORD" exec pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" --format=custom --no-owner --no-acl',
     ],
-    { env, stdio: ['ignore', fd, 'pipe'] },
+    { stdio: ['ignore', fd, 'pipe'] },
   );
 } finally {
   fs.closeSync(fd);
