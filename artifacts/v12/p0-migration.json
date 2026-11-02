@@ -1,0 +1,8 @@
+{
+  "additiveSqlValidated": true,
+  "customLabelsAndEconomyPreserved": true,
+  "otherSixMapsPreserved": true,
+  "invalidCustomAnchorRejected": true,
+  "transactionRollbackVerified": true,
+  "playerTablesUnchanged": true
+}

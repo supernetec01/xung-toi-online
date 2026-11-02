@@ -1,5 +1,7 @@
 # Giáo Xứ An Hòa V4
 
+Nâng cấp **V12 P0**: [báo cáo code, ảnh trước/sau, kiểm thử, cập nhật và rollback](docs/v12/P0_REPORT.md). Tiếp tục dùng dữ liệu V4; sáu map P1 và nghiệm thu toàn bộ V12 còn trong backlog.
+
 Bản QC 01/11/2026: [kết quả, lỗi đã sửa và hướng dẫn cập nhật](QA_REPORT.md).
 
 Quảng trường Noel mới 02/11/2026: [ảnh trong game, kiểm thử và cách cập nhật/rollback](docs/CHRISTMAS_PLAZA_20261102.md).

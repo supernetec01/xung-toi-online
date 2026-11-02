@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>V12 P0 — ảnh game trước và sau</title>
+  <style>
+    body{margin:0;background:#171821;color:#f8f0e3;font:16px/1.5 system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:24px}h1{font-size:26px}p{color:#c8c4c2}button{padding:10px 18px;border:1px solid #dbbf87;border-radius:12px;background:#292a35;color:inherit;cursor:pointer}button[aria-pressed=true]{background:#eed5a3;color:#292015}nav{display:flex;gap:12px;position:sticky;top:0;background:#171821ed;padding:14px 0;z-index:1}.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{margin:0;background:#252631;border-radius:12px;overflow:hidden}figcaption{padding:8px 12px}img{display:block;width:100%;height:auto}a{color:inherit}section{margin:30px 0 50px}body[data-size="390"] .pair{max-width:820px}body[data-size="390"] img{max-width:390px;margin:auto}@media(max-width:700px){main{padding:14px}.pair{gap:8px}h1{font-size:22px}figcaption{font-size:13px}}
+  </style>
+</head>
+<body data-size="1366">
+  <main>
+    <h1>Giáo Xứ An Hòa V12 — nhóm P0</h1>
+    <p>Ảnh chụp game đang chạy trong Chromium. Trái: baseline a70ca98. Phải: source V12 P0. Mobile là viewport giả lập; mức đẹp và giống ảnh tham chiếu vẫn cần chủ dự án duyệt.</p>
+    <nav aria-label="Chọn kích thước ảnh"><button data-size="1366" aria-pressed="true">Desktop 1366</button><button data-size="390" aria-pressed="false">Mobile 390</button></nav>
+    <div id="maps"></div>
+    <p><a href="P0_REPORT.md">Báo cáo code, kiểm thử và rollback</a> · <a href="BUG_REGISTER.md">Các phần còn thiếu</a></p>
+  </main>
+  <script>
+    const maps = [['courtyard','Sân giáo xứ'],['nave','Gian chính nhà thờ'],['classroom','Lớp giáo lý'],['baptistry','Khu giếng Rửa Tội'],['confession','Góc Hòa Giải']];
+    function show(size){
+      document.body.dataset.size=size;
+      document.querySelectorAll('button[data-size]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.size===size)));
+      document.getElementById('maps').innerHTML=maps.map(([id,title])=>`<section><h2>${title}</h2><div class="pair">${[['before','Trước'],['after','Sau']].map(([folder,label])=>`<figure><figcaption>${label} · ${size}px</figcaption><a href="../../artifacts/v12/${folder}/${id}-${size}.jpg"><img loading="lazy" src="../../artifacts/v12/${folder}/${id}-${size}.jpg" alt="${title} — ${label.toLowerCase()} nâng cấp"></a></figure>`).join('')}</div></section>`).join('');
+    }
+    document.querySelectorAll('button[data-size]').forEach(b=>b.onclick=()=>show(b.dataset.size));show('1366');
+  </script>
+</body>
+</html>

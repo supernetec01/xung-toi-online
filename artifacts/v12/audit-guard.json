@@ -1,0 +1,6 @@
+{
+  "checks": 7,
+  "approvedAdditionsAllowed": true,
+  "missingUnapprovedDuplicateReorderedIdsRejected": true,
+  "historicalBaselineUnmodified": true
+}

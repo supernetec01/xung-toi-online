@@ -1,0 +1,28 @@
+{
+  "functionalCoreCommit": "a1f2d57",
+  "finalDeliveryFixCommit": "353b314",
+  "suites": {
+    "local": "regression-test.txt",
+    "online": "regression-test-online.txt",
+    "v8": "regression-test-v8.txt",
+    "v9": "regression-test-v9.txt",
+    "christmas": "regression-test-christmas.txt",
+    "contract": "t01-contract.txt",
+    "navigation": "t02-navigation.txt",
+    "debug": "t01-debug.txt",
+    "avatar": "t03-avatar.txt",
+    "p0Scenes": "p0-scenes.txt",
+    "migration": "p0-migration.txt",
+    "stableIdGuard": "audit-guard.txt",
+    "staticDelivery": "static-delivery.txt",
+    "format": "format-check.txt",
+    "historicalAudit": "audit-m0.txt"
+  },
+  "p0Groups": 21,
+  "p0ViewportScreenshots": 20,
+  "physicalDeviceVerified": false,
+  "fullV12ReleaseAccepted": false,
+  "normalDemoPort": 5001,
+  "originalDemoDataPreserved": true,
+  "githubActionsObserved": false
+}

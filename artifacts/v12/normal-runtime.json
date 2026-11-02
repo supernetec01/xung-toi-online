@@ -1,0 +1,6 @@
+{
+  "port": 5001,
+  "mode": "online-demo",
+  "healthy": true,
+  "testDatabase": false
+}

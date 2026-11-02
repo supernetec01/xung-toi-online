@@ -1,0 +1,11 @@
+{
+  "at": "2026-11-02T03:08:05.664Z",
+  "commentBurst": 500,
+  "accepted": 100,
+  "rateLimited": 400,
+  "loadDurationMs": 995,
+  "fixedNpcsPreserved": true,
+  "publicMetricsAbsent": true,
+  "oneUserTwoTabsOneAvatar": true,
+  "coreHealthy": true
+}

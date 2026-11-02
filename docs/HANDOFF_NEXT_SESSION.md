@@ -1,5 +1,7 @@
 # Tiếp tục cập nhật V4 demo
 
+Điểm tiếp tục V12: đọc `docs/v12/P0_REPORT.md`, `docs/v12/TASK_BOARD.json`, `docs/v12/QA_MATRIX.csv`, `docs/v12/BUG_REGISTER.md`. P0 đã có scene contracts/A*/footprint, Avatar V10, năm map tách lớp và bài học ba câu; không làm lại V4. Tiếp theo MAP-06–11/T20–24 theo dependency, đặc biệt outdoor world liền mạch còn thiếu. Không đánh dấu T25 xong trước các dependency. Migrations 011/012 phải giữ checksum; rollback geometry bằng `npm run scene:v12 -- previous [--apply]`, không ghi đè DB backup lên tiến độ mới.
+
 Workspace `/workspace/xung-toi-online`, Node 24, cổng **5001**. Đọc `README.md`, `tasks.json`, `docs/milestones/V4_DEMO_REPORT.md`, `KNOWN_ISSUES.md`. Dùng checkout hiện tại, không giải nén ZIP V3 lên source hoặc tạo worktree khi không được yêu cầu.
 
 ## Giữ nguyên

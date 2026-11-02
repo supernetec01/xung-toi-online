@@ -1,0 +1,16 @@
+
+> giao-xu-an-hoa@4.0.0-demo.1 test:online
+> node tests/static-boundaries.cjs && node tests/online-api.cjs && node tests/updates.cjs && node tests/realtime.cjs && node tests/wardrobe.cjs && node tests/online-browser.cjs && node tests/live-ui.cjs && node tests/recovery.cjs && node tests/performance.cjs
+
+PASS 13 static path isolation checks; private and historical repository files are not served
+PASS 78 PostgreSQL/API/security checks
+PASS 61 update/MFA/CMS/import/daily/moderation checks
+
+# Realtime fixture adjusted: crowd moves out after density assertions; see initial crowd log.
+PASS 81 realtime/presence/chat/LIVE/privacy checks
+PASS 13 atlas/rig/live catalog/two-tab browser checks
+Error: Timed out waiting for server state
+    at wait (/workspace/xung-toi-online/tests/online-browser.cjs:54:13)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processTimers (node:internal/timers:568:9)
+    at async /workspace/xung-toi-online/tests/online-browser.cjs:93:11

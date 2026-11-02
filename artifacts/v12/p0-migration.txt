@@ -1,0 +1,1 @@
+PASS additive layout SQL, custom content preservation, invalid-anchor rejection and rollback; player/account/wallet/ledger fingerprints unchanged.

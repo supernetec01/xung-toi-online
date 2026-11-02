@@ -19,7 +19,8 @@
         "artifacts/v12/before/",
         "artifacts/v12/baseline-local.txt",
         "artifacts/v12/baseline-online.txt"
-      ]
+      ],
+      "limitations": []
     },
     {
       "id": "T01",
@@ -47,7 +48,8 @@
         "artifacts/v12/t01-debug.txt",
         "artifacts/v12/t01-debug-admin.jpg",
         "artifacts/v12/t01-verify.txt"
-      ]
+      ],
+      "limitations": []
     },
     {
       "id": "T02",
@@ -71,7 +73,8 @@
         "artifacts/v12/t02-input.txt",
         "artifacts/v12/t02-v9.txt",
         "artifacts/v12/t02-verify.txt"
-      ]
+      ],
+      "limitations": []
     },
     {
       "id": "T03",
@@ -104,7 +107,8 @@
         "artifacts/v12/after/avatar-1366.jpg",
         "artifacts/v12/after/avatar-390.jpg",
         "artifacts/v12/after/avatar-motion.webm"
-      ]
+      ],
+      "limitations": []
     },
     {
       "id": "T04",
@@ -116,10 +120,23 @@
       ],
       "scope": "SeatId, approach point, occupancy, sit_back, occlusion",
       "acceptance": "Ghế không chồng, không ngồi sai hướng, không double occupied",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/game.js",
+        "game_v3/src/avatar-v10.js",
+        "game_v3/src/scene-layout.js",
+        "tests/v12-scenes.cjs",
+        "tests/v9.cjs",
+        "tests/realtime.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/p0-scenes.json",
+        "artifacts/v12/after/nave-seated.jpg",
+        "artifacts/v12/regression-test-v9.txt",
+        "artifacts/v12/regression-test-online.txt"
+      ],
+      "limitations": []
     },
     {
       "id": "MAP-01",
@@ -132,10 +149,28 @@
       ],
       "scope": "Art: Đường đá, nhà thờ kiến trúc Gothic, vườn hoa, bảng tin, NPC. Tương tác: Cổng nhà thờ; quét sân; đón khách; đi đến nhà xứ/lớp giáo lý. Collider, spawn, NPC, UI, zone & camera.",
       "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/scene-layout.js",
+        "game_v3/src/scene-art.js",
+        "game_v3/src/game.js",
+        "game_v3/assets/v12/courtyard.webp",
+        "db/migrations/012_v12_p0_scenes.sql",
+        "scripts/v12-layout.cjs",
+        "tests/v12-scenes.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/p0-scenes.json",
+        "artifacts/v12/p0-migration.json",
+        "artifacts/v12/after/courtyard-1366.jpg",
+        "artifacts/v12/after/courtyard-390.jpg"
+      ],
+      "visualReview": "PENDING_OWNER_REVIEW",
+      "limitations": [
+        "Outdoor world is still connected by portals; seamless courtyard/garden/Christmas layout waits for MAP-08/MAP-11.",
+        "Narrow-screen fixed interaction markers still need polish in T24."
+      ]
     },
     {
       "id": "MAP-02",
@@ -149,10 +184,25 @@
       ],
       "scope": "Art: Cung thánh xa, hai dãy ghế phối cảnh, hành lang giữa, kính màu. Tương tác: Chọn ghế, quỳ/chắp tay, đọc thông tin, NPC. Collider, spawn, NPC, UI, zone & camera.",
       "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/scene-layout.js",
+        "game_v3/src/scene-art.js",
+        "game_v3/src/game.js",
+        "game_v3/assets/v12/nave.webp",
+        "db/migrations/012_v12_p0_scenes.sql",
+        "scripts/v12-layout.cjs",
+        "tests/v12-scenes.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/p0-scenes.json",
+        "artifacts/v12/p0-migration.json",
+        "artifacts/v12/after/nave-1366.jpg",
+        "artifacts/v12/after/nave-390.jpg"
+      ],
+      "visualReview": "PENDING_OWNER_REVIEW",
+      "limitations": []
     },
     {
       "id": "MAP-03",
@@ -165,10 +215,27 @@
       ],
       "scope": "Art: Bàn học, bảng, kệ sách, góc quiz. Tương tác: 3 câu trắc nghiệm, xếp sách, trò chuyện với Sơ. Collider, spawn, NPC, UI, zone & camera.",
       "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/scene-layout.js",
+        "game_v3/src/scene-art.js",
+        "game_v3/src/game.js",
+        "game_v3/assets/v12/classroom.webp",
+        "db/migrations/012_v12_p0_scenes.sql",
+        "scripts/v12-layout.cjs",
+        "tests/v12-scenes.cjs",
+        "game_v3/src/lessons.js",
+        "server/game.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/p0-scenes.json",
+        "artifacts/v12/p0-migration.json",
+        "artifacts/v12/after/classroom-1366.jpg",
+        "artifacts/v12/after/classroom-390.jpg"
+      ],
+      "visualReview": "PENDING_OWNER_REVIEW",
+      "limitations": []
     },
     {
       "id": "MAP-04",
@@ -181,10 +248,25 @@
       ],
       "scope": "Art: Giếng, kính màu, bảng thuyết minh, hoa, nến. Tương tác: Đọc bảng, gặp Chị Hạnh, tìm hiểu biểu tượng. Collider, spawn, NPC, UI, zone & camera.",
       "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/scene-layout.js",
+        "game_v3/src/scene-art.js",
+        "game_v3/src/game.js",
+        "game_v3/assets/v12/baptistry.webp",
+        "db/migrations/012_v12_p0_scenes.sql",
+        "scripts/v12-layout.cjs",
+        "tests/v12-scenes.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/p0-scenes.json",
+        "artifacts/v12/p0-migration.json",
+        "artifacts/v12/after/baptistry-1366.jpg",
+        "artifacts/v12/after/baptistry-390.jpg"
+      ],
+      "visualReview": "PENDING_OWNER_REVIEW",
+      "limitations": []
     },
     {
       "id": "MAP-05",
@@ -197,10 +279,25 @@
       ],
       "scope": "Art: Tòa giải tội, ghế chờ, ánh sáng dịu. Tương tác: Đọc kiến thức, hướng dẫn xét mình, NPC. Collider, spawn, NPC, UI, zone & camera.",
       "acceptance": "Screenshot bám ref, interaction hoạt động, nav/test/desktop-mobile pass.",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/scene-layout.js",
+        "game_v3/src/scene-art.js",
+        "game_v3/src/game.js",
+        "game_v3/assets/v12/confession.webp",
+        "db/migrations/012_v12_p0_scenes.sql",
+        "scripts/v12-layout.cjs",
+        "tests/v12-scenes.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/p0-scenes.json",
+        "artifacts/v12/p0-migration.json",
+        "artifacts/v12/after/confession-1366.jpg",
+        "artifacts/v12/after/confession-390.jpg"
+      ],
+      "visualReview": "PENDING_OWNER_REVIEW",
+      "limitations": []
     },
     {
       "id": "MAP-06",
@@ -216,7 +313,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "MAP-07",
@@ -232,7 +330,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "MAP-08",
@@ -248,7 +347,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "MAP-09",
@@ -264,7 +364,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "MAP-10",
@@ -280,7 +381,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "MAP-11",
@@ -296,7 +398,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "T20",
@@ -310,7 +413,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "T21",
@@ -325,7 +429,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "T22",
@@ -339,7 +444,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "T23",
@@ -354,7 +460,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "T24",
@@ -378,7 +485,8 @@
       "status": "TODO",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     },
     {
       "id": "T25",
@@ -396,9 +504,15 @@
       "status": "WAITING_DEPENDENCIES",
       "kind": "code",
       "actualFiles": [],
-      "evidence": []
+      "evidence": [],
+      "limitations": []
     }
   ],
   "baselineCommit": "a70ca9855927ee335eadc32058306b867754fd03",
-  "phase": "P0 first; T25 waits for its P1 dependencies"
+  "phase": "P0 technical delivery; T25 waits for P1 dependencies; visual and physical-device acceptance pending",
+  "statusLegend": {
+    "VERIFIED": "Runnable code and recorded technical tests; does not imply owner visual approval or a complete V12 release.",
+    "TODO": "V12 task not implemented in this delivery; existing V4/V8/V9 features may already work.",
+    "WAITING_DEPENDENCIES": "Cannot close before the listed P1 dependencies and remaining QA gates."
+  }
 }

@@ -1,0 +1,1 @@
+PASS 7 stable ID audit guards: approved additions only; existing IDs remain protected.

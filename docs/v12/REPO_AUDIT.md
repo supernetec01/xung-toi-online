@@ -42,7 +42,7 @@ Mỗi task cập nhật trạng thái thật, log/test/ảnh và rollback. Visua
 
 ## T01 thực thi
 
-Scene adapter giữ stable IDs; schema kiểm bounds/props/assets/portal và strict geometry cho contract version 1. Legacy chưa gắn version 1 vẫn đi qua adapter và cơ chế nearest spawn cũ, không tự thay catalog người dùng. 33 contract checks đạt; overlay 6 chế độ đã mở trong browser Admin, PLAYER/MODERATOR/EDITOR bị 403; guest không có panel. Asset preload dùng cache promise tối đa 32 URL, lỗi được phép retry. Debug chỉ tải khi Admin dùng `?debugScene=1`, production tắt mặc định.
+Scene adapter giữ stable IDs; schema kiểm bounds/props/assets/portal và strict geometry cho contract version 1. Legacy chưa gắn version 1 vẫn đi qua adapter và cơ chế nearest spawn cũ, không tự thay catalog người dùng. 37 contract checks đạt (bổ sung guard shape/sprite khi dựng P0); overlay 6 chế độ đã mở trong browser Admin, PLAYER/MODERATOR/EDITOR bị 403; guest không có panel. Asset preload dùng cache promise tối đa 32 URL, lỗi được phép retry. Debug chỉ tải khi Admin dùng `?debugScene=1`, production tắt mặc định.
 
 Audit bổ sung: spawn nguồn ở sân/lớp/giếng nằm trong collider cũ; runtime có nearest recovery nên baseline chạy được. P0 layout phải sửa nguồn spawn thật, không dựa mãi vào recovery.
 
@@ -53,3 +53,7 @@ Thay BFS bằng A* có heap; footprint theo scene contract; sweep AABB mở rộ
 ## T03 thực thi
 
 Một factory V10/V4 dùng cho map, NPC, Shop, HUD, LIVE và Admin preview. Renderer tham khảo V10 đã bỏ toàn bộ wallet/catalog/equip demo; vật phẩm vẫn do V4 quyết định. Giữ khung atlas 120×185 và fallback palette khi ảnh lỗi. Studio có 5 màu da (3 màu cũ vẫn được server chấp nhận), 7 lựa chọn tóc gồm auto, 4 hướng/7 pose, tủ đồ/Shop preview và xác nhận mua. Ba màu tóc mới thêm vào cùng catalog bằng migration 011; không thay giá/ID cũ hoặc cấp item từ client. Appearance version chặn ghi đè từ UI tab cũ; client V4 cũ vẫn dùng được patch từng trường. 29 UI/API/peer checks, 13 atlas checks và 22 viewport/rig checks đạt; có video ngắn từ Studio thật. Mobile là giả lập, không phải thiết bị vật lý.
+
+## T04 và MAP-01–05 thực thi
+
+Ghế V9 được tái sử dụng và kiểm tám hàng/24 seat anchor cùng Avatar V10; lease conflict/reload/expiry đã qua. Năm map P0 có artwork sạch, props riêng, collision theo chân và entry/access/NPC kiểm trước publish. Bài học ba câu dùng state/album V4 và snapshot server, không tạo ví hoặc phần thưởng Xu thứ hai. Hồi quy online phát hiện và sửa lỗi server làm tròn điểm NPC hợp lệ sang grid gây từ chối trò chuyện; UI chỉ mở sau xác nhận. 21 nhóm P0, 20 ảnh viewport và migration rollback đã qua; các suite cũ cũng được chạy lại. Báo cáo cuối, ảnh và giới hạn ở `P0_REPORT.md`/`QA_STATUS.md`; world ngoài trời liền mạch, sáu map P1, vé/provider và thiết bị thật vẫn còn thiếu.

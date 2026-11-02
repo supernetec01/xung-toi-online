@@ -1,0 +1,16 @@
+
+> giao-xu-an-hoa@4.0.0-demo.1 test:online
+> node tests/static-boundaries.cjs && node tests/online-api.cjs && node tests/updates.cjs && node tests/realtime.cjs && node tests/wardrobe.cjs && node tests/online-browser.cjs && node tests/live-ui.cjs && node tests/recovery.cjs && node tests/performance.cjs
+
+PASS 13 static path isolation checks; private and historical repository files are not served
+AssertionError [ERR_ASSERTION]: NPC interaction
+    at ok (/workspace/xung-toi-online/tests/online-api.cjs:10:3)
+    at /workspace/xung-toi-online/tests/online-api.cjs:142:3
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

@@ -1,0 +1,7 @@
+
+> giao-xu-an-hoa@4.0.0-demo.1 test:christmas
+> node tests/christmas.cjs
+
+AssertionError [ERR_ASSERTION]: leaving plaza clears night HUD and light layers
+    at ok (/workspace/xung-toi-online/tests/christmas.cjs:16:3)
+    at /workspace/xung-toi-online/tests/christmas.cjs:186:9

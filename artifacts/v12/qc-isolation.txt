@@ -1,0 +1,1 @@
+PASS: QC wrapper refused to start a test command against the normal demo on port 5001.
