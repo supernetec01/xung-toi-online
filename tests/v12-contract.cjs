@@ -42,6 +42,31 @@ for (const mutation of [
   (s) => s.spots.push([...s.spots[0]]),
   (s) => s.spots.push(['bad_gate', '🚪', 'Cửa', 20, 80, 'go', 'unknown']),
   (s) => (s.art = { theme: 'v12', background: '../../private', props: [] }),
+  (s) => (s.art = { props: {} }),
+  (s) => (s.seats = { bad: null }),
+  (s) =>
+    (s.art = {
+      theme: 'v12',
+      background: 'nave',
+      props: [{ id: 'bad_prop', sprite: 999, x: 30, y: 80, w: 10, h: 10, depth: 80 }],
+    }),
+  (s) =>
+    (s.art = {
+      theme: 'v12',
+      background: 'nave',
+      props: [
+        {
+          id: 'bad_bench',
+          sprite: 0,
+          x: 30,
+          y: 80,
+          w: 10,
+          h: 10,
+          depth: 80,
+          bench: { x: 'unsafe', y: 0, w: 30, h: 30 },
+        },
+      ],
+    }),
   (s) =>
     (s.art = {
       theme: 'v12',

@@ -12,6 +12,7 @@ function loadCatalog(root = ROOT) {
   vm.createContext(ctx);
   for (const name of [
     'data',
+    'lessons',
     'activities',
     'rules',
     'gameplay',

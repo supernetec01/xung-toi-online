@@ -15,6 +15,114 @@
     depth,
   });
   const rooms = {
+    courtyard: {
+      theme: 'v12',
+      bounds: [4, 60, 96, 97],
+      horizon: 0.58,
+      props: [
+        prop('flowerbed_left', 'flowerbed', 17, 93, 32, 27, [4, 83, 31, 95]),
+        prop('flowerbed_right', 'flowerbed', 83, 93, 32, 27, [69, 83, 96, 95]),
+        prop('noticeboard', 'noticeboard', 79, 74, 18, 31, [72, 65, 87, 75]),
+        prop('bench', 'bench', 16, 74, 20, 18, [8, 69, 25, 75]),
+        prop('flowers_left', 'planter', 34, 64, 9, 16, [31, 60, 37, 65]),
+        prop('flowers_right', 'planter', 66, 64, 9, 16, [63, 60, 69, 65]),
+      ],
+      points: {
+        church: [50, 48],
+        classroom: [17, 53],
+        office: [83, 52],
+        garden: [18, 80],
+        christmas: [82, 80],
+        action_hub_courtyard: [50, 80],
+        parish_notice: [79, 64],
+      },
+      anchors: {
+        church: [50, 63],
+        classroom: [27, 65],
+        office: [71, 62],
+        garden: [35, 80],
+        christmas: [66, 80],
+        action_hub_courtyard: [50, 80],
+        parish_notice: [68, 74],
+      },
+      npcPoints: { lucia: [43, 69], guard: [59, 68] },
+      entry: [50, 89],
+      extraSpots: [['parish_notice', '📋', 'Bảng tin giáo xứ', 79, 64, 'info', 'parish_notice']],
+    },
+    classroom: {
+      theme: 'v12',
+      bounds: [4, 60, 96, 97],
+      horizon: 0.58,
+      props: [
+        prop('desk_left_back', 'desk', 24, 80, 23, 23, [15, 73, 33, 81]),
+        prop('desk_right_back', 'desk', 76, 80, 23, 23, [67, 73, 85, 81]),
+        prop('desk_left_front', 'desk', 22, 95, 28, 27, [10, 87, 34, 96]),
+        prop('desk_right_front', 'desk', 78, 95, 28, 27, [66, 87, 90, 96]),
+        prop('teacher_desk', 'desk', 50, 66, 21, 20, [42, 60, 58, 67]),
+        prop('bookcase', 'bookcase', 14, 67, 15, 33, [8, 60, 21, 68]),
+        prop('noticeboard', 'noticeboard', 82, 67, 14, 27, [76, 60, 88, 68]),
+      ],
+      points: {
+        book: [14, 57],
+        quiz_class: [82, 56],
+        back: [50, 95],
+        action_hub_classroom: [58, 83],
+        lesson_class: [50, 79],
+      },
+      anchors: {
+        book: [26, 68],
+        quiz_class: [71, 70],
+        back: [50, 94],
+        action_hub_classroom: [58, 83],
+        lesson_class: [50, 80],
+      },
+      npcPoints: { sister: [50, 71], child: [62, 78] },
+      entry: [50, 92],
+      extraSpots: [['lesson_class', '📚', 'Ba câu hỏi nhỏ', 50, 79, 'lesson', 'class_basics']],
+    },
+    baptistry: {
+      theme: 'v12',
+      horizon: 0.58,
+      props: [
+        prop('font', 'font', 50, 80, 33, 35, [37, 68, 63, 81]),
+        prop('noticeboard', 'noticeboard', 19, 79, 17, 30, [12, 70, 26, 80]),
+        prop('learning_board', 'noticeboard', 81, 80, 17, 30, [74, 71, 88, 81]),
+        prop('flowers_left', 'planter', 31, 67, 8, 17, [28, 61, 34, 68]),
+        prop('flowers_right', 'planter', 69, 67, 8, 17, [66, 61, 72, 68]),
+        prop('bench_left', 'bench', 15, 95, 23, 20, [5, 90, 25, 96]),
+        prop('bench_right', 'bench', 85, 95, 23, 20, [75, 90, 95, 96]),
+      ],
+      points: { font: [50, 66], quiz_baptism: [81, 67], back: [50, 95], baptism_info: [19, 65] },
+      anchors: { font: [50, 85], quiz_baptism: [70, 82], back: [50, 94], baptism_info: [30, 80] },
+      npcPoints: { catechist: [69, 86] },
+      entry: [50, 91],
+      extraSpots: [['baptism_info', '📖', 'Ý nghĩa nước và ánh sáng', 19, 65, 'learn', 'baptism']],
+    },
+    confession: {
+      theme: 'v12',
+      horizon: 0.58,
+      props: [
+        prop('confessional', 'confessional', 52, 80, 43, 43, [33, 65, 71, 81]),
+        prop('noticeboard', 'noticeboard', 19, 79, 15, 29, [13, 70, 25, 80]),
+        prop('bench', 'bench', 84, 88, 22, 20, [75, 82, 94, 89]),
+        prop('flowers', 'planter', 12, 65, 8, 18, [9, 60, 15, 66]),
+        prop('quiet_corner', 'bench', 18, 95, 18, 16, [10, 90, 26, 96]),
+      ],
+      points: { reconcile: [52, 59], back: [50, 95], reflection: [19, 66], quiet_prayer: [19, 88] },
+      anchors: {
+        reconcile: [52, 85],
+        back: [50, 94],
+        reflection: [29, 80],
+        quiet_prayer: [30, 91],
+      },
+      npcPoints: { sister: [70, 87] },
+      npc: ['sister'],
+      entry: [50, 91],
+      extraSpots: [
+        ['reflection', '📖', 'Hướng dẫn xét mình', 19, 66, 'info', 'reflection'],
+        ['quiet_prayer', '🕯️', 'Góc thinh lặng', 19, 88, 'info', 'quiet_prayer'],
+      ],
+    },
     christmas: {
       tile: 6,
       theme: 'christmas-night',
@@ -154,6 +262,14 @@
     },
   };
   const nave = rooms.nave;
+  nave.theme = 'v12';
+  for (const p of nave.props)
+    if (p.id.startsWith('lilies')) {
+      p.sprite = 'planter';
+      p.y = 57;
+      p.depth = 57;
+      p.solid[3] = 57;
+    }
   const seats = {};
   for (let row = 0; row < 4; row++)
     for (const side of ['left', 'right']) {
@@ -198,10 +314,24 @@
     }
   for (const [id, layout] of Object.entries(rooms)) {
     const sc = D.scenes[id];
-    sc.artVersion = id === 'christmas' ? 'christmas-night-1' : 'v8-layered-1';
+    sc.artVersion =
+      layout.theme === 'v12'
+        ? 'v12-layered-1'
+        : id === 'christmas'
+          ? 'christmas-night-1'
+          : 'v8-layered-1';
     sc.art = { tile: layout.tile, horizon: layout.horizon, props: layout.props };
     if (layout.theme) sc.art.theme = layout.theme;
-    sc.bounds = id === 'christmas' ? [4, 58, 96, 97] : [4, 56, 96, 97];
+    if (layout.theme === 'v12') {
+      sc.art.background = id;
+      sc.contract = {
+        version: 1,
+        worldId: id === 'courtyard' ? 'parish-campus' : id,
+        feet: [0.6, 0.35],
+        camera: { mode: 'perspective2d', minScale: 0.64, maxScale: 1.12 },
+      };
+    }
+    sc.bounds = layout.bounds || (id === 'christmas' ? [4, 58, 96, 97] : [4, 56, 96, 97]);
     sc.walkPolygons = [
       [
         [14, sc.bounds[1]],
@@ -213,7 +343,10 @@
     sc.blockers = layout.props.filter((p) => p.solid).map((p) => p.solid);
     sc.anchors = { ...sc.anchors, ...layout.anchors };
     sc.npcPoints = { ...sc.npcPoints, ...layout.npcPoints };
+    if (layout.npc) sc.npc = [...new Set([...sc.npc, ...layout.npc])];
     sc.entry = layout.entry || [50, 91];
+    for (const spot of layout.extraSpots || [])
+      if (!sc.spots.some((s) => s[0] === spot[0])) sc.spots.push(spot);
     for (const s of sc.spots) if (layout.points[s[0]]) [s[3], s[4]] = layout.points[s[0]];
     if (id === 'nave') sc.seats = seats;
   }
@@ -228,6 +361,8 @@
     shoproom: [49, 83],
     foyer: [50, 77],
     christmas: [58, 82],
+    courtyard: [50, 80],
+    classroom: [58, 83],
   };
   for (const a of root.PARISH_ACTIVITIES)
     if (actionPoints[a.scene]) a.anchor = [...actionPoints[a.scene]];

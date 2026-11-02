@@ -154,6 +154,18 @@ async function interact(user, key, p) {
       const quiz = c.quizzes[arg];
       if (p.answer !== quiz.correct) S.fail(422, 'WRONG_ANSWER');
       C.R.record(st, progressCatalog(st, c), quiz.event, arg);
+    } else if (kind === 'lesson') {
+      const lesson = c.lessons?.[arg],
+        result = require('../game_v3/src/lessons.js').answer(st, lesson, arg, p.choice, p.answer);
+      if (!result.ok)
+        S.fail(
+          result.code === 'STALE_QUESTION' || result.code === 'LESSON_COMPLETE' ? 409 : 422,
+          result.code,
+          result.code === 'WRONG_ANSWER'
+            ? 'Chưa đúng. Em hãy thử lại nhé.'
+            : 'Câu hỏi đã đổi. Hãy xem lại bài học.',
+        );
+      if (result.complete) C.R.record(st, progressCatalog(st, c), lesson.event, lesson.sourceRef);
     } else if (kind === 'book') {
       if (!st.bookReturned) {
         st.book = true;
@@ -479,6 +491,20 @@ async function importDemo(user, key, raw, expectedVersion) {
       st.questSnapshots = Object.fromEntries(
         st.accepted.map((id) => [id, c.quests.find((q) => q.id === id)]),
       );
+      st.lessonProgress = {};
+      for (const [id, progress] of Object.entries(raw.lessonProgress || {})) {
+        const definition = c.lessons?.[id];
+        if (!definition) S.fail(409, 'LESSON_MAPPING_REQUIRED');
+        st.lessonProgress[id] = {
+          index: Math.min(progress.index, definition.questions.length),
+          version: definition.version,
+          questions: structuredClone(definition.questions),
+        };
+        if (progress.index >= definition.questions.length) {
+          st.album ??= [];
+          if (!st.album.includes('knowledge:' + id)) st.album.push('knowledge:' + id);
+        }
+      }
       st.questRewards = Object.fromEntries(
         st.accepted.map((id) => [id, c.quests.find((q) => q.id === id)?.rewardCoins || 0]),
       );

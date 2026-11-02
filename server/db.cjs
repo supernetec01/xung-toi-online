@@ -58,6 +58,14 @@ async function migrate() {
         !(await db.query('SELECT 1 FROM schema_migrations WHERE version=$1', [version])).rowCount
       ) {
         await db.query(fs.readFileSync(path.join(root, 'db/migrations', file), 'utf8'));
+        if (
+          version === 12 &&
+          (await db.query('SELECT 1 FROM catalog_current WHERE singleton=true')).rowCount
+        ) {
+          const catalog = require('./catalog.cjs'),
+            errors = catalog.validate(await catalog.current(db));
+          if (errors.length) throw Error('LAYOUT_REVIEW_REQUIRED: ' + errors.join('; '));
+        }
         await db.query('INSERT INTO schema_migrations(version,checksum) VALUES($1,$2)', [
           version,
           checksum,

@@ -6,6 +6,8 @@ const base = loadCatalog(),
   N = base.PARISH_NAV;
 const seed = JSON.parse(JSON.stringify({ ...base.PARISH_DATA, actions: base.PARISH_ACTIVITIES }));
 async function initCatalog() {
+  const errors = validate(seed);
+  if (errors.length) throw Error('INVALID_SEED: ' + errors.join('; '));
   await tx(async (db) => {
     await db.query(
       'INSERT INTO catalog_current(singleton,version,payload) VALUES(true,1,$1) ON CONFLICT DO NOTHING',
@@ -49,6 +51,25 @@ function validate(c) {
   }
   safe(c);
   errors.push(...require('../game_v3/src/scene-contract.js').validate(c, N));
+  if (c.lessons) {
+    if (
+      typeof c.lessons !== 'object' ||
+      Array.isArray(c.lessons) ||
+      Object.keys(c.lessons).length > 16
+    )
+      errors.push('Invalid lesson catalog');
+    else
+      for (const [id, l] of Object.entries(c.lessons)) {
+        const probe = { [id]: { index: 0, version: l?.version, questions: l?.questions } };
+        if (
+          !require('../game_v3/src/lessons.js').validProgress(probe) ||
+          !['quiz_class'].includes(l?.event) ||
+          l?.sourceRef !== 'class' ||
+          typeof l?.title !== 'string'
+        )
+          errors.push('Invalid lesson definition');
+      }
+  }
   const validId = (id) => typeof id === 'string' && /^[a-z][a-z0-9_]{1,63}$/.test(id),
     color = (x) => typeof x === 'string' && /^#[0-9a-fA-F]{6}$/.test(x);
   for (const key of ['items', 'quests', 'actions'])

@@ -332,6 +332,22 @@
     }
     // Artwork itself is interactive; keep the existing V4 hotspot/service IDs.
     const propLinks = {
+      courtyard: { noticeboard: 'parish_notice', bench: 'garden' },
+      classroom: {
+        bookcase: 'book',
+        noticeboard: 'quiz_class',
+        desk_left_back: 'lesson_class',
+        desk_right_back: 'lesson_class',
+        desk_left_front: 'lesson_class',
+        desk_right_front: 'lesson_class',
+        teacher_desk: 'quiz_class',
+      },
+      baptistry: { noticeboard: 'baptism_info', learning_board: 'quiz_baptism' },
+      confession: {
+        confessional: 'reconcile',
+        noticeboard: 'reflection',
+        quiet_corner: 'quiet_prayer',
+      },
       christmas: {
         nativity: 'star',
         market_left: 'action_hub_christmas',
@@ -722,7 +738,82 @@
       .querySelectorAll('[data-guide]')
       .forEach((b) => (b.onclick = () => guideQuest(b.dataset.guide)));
   }
+  function openLesson(spot) {
+    const id = spot[6],
+      lesson = D.lessons?.[id];
+    if (!lesson) {
+      toast('Bài học chưa sẵn sàng.');
+      return;
+    }
+    const progress = st.lessonProgress?.[id],
+      questions = progress?.questions || lesson.questions,
+      index = progress?.index || 0;
+    if (index >= questions.length) {
+      openWindow(
+        'Đã hoàn thành',
+        lesson.title,
+        '<p>Em đã hoàn thành ba câu hỏi. Một mẩu kiến thức đã được lưu vào album.</p><p>Phần thưởng nhiệm vụ được nhận trong Sổ nhiệm vụ như trước.</p>',
+        [['Đóng', closeModal, 'primary']],
+      );
+      return;
+    }
+    const q = questions[index];
+    openWindow(
+      lesson.title,
+      `Câu ${index + 1}/${questions.length}`,
+      `<p>${A.esc(q.question)}</p><div class="lesson-answers">${q.choices.map((text, i) => `<button class="btn block secondary" data-lesson-answer="${i}">${A.esc(text)}</button>`).join('')}</div><p class="helper">Đây là bài học ứng xử. Thử lại không mất Xu.</p>`,
+      [['Đóng', closeModal, 'secondary']],
+    );
+    const lessonWindow = document.querySelector('.window');
+    let busy = false;
+    document.querySelectorAll('[data-lesson-answer]').forEach(
+      (b) =>
+        (b.onclick = async () => {
+          if (busy) return;
+          busy = true;
+          lessonWindow
+            .querySelectorAll('[data-lesson-answer]')
+            .forEach((el) => (el.disabled = true));
+          await mutate(
+            () => {
+              const result = window.PARISH_LESSONS.answer(
+                st,
+                lesson,
+                id,
+                index,
+                Number(b.dataset.lessonAnswer),
+              );
+              if (!result.ok) {
+                toast('Chưa đúng. Em hãy thử lại nhé.');
+                return false;
+              }
+              if (result.complete) record(lesson.event, lesson.sourceRef);
+              return true;
+            },
+            intent('/api/player/interact', {
+              spotId: spot[0],
+              choice: index,
+              answer: Number(b.dataset.lessonAnswer),
+            }),
+          );
+          busy = false;
+          if (lessonWindow.isConnected) openLesson(spot);
+        }),
+    );
+  }
   const info = {
+    parish_notice: [
+      'Bảng tin giáo xứ',
+      'Chào mừng bạn đến An Hòa. Từ sân, bạn có thể đến lớp giáo lý, nhà xứ, vườn cộng đồng và nhà thờ. Chạm NPC để hỏi đường; mục Nhiệm vụ giúp bạn tìm việc đang làm.',
+    ],
+    reflection: [
+      'Gợi ý xét mình',
+      'Bạn có thể dành ít phút nhìn lại cách mình đối xử với gia đình, bạn bè và những người cần giúp đỡ. Nội dung ở đây chỉ để tìm hiểu; không cần nhập hay gửi chuyện riêng tư. Nếu cần hướng dẫn, hãy trao đổi trực tiếp với người phụ trách tại giáo xứ.',
+    ],
+    quiet_prayer: [
+      'Góc thinh lặng',
+      'Một khoảng dừng nhẹ nhàng để tĩnh tâm. Bạn có thể tiếp tục khám phá khi sẵn sàng hoặc gặp người hướng dẫn trong giáo xứ.',
+    ],
     altar: [
       'Bàn thờ trong Thánh lễ',
       'Bàn thờ là trung tâm cử hành Thánh lễ. Trong game, đây là điểm tìm hiểu kiến thức; người chơi không đi vào cung thánh tự do.',
@@ -788,7 +879,17 @@
             'Bài học giáo lý',
             '<p>Bí tích Rửa Tội là nghi thức khai tâm Kitô giáo; theo đức tin Công giáo, một người chỉ lãnh nhận bí tích này một lần.</p><p class="muted">Đây là bài học, không cử hành Rửa Tội thật.</p>',
             [
-              ['Làm câu hỏi', () => quiz('baptism'), 'primary'],
+              [
+                'Làm câu hỏi',
+                () => {
+                  closeModal();
+                  const target = D.scenes[st.scene].spots.find(
+                    (s) => s[5] === 'quiz' && s[6] === 'baptism',
+                  );
+                  if (target) approach(target);
+                },
+                'primary',
+              ],
               ['Đóng', closeModal, 'secondary'],
             ],
           );
@@ -802,6 +903,9 @@
         break;
       case 'quiz':
         quiz(arg);
+        break;
+      case 'lesson':
+        openLesson(spot);
         break;
       case 'book':
         await mutate(

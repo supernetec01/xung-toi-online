@@ -28,7 +28,9 @@
     "test:v8": "node tests/v8.cjs",
     "scene:layout": "node scripts/scene-layout.cjs",
     "test:v9": "node --test references/v9/tests/navigation.test.mjs && node tests/v9.cjs",
-    "test:christmas": "node tests/christmas.cjs"
+    "test:christmas": "node tests/christmas.cjs",
+    "test:v12": "node tests/v12-contract.cjs && node tests/v12-navigation.cjs && node tests/v12-migration.cjs && node tests/v12-debug.cjs && node tests/v12-avatar.cjs && node tests/v12-scenes.cjs",
+    "scene:v12": "node scripts/v12-layout.cjs"
   },
   "devDependencies": {
     "playwright": "1.56.1",

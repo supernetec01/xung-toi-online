@@ -18,7 +18,7 @@ const state = (p) => p.evaluate((k) => JSON.parse(localStorage.getItem(k)), key)
 async function travel(p, id) {
   await p.locator('[data-open=map]').click();
   await p.locator(`[data-travel=${id}]`).click();
-  await p.waitForSelector(`#stage[data-scene=${id}][data-art=v8-layered-1]`);
+  await p.waitForSelector(`#stage[data-scene=${id}][data-art=${C.seed.scenes[id].artVersion}]`);
   await p.waitForFunction(() => !document.querySelector('.window'));
   await p.waitForFunction(() => !document.querySelector('.toast'));
   await p.mouse.move(1, 1);
@@ -76,7 +76,7 @@ async function clickWorld(p, x, y) {
         assert(props >= 3, id + ' independent furniture');
         assert.equal(await p.locator('.scene-wall').count(), 1);
         assert.equal(await p.locator('.scene-floor').count(), 1);
-        assert.equal(await p.locator('#worldPlayer svg').count(), 1);
+        assert.equal(await p.locator('#worldPlayer > svg').count(), 1);
         const sc = await p.evaluate((id) => PARISH_DATA.scenes[id], id);
         assert(C.N.walkable(sc, (await state(p)).x, (await state(p)).y));
         assert.equal((await state(p)).coins, 321);
@@ -155,7 +155,7 @@ async function clickWorld(p, x, y) {
         await p.locator('[data-seat="1"]').click();
         await p.waitForFunction((k) => JSON.parse(localStorage.getItem(k)).seated, key);
         assert((await state(p)).seated);
-        assert.equal(await p.locator('#worldPlayer svg').getAttribute('data-direction'), 'up');
+        assert.equal(await p.locator('#worldPlayer > svg').getAttribute('data-direction'), 'up');
         await p.screenshot({ path: 'artifacts/v8/nave-seated.jpg', type: 'jpeg', quality: 88 });
         await clickWorld(p, 50, 77);
         await p.waitForTimeout(60);

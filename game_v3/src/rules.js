@@ -8,6 +8,7 @@
     skin: '#f7cfac',
     hairStyle: 'auto',
     appearanceVersion: 0,
+    lessonProgress: {},
     scene: 'courtyard',
     x: 51,
     y: 82,
@@ -48,6 +49,12 @@
       !object(raw) ||
       !Object.keys(raw).length ||
       (raw.version !== undefined && ![2, 3].includes(raw.version))
+    )
+      return false;
+    if (
+      raw.lessonProgress !== undefined &&
+      (!object(raw.lessonProgress) ||
+        (root.PARISH_LESSONS && !root.PARISH_LESSONS.validProgress(raw.lessonProgress)))
     )
       return false;
     for (const key of ['inventory', 'accepted', 'claimed', 'watered', 'decorated'])

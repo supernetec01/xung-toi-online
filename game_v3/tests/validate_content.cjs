@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const root=path.resolve(__dirname,'..');
 const ctx={window:{}};vm.createContext(ctx);
-for(const file of ['data.js','activities.js','rules.js','gameplay.js','scene-layout.js','navigation.js']) vm.runInContext(fs.readFileSync(path.join(root,'src',file),'utf8'),ctx,{filename:file});
+for(const file of ['data.js','lessons.js','activities.js','rules.js','gameplay.js','scene-layout.js','navigation.js']) vm.runInContext(fs.readFileSync(path.join(root,'src',file),'utf8'),ctx,{filename:file});
 const d=ctx.window.PARISH_DATA, acts=ctx.window.PARISH_ACTIVITIES;
 assert.equal(Object.keys(d.scenes).length,11,'11 scenes');
 assert.equal(d.quests.length,11,'11 quests');

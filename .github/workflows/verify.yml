@@ -41,6 +41,7 @@ jobs:
       - run: npm run test:v8
       - run: npm run test:v9
       - run: npm run test:christmas
+      - run: npm run test:v12
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -52,3 +53,4 @@ jobs:
             artifacts/v8
             artifacts/v9
             artifacts/christmas
+            artifacts/v12

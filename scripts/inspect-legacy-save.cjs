@@ -8,6 +8,13 @@ function inspectSave(raw) {
   const issues = [];
   if (!object(raw))
     return { status: 'BLOCKED', issues: ['Save must be an object'], applied: false };
+  if (raw.lessonProgress !== undefined) {
+    if (!require('../game_v3/src/lessons.js').validProgress(raw.lessonProgress))
+      issues.push('Invalid lesson progress');
+    else
+      for (const id of Object.keys(raw.lessonProgress))
+        if (!D.lessons?.[id]) issues.push('Unknown lesson needs mapping');
+  }
   function scan(v, depth = 0) {
     if (depth > 20) {
       issues.push('Maximum nesting exceeded');

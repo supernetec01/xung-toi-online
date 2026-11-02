@@ -24,7 +24,7 @@
     'bookcase',
     'planter',
     'bench',
-    'lectern',
+    'flowerbed',
   ];
   const point = (p) =>
     Array.isArray(p) && p.length === 2 && p.every((v) => Number.isFinite(v) && v >= 0 && v <= 100);
@@ -78,6 +78,7 @@
     for (const [id, sc] of Object.entries(catalog.scenes)) {
       const fail = (message) => errors.push(id + ': ' + message);
       if (
+        !sc ||
         !rect(sc.bounds) ||
         !point(sc.entry) ||
         !Array.isArray(sc.spots) ||
@@ -94,6 +95,10 @@
       for (const poly of sc.walkPolygons || [])
         if (!Array.isArray(poly) || poly.length < 3 || poly.some((p) => !point(p)))
           fail('invalid walk polygon');
+      if (sc.art && !Array.isArray(sc.art.props)) {
+        fail('invalid prop list');
+        continue;
+      }
       const props = sc.art?.props || [],
         ids = new Set();
       for (const p of props) {
@@ -112,6 +117,21 @@
         )
           fail('invalid or duplicate prop');
         ids.add(p?.id);
+        if (!p) continue;
+        if (
+          typeof p.sprite === 'number' &&
+          (!Number.isInteger(p.sprite) || p.sprite < 0 || p.sprite > 15)
+        )
+          fail('unknown atlas sprite');
+        if (
+          p.bench &&
+          (!['x', 'y', 'w', 'h'].every(
+            (key) => Number.isFinite(p.bench[key]) && p.bench[key] >= 0 && p.bench[key] <= 1672,
+          ) ||
+            !p.bench.w ||
+            !p.bench.h)
+        )
+          fail('invalid bench geometry');
         if (
           sc.art?.theme === 'v12' &&
           !p.bench &&
@@ -122,6 +142,15 @@
       }
       if (sc.art?.theme === 'v12' && !backgrounds.includes(sc.art.background))
         fail('unknown V12 background');
+      if (
+        sc.seats &&
+        (typeof sc.seats !== 'object' ||
+          Array.isArray(sc.seats) ||
+          Object.values(sc.seats).some(
+            (seats) => !Array.isArray(seats) || seats.some((seat) => !seat),
+          ))
+      )
+        fail('invalid seat list');
       const spotIds = new Set();
       for (const s of sc.spots) {
         if (

@@ -137,7 +137,9 @@ class Client {
     (await p.call('/api/player/equipment', { itemId: 'shirt_noel' }, 'PUT')).status === 403,
     'unowned equip rejected',
   );
-  const move = await p.call('/api/player/location', { x: 40, y: 76 });
+  const activeCatalog = await p.call('/api/catalog'),
+    [luciaX, luciaY] = activeCatalog.scenes.courtyard.npcPoints.lucia;
+  const move = await p.call('/api/player/location', { x: luciaX, y: luciaY });
   ok(move.status === 200, 'move');
   ok((await p.call('/api/player/interact', { npcId: 'lucia' })).status === 200, 'NPC interaction');
   const claims = await Promise.all(
@@ -149,7 +151,11 @@ class Client {
   );
   ok((await p.call('/api/me')).state.coins === 110, 'one quest reward');
   ok((await p.call('/api/quests/q_garden/claim', {})).status === 422, 'cannot claim incomplete');
-  ok((await p.call('/api/player/location', { x: 54, y: 76 })).status === 200, 'move action anchor');
+  const [sweepX, sweepY] = activeCatalog.actions.find((a) => a.id === 'sweep').anchor;
+  ok(
+    (await p.call('/api/player/location', { x: sweepX, y: sweepY })).status === 200,
+    'move action anchor',
+  );
   const starts = await Promise.all([
     p.call('/api/actions/sweep/start', {}),
     p.call('/api/actions/sweep/start', {}),

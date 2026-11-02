@@ -86,8 +86,13 @@
     if (!sc.art) return false;
     const { tile, props } = sc.art;
     const christmas = sc.art.theme === 'christmas-night',
+      v12 = sc.art.theme === 'v12',
       name = ['nave', 'foyer', 'choir', 'garden', 'office', 'shoproom'][tile],
-      texture = christmas ? 'assets/christmas/architecture.webp' : 'assets/v8/' + name + '.webp';
+      texture = v12
+        ? 'assets/v12/' + sc.art.background + '.webp'
+        : christmas
+          ? 'assets/christmas/architecture.webp'
+          : 'assets/v8/' + name + '.webp';
     document.getElementById('scenery').innerHTML =
       svg([0, 0, 1672, 941 * 0.58], texture, 'scene-wall') +
       svg([0, 941 * 0.58, 1672, 941 * 0.42], texture, 'scene-floor');
@@ -108,6 +113,11 @@
           p.sprite === 'lantern'
             ? lantern(p.x < 50 ? 'left' : 'right')
             : `<img class="prop-sprite" src="assets/christmas/${christmasAssets[p.sprite]}.webp" alt="" draggable="false"/>`;
+        stage.append(el);
+        continue;
+      }
+      if (v12 && window.PARISH_SCENE_CONTRACT.sprites.includes(p.sprite)) {
+        el.innerHTML = `<img class="prop-sprite" src="assets/v12/${p.sprite}.webp" alt="" draggable="false"/>`;
         stage.append(el);
         continue;
       }
@@ -164,6 +174,12 @@
     return true;
   }
   const depth = (y) => Math.round(y * 10),
-    scale = (y) => Math.max(0.6, Math.min(1.2, 0.6 + (y - 56) * 0.014));
+    scale = (y) => {
+      const id = document.getElementById('stage')?.dataset.scene,
+        camera = window.PARISH_DATA?.scenes[id]?.contract?.camera,
+        min = camera?.minScale ?? 0.6,
+        max = camera?.maxScale ?? 1.2;
+      return Math.max(min, Math.min(max, min + (y - 56) * 0.014));
+    };
   window.PARISH_SCENE_ART = { mount, depth, scale, preload, assetList };
 })();

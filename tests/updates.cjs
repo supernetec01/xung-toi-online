@@ -171,7 +171,8 @@ async function publish(admin, kind, payload) {
   };
   const questPlayer = await fixture();
   await publish(admin, 'quest', q);
-  await api(questPlayer, '/api/player/location', { x: 40, y: 76 });
+  const [luciaX, luciaY] = original.scenes.courtyard.npcPoints.lucia;
+  await api(questPlayer, '/api/player/location', { x: luciaX, y: luciaY });
   await api(questPlayer, '/api/player/interact', { npcId: 'lucia' });
   const claim = await api(questPlayer, '/api/quests/q_welcome/claim', {});
   ok(
