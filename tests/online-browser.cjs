@@ -15,6 +15,13 @@ const base = 'http://127.0.0.1:5001';
     const c = await b.newContext({ viewport: { width: 1366, height: 768 } });
     c.setDefaultTimeout(15000);
     const p = await c.newPage();
+    const apiErrors = [];
+    p.on('response', async (r) => {
+      if (r.status() >= 400 && r.url().includes('/api/player/')) {
+        const body = await r.json().catch(() => ({}));
+        apiErrors.push({ path: new URL(r.url()).pathname, status: r.status(), code: body.code });
+      }
+    });
     p.on('pageerror', (e) => errors.push(e.message));
     const login = 'ui_' + crypto.randomBytes(6).toString('hex'),
       password = crypto.randomBytes(24).toString('hex');
@@ -51,7 +58,17 @@ const base = 'http://127.0.0.1:5001';
         if (fn(st)) return st;
         await new Promise((r) => setTimeout(r, 100));
       }
-      throw Error('Timed out waiting for server state');
+      await p.screenshot({ path: 'artifacts/v12/online-timeout.jpg', quality: 85 });
+      throw Error(
+        'Timed out waiting for server state: ' +
+          JSON.stringify({
+            apiErrors,
+            ui: await p.evaluate(() => ({
+              toast: document.querySelector('.toast')?.textContent,
+              dialog: document.querySelector('.window h2')?.textContent,
+            })),
+          }),
+      );
     };
     async function dismiss() {
       if (await p.locator('.window .close').count()) await p.locator('.window .close').click();

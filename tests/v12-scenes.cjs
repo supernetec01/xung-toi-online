@@ -214,11 +214,21 @@ async function snapshot(p) {
       });
       return { status: r.status(), ...(await r.json()) };
     }
-    assert.equal((await send('/api/player/travel', { sceneId: 'classroom' })).status, 200);
     async function get(url) {
       const r = await p.request.get(base + url);
       return r.json();
     }
+    const npc = catalog.scenes.courtyard.npcPoints.lucia;
+    await require('./lib/move.cjs')(
+      { x: npc[0] + 5, y: npc[1] + 3 },
+      (data) => send('/api/player/location', data),
+      get,
+    );
+    assert.equal((await send('/api/player/interact', { npcId: 'lucia' })).status, 200);
+    result.checks.push(
+      'NPC approach validates exact position instead of grid rounding at range boundary',
+    );
+    assert.equal((await send('/api/player/travel', { sceneId: 'classroom' })).status, 200);
     await require('./lib/move.cjs')(
       { x: 50, y: 80 },
       (data) => send('/api/player/location', data),
@@ -288,6 +298,21 @@ async function snapshot(p) {
       catalog.scenes.confession.art.props.length,
     );
     result.checks.push('30 online scene changes: one player, no accumulated props/wall/floor');
+    for (const id of layout.ids) {
+      await travel(p, id);
+      for (const npcId of catalog.scenes[id].npc) {
+        await close(p);
+        await p.locator('[data-npc=' + npcId + ']').click();
+        await p.waitForSelector('.dialogue-text');
+        assert(
+          (await snapshot(p)).achievements[catalog.npcs[npcId].event]?.includes('npc:' + npcId),
+          id + '/' + npcId + ' confirmed by server',
+        );
+      }
+    }
+    result.checks.push(
+      'all eight functional NPC placements across five P0 maps: real approach and server-confirmed dialogue',
+    );
     await p.close();
     ok(result.errors.length === 0, 'no browser page errors');
     fs.writeFileSync('artifacts/v12/p0-scenes.json', JSON.stringify(result, null, 2) + '\n');

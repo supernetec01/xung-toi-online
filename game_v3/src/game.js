@@ -675,10 +675,14 @@
   }
   async function talk(id) {
     if (!D.scenes[st.scene].npc.includes(id)) return;
-    await mutate(
-      () => record(D.npcs[id].event, 'npc:' + id),
+    const confirmed = await mutate(
+      () => {
+        record(D.npcs[id].event, 'npc:' + id);
+        return true;
+      },
       intent('/api/player/interact', { npcId: id }),
     );
+    if (!confirmed) return;
     const n = D.npcs[id],
       related = D.quests.filter((q) => q.giverId === id && visibleQuest(q)),
       buttons = [['Tiếp tục', closeModal, 'secondary']];

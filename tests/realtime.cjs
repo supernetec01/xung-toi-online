@@ -329,6 +329,11 @@ async function wait(fn, ms = 15000) {
   ok(event.project.percent === 100, 'shared Noel reaches all stages');
   const album = await api(p, '/api/events/claim', {});
   ok(album.state.album.length === 4, 'four milestone postcards');
+  // Density/cap assertions above are complete. Make room for the independent LIVE
+  // visibility check: repeated CMS suites may retain extra functional QA NPCs.
+  // Move the crowd through the real API; do not delete accounts or raise the cap.
+  for (const x of others)
+    assert.equal((await api(x, '/api/player/travel', { sceneId: 'garden' })).status, 200);
   const live = await api(admin, '/api/admin/live/start', {
     sceneId: 'courtyard',
     keyword: 'NOEL',

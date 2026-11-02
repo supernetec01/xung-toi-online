@@ -109,7 +109,7 @@ function progressCatalog(st, c) {
 }
 function near(st, c, point) {
   const sc = c.scenes[st.scene],
-    target = C.N.nearest(sc, point);
+    target = C.N.walkable(sc, ...point) ? point : C.N.nearest(sc, point);
   if (
     !target ||
     Math.hypot(st.x - target[0], st.y - target[1]) > (sc.art ? 7 : 13) ||
