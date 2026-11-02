@@ -184,7 +184,9 @@ async function seed(p, decode = true) {
         await p.locator('[data-spot=back]').click();
         await p.waitForSelector('#stage[data-scene=courtyard]');
         ok(
-          await p.evaluate(() => document.querySelector('.game').dataset.worldTheme === ''),
+          (await p.locator('.game').getAttribute('data-world-theme')) ===
+            C.seed.scenes.courtyard.art.theme &&
+            (await p.locator('.christmas-lights').count()) === 0,
           'leaving plaza clears night HUD and light layers',
         );
       }

@@ -8,6 +8,13 @@ const {
   verifyFrozenRuntime,
   validateTaskGraph,
 } = require('./lib/m0-project.cjs');
+function validateCatalogBaseline(catalog, expected, additions = {}) {
+  for (const [key, ids] of Object.entries(expected)) {
+    const next = [...ids, ...(additions[key] || [])];
+    if (new Set(next).size !== next.length || JSON.stringify(catalog[key]) !== JSON.stringify(next))
+      throw new Error('Stable catalog ID baseline changed: ' + key);
+  }
+}
 function audit() {
   const frozen = verifyFrozenRuntime();
   if (!frozen.unchanged) throw new Error(`M0 frozen runtime changed: ${frozen.changed.join(', ')}`);
@@ -22,8 +29,8 @@ function audit() {
     actionIds: activities.map((a) => a.id),
   };
   const expected = readJson('artifacts/m0/catalog-baseline.json');
-  if (JSON.stringify(catalog) !== JSON.stringify(expected))
-    throw new Error('Stable catalog ID baseline changed');
+  const additions = readJson('config/v12-catalog-additions.json');
+  validateCatalogBaseline(catalog, expected, additions);
   const flags = readJson('config/v4-boundaries.json');
   if (Object.values(flags.futureFeatureDefaults).some(Boolean))
     throw new Error('M0 must not enable V4 features');
@@ -45,6 +52,7 @@ function audit() {
     runtime: frozen,
     frozenGit: { branch: baseline.branch, commit: baseline.headCommit, state: baseline.headState },
     catalog,
+    approvedAdditions: additions,
     taskCount: board.tasks.length,
     databaseAtM0: 'no-runtime-database',
     dataKeys: flags.legacySaveKeys,
@@ -63,4 +71,4 @@ if (require.main === module) {
     process.exitCode = 1;
   }
 }
-module.exports = { audit };
+module.exports = { audit, validateCatalogBaseline };

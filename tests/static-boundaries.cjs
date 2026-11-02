@@ -7,6 +7,19 @@ const assert = require('node:assert/strict');
     checks++;
   }
   for (const path of [
+    '/assets/v12/nave.webp',
+    '/assets/v8/nave.webp',
+    '/assets/christmas/architecture.webp',
+  ]) {
+    const r = await fetch(base + path);
+    assert.equal(r.status, 200);
+    assert.equal(r.headers.get('content-type'), 'image/webp');
+    const bytes = Buffer.from(await r.arrayBuffer());
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
+    checks++;
+  }
+  for (const path of [
     '/src/..%2fpackage.json',
     '/src/..%2fdocs/schema_v3.sql',
     '/src/..%2f..%2f.local/operator.json',

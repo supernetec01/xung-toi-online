@@ -300,7 +300,7 @@ async function snapshot(p) {
     result.checks.push('30 online scene changes: one player, no accumulated props/wall/floor');
     for (const id of layout.ids) {
       await travel(p, id);
-      for (const npcId of catalog.scenes[id].npc) {
+      for (const npcId of C.seed.scenes[id].npc) {
         await close(p);
         await p.locator('[data-npc=' + npcId + ']').click();
         await p.waitForSelector('.dialogue-text');
