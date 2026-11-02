@@ -233,7 +233,12 @@ class World {
         displayName: p.state.username,
         position: [p.state.x, p.state.y],
         pose: p.state.seated ? 'sit' : p.state.activeAction?.actionId || 'idle',
-        visual: { gender: p.state.gender, skin: p.state.skin, equipped: p.state.equipped },
+        visual: {
+          gender: p.state.gender,
+          skin: p.state.skin,
+          hairStyle: p.state.hairStyle || 'auto',
+          equipped: p.state.equipped,
+        },
         self: id === userId,
       });
     }

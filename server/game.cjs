@@ -290,8 +290,22 @@ async function equipment(user, key, p) {
   });
 }
 async function appearance(user, key, p) {
-  S.exact(p, ['gender', 'skin', 'lowMotion', 'tracked']);
+  S.exact(p, ['gender', 'skin', 'hairStyle', 'appearanceVersion', 'lowMotion', 'tracked']);
   return play(user, key, 'appearance', p, (st, c) => {
+    const avatar = require('../game_v3/src/avatar-v10.js');
+    if (
+      p.appearanceVersion !== undefined &&
+      (!Number.isSafeInteger(p.appearanceVersion) || p.appearanceVersion < 0)
+    )
+      S.fail(400, 'INVALID_APPEARANCE_VERSION');
+    if (p.appearanceVersion !== undefined && p.appearanceVersion !== (st.appearanceVersion || 0))
+      S.fail(409, 'APPEARANCE_CHANGED', 'Ngoại hình vừa thay đổi ở tab khác. Hãy mở lại Nhân vật.');
+    if (p.hairStyle !== undefined) {
+      if (!avatar.HAIR_STYLES.includes(p.hairStyle)) S.fail(400, 'INVALID_HAIR_STYLE');
+      st.hairStyle = p.hairStyle;
+    }
+    if (['gender', 'skin', 'hairStyle'].some((k) => p[k] !== undefined))
+      st.appearanceVersion = (st.appearanceVersion || 0) + 1;
     if (p.gender !== undefined) {
       if (!['male', 'female'].includes(p.gender)) S.fail(400, 'INVALID_GENDER');
       st.gender = p.gender;
@@ -302,7 +316,7 @@ async function appearance(user, key, p) {
       }
     }
     if (p.skin !== undefined) {
-      if (!['#f7cfac', '#d9a77f', '#ae7658'].includes(p.skin)) S.fail(400, 'INVALID_SKIN');
+      if (!avatar.SKIN_HEX.includes(p.skin)) S.fail(400, 'INVALID_SKIN');
       st.skin = p.skin;
     }
     if (typeof p.lowMotion === 'boolean') st.lowMotion = p.lowMotion;
@@ -441,6 +455,7 @@ async function importDemo(user, key, raw, expectedVersion) {
       for (const field of [
         'gender',
         'skin',
+        'hairStyle',
         'scene',
         'x',
         'y',

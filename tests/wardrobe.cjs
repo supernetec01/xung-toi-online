@@ -213,11 +213,15 @@ async function publish(c, item) {
       () => PARISH_ONLINE.active && document.querySelector('#worldPlayer [data-part=torso]'),
     );
     ok(
-      await pages[0].evaluate(
-        () =>
-          document.querySelector('#worldPlayer [data-part=torso] path').getAttribute('fill') ===
-          '#af6177',
-      ),
+      await pages[0].evaluate(() => {
+        const torso = document.querySelector('#worldPlayer [data-part=torso]'),
+          fill = torso.querySelector('path').getAttribute('fill'),
+          id = /url\(#(.+)\)/.exec(fill)?.[1],
+          gradient = id && torso.closest('svg').querySelector('[id="' + id + '"] stop');
+        return (
+          torso.dataset.color === '#af6177' && gradient?.getAttribute('stop-color') === '#af6177'
+        );
+      }),
       'failed atlas keeps visible palette fallback',
     );
     assert.deepEqual(errors, []);

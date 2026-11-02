@@ -49,3 +49,7 @@ Audit bổ sung: spawn nguồn ở sân/lớp/giếng nằm trong collider cũ; 
 ## T02 thực thi
 
 Thay BFS bằng A* có heap; footprint theo scene contract; sweep AABB mở rộng bắt tường mỏng 0,01 đơn vị mà baseline nhận xuyên. Kiểm tra foot rectangle trên polygon; path smoothing cũng dùng sweep. Client kiểm tra đoạn chuyển động mỗi frame và hủy lệnh/callback khi catalog thay đổi; click vùng bị chặn có phản hồi. 13 unit checks, held-key hai lượt, V9 rapid-click/collision/seat trên 4 viewport và verify đạt. Footprint mới được bật từng scene khi publish contract; scene legacy giữ hành vi hiện có.
+
+## T03 thực thi
+
+Một factory V10/V4 dùng cho map, NPC, Shop, HUD, LIVE và Admin preview. Renderer tham khảo V10 đã bỏ toàn bộ wallet/catalog/equip demo; vật phẩm vẫn do V4 quyết định. Giữ khung atlas 120×185 và fallback palette khi ảnh lỗi. Studio có 5 màu da (3 màu cũ vẫn được server chấp nhận), 7 lựa chọn tóc gồm auto, 4 hướng/7 pose, tủ đồ/Shop preview và xác nhận mua. Ba màu tóc mới thêm vào cùng catalog bằng migration 011; không thay giá/ID cũ hoặc cấp item từ client. Appearance version chặn ghi đè từ UI tab cũ; client V4 cũ vẫn dùng được patch từng trường. 29 UI/API/peer checks, 13 atlas checks và 22 viewport/rig checks đạt; có video ngắn từ Studio thật. Mobile là giả lập, không phải thiết bị vật lý.

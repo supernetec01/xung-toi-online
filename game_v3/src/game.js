@@ -109,6 +109,8 @@
     return {
       gender: st.gender,
       skin: st.skin,
+      hairStyle: st.hairStyle || 'auto',
+      topKind: { shirt_noel: 'sweater', shirt_green: 'jacket' }[e.top] || 'shirt',
       top: item(e.top)?.color || '#f8e8d6',
       bottom: item(e.bottom)?.color || '#465b75',
       shoes: item(e.shoes)?.color || '#6a443e',
@@ -1149,40 +1151,37 @@
       .forEach((b) => (b.onclick = () => buyOrEquip(b.dataset.item, () => openBag(slot))));
   }
   function openAvatar() {
-    openWindow(
-      'Nhân vật',
-      'Chọn giới tính nhân vật và phối đồ',
-      `<div class="outfit-layout"><div class="avatar-stage">${A.avatar(dressed())}</div><div><p><b>${A.esc(st.username)}</b> · Cư dân giáo xứ</p><p class="muted">Avatar được vẽ bằng các lớp: đầu, tóc, thân, tay, chân, áo, quần/váy và phụ kiện.</p><div class="gender-select"><button class="btn ${st.gender === 'male' ? '' : 'secondary'}" data-gender="male">👦 Nam</button><button class="btn ${st.gender === 'female' ? '' : 'secondary'}" data-gender="female">👧 Nữ</button></div><div class="pilltabs"><button class="active" data-color="#f7cfac">Da sáng</button><button data-color="#d9a77f">Da ấm</button><button data-color="#ae7658">Da nâu</button></div><button class="btn block" data-open="bag">🎒 Chọn trang phục đã mua</button></div></div>`,
-      [['Xong', closeModal, 'primary']],
-      true,
-    );
-    document.querySelectorAll('[data-gender]').forEach(
-      (b) =>
-        (b.onclick = async () => {
-          await mutate(
-            () => {
-              st.gender = b.dataset.gender;
-            },
-            intent('/api/player/appearance', { gender: b.dataset.gender }, 'PUT'),
-          );
-          showPlayer();
-          openAvatar();
-        }),
-    );
-    document.querySelectorAll('[data-color]').forEach(
-      (b) =>
-        (b.onclick = async () => {
-          await mutate(
-            () => {
-              st.skin = b.dataset.color;
-            },
-            intent('/api/player/appearance', { skin: b.dataset.color }, 'PUT'),
-          );
-          showPlayer();
-          openAvatar();
-        }),
-    );
-    document.querySelectorAll('.window [data-open]').forEach((b) => (b.onclick = () => openBag()));
+    window.PARISH_AVATAR_STUDIO.open({
+      state: () => st,
+      catalog: () => D,
+      dressed,
+      window: openWindow,
+      close: closeModal,
+      wear: async (id) => {
+        await buyOrEquip(id);
+      },
+      commit: async (patch) => {
+        const ok = await mutate(
+          () => {
+            Object.assign(st, patch);
+            st.appearanceVersion = (patch.appearanceVersion || 0) + 1;
+            return true;
+          },
+          intent('/api/player/appearance', patch, 'PUT'),
+        );
+        if (!ok && O.active) {
+          try {
+            const fresh = await O.request('/api/me');
+            O.state = fresh.state;
+            O.version = fresh.state.stateVersion;
+            st = readState();
+          } catch {}
+        }
+        showPlayer();
+        renderHud();
+        return ok;
+      },
+    });
   }
   function openEvents() {
     const q = D.quests.find((q) => q.id === 'q_noel');

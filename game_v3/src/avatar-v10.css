@@ -1,0 +1,73 @@
+/* V10 pivots use its body coordinates; legacy atlas remains 120 by 185. */
+svg.v10-render,
+svg.v10-art {
+  animation: none !important;
+}
+svg.v10-render[data-sprite-version] [data-part='left-arm'],
+svg.v10-render[data-sprite-version] [data-part='right-arm'],
+svg.v10-render[data-sprite-version] [data-part='legs'] {
+  transform: none;
+  animation: none;
+  transform-origin: center top;
+  transform-box: fill-box;
+}
+svg.v10-render[data-pose='walk'] [data-part='left-arm'],
+svg.v10-render[data-pose='walk'] [data-part='right-leg'] {
+  animation: v10-stride 0.42s ease-in-out infinite alternate;
+}
+svg.v10-render[data-pose='walk'] [data-part='right-arm'],
+svg.v10-render[data-pose='walk'] [data-part='left-leg'] {
+  animation: v10-stride 0.42s ease-in-out infinite alternate-reverse;
+}
+svg.v10-render [data-part='left-leg'],
+svg.v10-render [data-part='right-leg'] {
+  transform-origin: center top;
+  transform-box: fill-box;
+}
+.v10-render svg.atlas-frame {
+  animation: atlas-flip 0.8s steps(1, end) infinite;
+}
+@keyframes v10-stride {
+  from {
+    transform: rotate(-7deg);
+  }
+  to {
+    transform: rotate(7deg);
+  }
+}
+svg.v10-render[data-pose='sign_cross'] [data-part='right-arm'] {
+  animation: v10-cross 2.4s ease-in-out infinite;
+}
+svg.v10-render[data-pose='wave'] [data-part='right-arm'],
+svg.v10-render[data-pose='decorate'] [data-part='right-arm'] {
+  animation: v10-stride 0.75s ease-in-out infinite alternate;
+}
+svg.v10-render[data-pose='sweep'] [data-part='right-arm'],
+svg.v10-render[data-pose='water'] [data-part='right-arm'],
+svg.v10-render[data-pose='wipe'] [data-part='right-arm'] {
+  animation: v10-stride 0.8s ease-in-out infinite alternate;
+}
+@keyframes v10-cross {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-10px, -50px);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  75% {
+    transform: translate(-18px, -8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  svg.v10-render * {
+    animation: none !important;
+  }
+}
+.low-motion svg.v10-render * {
+  animation: none !important;
+}

@@ -164,7 +164,7 @@
         return indoor(id);
     }
   }
-  const spriteVersion = 'svg-rig-4.2';
+  const spriteVersion = 'v10-v4-1';
   const directions = ['up', 'down', 'left', 'right'];
   const poses = [
     'idle',
@@ -185,88 +185,8 @@
     'decorate',
     'carry',
   ];
-  const avatarCache = new Map();
   function avatar(person = {}) {
-    const paint = (v, fallback) => (/^#[a-f0-9]{6}$/i.test(v || '') ? v : fallback);
-    const female = person.gender !== 'male',
-      skin = paint(person.skin, '#f7cfac'),
-      top = paint(person.top || person.shirt, '#f5e6cf'),
-      bottom = paint(person.bottom, '#465b75'),
-      shoes = paint(person.shoes, '#6a443e'),
-      hair = paint(person.hair, '#543932'),
-      direction =
-        person.pose === 'sit_back'
-          ? 'up'
-          : directions.includes(person.direction)
-            ? person.direction
-            : 'down',
-      pose = poses.includes(person.pose)
-        ? person.pose
-        : { cross: 'sign_cross', clean: 'wipe', sit_back: 'sit' }[person.pose] || 'idle',
-      acc = ['acc_bow', 'acc_lily', 'acc_bag'].includes(person.acc) ? person.acc : 'acc_none',
-      layers = window.PARISH_WARDROBE?.frames(person.assets, pose, direction) || [],
-      key = [
-        female,
-        skin,
-        top,
-        bottom,
-        shoes,
-        hair,
-        direction,
-        pose,
-        acc,
-        JSON.stringify(layers),
-      ].join(':');
-    if (avatarCache.has(key)) return avatarCache.get(key);
-    const side = direction === 'left' || direction === 'right',
-      back = direction === 'up';
-    const seated = ['sit', 'kneel', 'genuflect'].includes(pose);
-    const head = back
-      ? `<path d="M32 48Q23 14 58 12Q96 11 90 52L85 ${female ? 83 : 65}H37Z" fill="${hair}"/><path d="M42 29Q60 17 78 30M44 41Q61 30 81 44" fill="none" stroke="#ffffff" stroke-opacity=".1" stroke-width="3"/>`
-      : side
-        ? `<path d="M37 47Q26 10 59 12Q86 10 85 40L90 70H38Z" fill="${hair}"/><path d="M53 21Q81 16 84 37L92 48L85 52Q84 71 62 72Q44 67 43 45Z" fill="${skin}"/><path d="M37 39Q33 10 58 11Q79 12 84 31L62 25L57 48L44 53Z" fill="${hair}"/><ellipse cx="77" cy="43" rx="2.5" ry="3.5" fill="#423745"/><path d="M76 59L84 58" stroke="#ad6c68" stroke-width="2.5"/>`
-        : `<path d="M32 48Q23 14 58 12Q96 11 90 52L85 70H37Z" fill="${hair}"/><ellipse cx="60" cy="44" rx="26" ry="29" fill="${skin}"/><ellipse cx="35" cy="46" rx="5" ry="8" fill="${skin}"/><ellipse cx="85" cy="46" rx="5" ry="8" fill="${skin}"/><path d="M34 35Q33 9 60 10Q88 13 86 35Q75 31 65 21Q53 36 34 35Z" fill="${hair}"/><ellipse cx="49" cy="46" rx="4" ry="5" fill="#423745"/><ellipse cx="72" cy="46" rx="4" ry="5" fill="#423745"/><circle cx="50" cy="44" r="1.6" fill="#fff6dd"/><circle cx="73" cy="44" r="1.6" fill="#fff6dd"/><path d="M54 59Q60 64 66 59" stroke="#ad6c68" fill="none" stroke-width="2.5" stroke-linecap="round"/>${female ? `<path d="M31 39Q25 65 34 83L38 77Q31 58 39 39M89 39Q94 65 86 83L82 77Q91 58 81 39" fill="${hair}"/>` : ''}`;
-    const bent = ['pray', 'read', 'carry', 'sign_cross'].includes(pose),
-      armLeft = bent ? 'rotate(-42deg)' : '',
-      armRight =
-        pose === 'wave'
-          ? 'rotate(-145deg)'
-          : bent
-            ? 'rotate(42deg)'
-            : pose === 'decorate'
-              ? 'rotate(-110deg)'
-              : '',
-      arms = `<g data-part="arms"><g data-part="left-arm" style="transform:${armLeft || 'none'}"><path d="M40 71Q25 72 24 91L21 111Q27 116 33 110L42 90Z" fill="${skin}"/><path d="M40 70Q28 72 26 90L38 94L45 77Z" fill="${top}"/></g><g data-part="right-arm" style="transform:${armRight || 'none'}"><path d="M81 71Q95 72 96 91L99 111Q93 116 87 110L78 90Z" fill="${skin}"/><path d="M81 70Q93 72 95 90L83 94L76 78Z" fill="${top}"/></g></g>`,
-      frontArms = bent || ['wave', 'decorate'].includes(pose),
-      prop =
-        pose === 'read'
-          ? `<path d="M35 93L60 98L85 93V114L60 119L35 113Z" fill="#e9d3ac" stroke="#695046" stroke-width="2"/><path d="M60 98V119" stroke="#695046"/>`
-          : pose === 'carry'
-            ? `<rect x="38" y="94" width="45" height="30" rx="3" fill="#c69272"/><path d="M59 94V124M38 104H83" stroke="#f5deb0" stroke-width="5"/>`
-            : pose === 'water'
-              ? `<path d="M86 102h19v20H86ZM105 108l12-8v5l-12 12" fill="#79abb1" stroke="#56787f" stroke-width="2"/>`
-              : ['sweep', 'wipe'].includes(pose)
-                ? `<path d="M91 93L105 157" stroke="#a7845d" stroke-width="4"/><path d="M95 148L116 146L120 163H94Z" fill="#e3c68b"/>`
-                : pose === 'sing'
-                  ? `<text x="88" y="57" fill="#74668e" font-size="20">♫</text>`
-                  : '';
-    const body = `<g data-part="rig-body" transform="${direction === 'left' ? 'translate(120 0) scale(-1 1)' : ''}"><g data-part="posture" transform="${pose === 'bow' ? 'rotate(13 60 145)' : seated ? 'translate(0 18)' : ''}"><g data-part="legs" transform="${seated ? 'translate(0 44) scale(1 .68)' : ''}"><path d="M42 112L42 147Q43 154 50 154L55 152L61 112Z" fill="${skin}"/><path d="M62 112L65 151Q71 155 76 149L78 110Z" fill="${skin}"/><path d="M39 149Q46 145 55 149L59 158Q55 166 35 162Z" fill="${shoes}" stroke="#56433e" stroke-width="2"/><path d="M64 149Q72 146 79 149L84 162Q65 167 63 159Z" fill="${shoes}" stroke="#56433e" stroke-width="2"/></g>${frontArms ? '' : arms}<g data-part="bottom">${female ? `<path d="M43 106H76L91 133Q60 146 30 133Z" fill="${bottom}" stroke="#ffffff" stroke-opacity=".27" stroke-width="3"/>` : `<path d="M40 105H80L78 130H63L60 115L57 130H43Z" fill="${bottom}" stroke="#ffffff" stroke-opacity=".22" stroke-width="3"/>`}</g><g data-part="torso"><path d="M44 70Q60 65 77 70Q87 86 81 111Q60 121 39 111Q34 87 44 70Z" fill="${top}" stroke="#8b7b76" stroke-opacity=".35" stroke-width="2"/>${back ? '' : `<path d="M53 69L60 80L68 69" fill="none" stroke="#fffdf3" stroke-width="5"/><circle cx="60" cy="89" r="2" fill="#b09a88"/><circle cx="60" cy="101" r="2" fill="#b09a88"/>`}</g>${frontArms ? arms : ''}<g data-part="head" transform="translate(-18 -8) scale(1.3)">${head}<g opacity=".32" fill="#e98e8b">${!back && !side ? '<ellipse cx="43" cy="55" rx="6" ry="3"/><ellipse cx="78" cy="55" rx="6" ry="3"/>' : ''}</g></g><g data-part="accessory">${acc === 'acc_bow' ? `<path d="M73 19Q96 -1 93 23Q81 23 73 19Q60 2 58 24Z" fill="#df8d9f" stroke="#ad6278" stroke-width="2"/>` : acc === 'acc_lily' ? `<circle cx="83" cy="27" r="6" fill="#f0ce93"/><path d="M83 17L86 22L94 19L89 26L94 32L85 31L83 39L80 31L72 32L78 25L73 19L80 22Z" fill="#fff1c0"/>` : acc === 'acc_bag' ? `<path d="M42 79Q60 97 89 121" fill="none" stroke="#8b6a54" stroke-width="5"/><rect x="76" y="113" width="20" height="21" rx="4" fill="#a7805f"/>` : ''}</g><g data-part="held-prop">${prop}</g></g></g>`;
-    const atlasLayers = layers
-      .map((layer) =>
-        layer.frames
-          .map((frame, index) => {
-            const columns = layer.width / 120,
-              x = (frame % columns) * 120,
-              y = Math.floor(frame / columns) * 185;
-            return `<svg width="120" height="185" viewBox="${x} ${y} 120 185" overflow="hidden" ${layer.frames.length === 2 ? `class="atlas-frame" data-frame="${index}" style="animation-delay:-${index * 0.4}s"` : ''}><image href="${layer.url}" width="${layer.width}" height="${layer.height}"/></svg>`;
-          })
-          .join(''),
-      )
-      .join('');
-    const result = `<svg viewBox="0 0 120 185" xmlns="http://www.w3.org/2000/svg" data-sprite-version="${spriteVersion}" data-direction="${direction}" data-pose="${pose}" data-seating-pose="${pose === 'sit' ? 'sit_back' : ''}" aria-label="Nhân vật ${female ? 'nữ' : 'nam'}"><ellipse cx="60" cy="175" rx="31" ry="7" fill="#5b4a59" opacity=".25"/>${body}${atlasLayers}</svg>`;
-    if (avatarCache.size >= 256) avatarCache.delete(avatarCache.keys().next().value);
-    avatarCache.set(key, result);
-    return result;
+    return window.PARISH_AVATAR_V10.adapt(person, window.PARISH_WARDROBE);
   }
   window.PARISH_ART = { scene, avatar, esc, directions, poses, spriteVersion };
 })();

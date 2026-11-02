@@ -2057,3 +2057,218 @@ svg[data-sprite-version][data-pose='walk'] [data-part='legs'] {
 .low-motion .christmas-bulb {
   animation: none !important;
 }
+
+.studio-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.85fr) minmax(0, 1.15fr);
+  gap: 22px;
+}
+.studio-preview,
+.studio-controls {
+  min-width: 0;
+}
+.studio-arch {
+  height: 360px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 100px 100px 18px 18px;
+  border: 1px solid #dbbd8d;
+  background:
+    radial-gradient(ellipse at 25% 30%, #fff9df 0, transparent 55%),
+    linear-gradient(160deg, #f3e6ca, #d5bc9e);
+  box-shadow: inset 0 0 0 12px #fff9e166;
+  margin-bottom: 12px;
+}
+.studio-arch::before {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 9%;
+  height: 12%;
+  border-radius: 50%;
+  background: linear-gradient(#f9e9d1, #b2967f);
+  box-shadow: 0 6px 0 #9c7c65;
+}
+.studio-hero {
+  width: 210px;
+  height: 324px;
+  z-index: 1;
+}
+.studio-hero > svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.studio-name {
+  position: absolute;
+  bottom: 9px;
+  z-index: 2;
+  background: #335a50;
+  color: #fff3dc;
+  padding: 5px 18px;
+  border-radius: 18px;
+  font-weight: 700;
+}
+.studio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.studio-row button {
+  min-height: 44px;
+}
+.studio-controls h3 {
+  margin: 8px 0;
+  font-size: 14px;
+}
+.studio-skin {
+  width: 44px;
+  height: 44px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #b59678;
+  color: #fff;
+  font-weight: 900;
+}
+.studio-skin[aria-pressed='true'] {
+  outline: 3px solid #356757;
+  outline-offset: 2px;
+}
+.studio-closet-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+}
+.studio-items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 270px;
+  overflow: auto;
+}
+.studio-item {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  min-height: 112px;
+  border: 1px solid #d9c7aa;
+  background: #fffaf0;
+  border-radius: 12px;
+  padding: 8px;
+  color: #4a5348;
+}
+.studio-item b {
+  font-size: 11px;
+  text-align: center;
+}
+.studio-item small {
+  font-size: 10px;
+}
+.studio-item.equipped {
+  border: 2px solid #54856a;
+  background: #edf3e6;
+}
+.studio-item.previewing {
+  outline: 2px dashed #c89c55;
+  outline-offset: -5px;
+}
+.studio-swatch {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 23px;
+}
+.studio-selection {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f4ead7;
+  font-size: 12px;
+}
+.studio-selection button {
+  display: block;
+  margin-top: 8px;
+  min-height: 44px;
+}
+@media (max-width: 700px) {
+  .studio-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .studio-arch {
+    height: 290px;
+  }
+  .studio-hero {
+    width: 170px;
+    height: 262px;
+  }
+  .studio-items {
+    max-height: 280px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  svg.v10-render * {
+    animation: none !important;
+  }
+}
+.low-motion svg.v10-render * {
+  animation: none !important;
+}
+
+/* P0 V12 maps share geometry/footprints with the server catalog. */
+.stage[data-art='v12-layered-1'] {
+  width: max(105vw, 1440px);
+  height: auto;
+  aspect-ratio: 16/9;
+  min-height: 0;
+  overflow: visible;
+  background: #d7c4a4;
+}
+.stage[data-art='v12-layered-1'] .scenery {
+  pointer-events: none;
+}
+.stage[data-art='v12-layered-1'] .scene-prop img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  pointer-events: none;
+}
+.stage[data-art='v12-layered-1'] .hotspot {
+  width: 44px;
+  height: 44px;
+  z-index: 1100 !important;
+  font-size: 20px;
+  background: #5c463ce8;
+  border: 1px solid #f3d49f;
+}
+.stage[data-art='v12-layered-1'] .hotspot[data-spot^='seat'] {
+  font-size: 16px;
+  opacity: 0.62;
+}
+.stage[data-art='v12-layered-1'] .hotspot[data-spot^='seat']:hover {
+  opacity: 1;
+}
+.stage[data-art='v12-layered-1'] .actor-name {
+  font-size: 10px;
+}
+@media (max-width: 650px) {
+  .stage[data-art='v12-layered-1'] {
+    width: 1280px;
+    height: 720px;
+    aspect-ratio: auto;
+  }
+  .stage[data-art='v12-layered-1'] .scene-prop {
+    filter: none;
+  }
+}

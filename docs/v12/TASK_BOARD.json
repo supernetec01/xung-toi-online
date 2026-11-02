@@ -82,10 +82,29 @@
       ],
       "scope": "Avatar rig 4 hướng/poses, equip item, camera scale, UI studio",
       "acceptance": "Male/female, outfit, reload, scene transition, không xoay đầu 360",
-      "status": "TODO",
+      "status": "VERIFIED",
       "kind": "code",
-      "actualFiles": [],
-      "evidence": []
+      "actualFiles": [
+        "game_v3/src/avatar-v10.js",
+        "game_v3/src/avatar-v10.css",
+        "game_v3/src/avatar-studio.js",
+        "game_v3/src/art.js",
+        "game_v3/src/game.js",
+        "game_v3/src/rules.js",
+        "server/game.cjs",
+        "server/world.cjs",
+        "public/admin/index.html",
+        "db/migrations/011_v10_avatar_palette.sql",
+        "tests/v12-avatar.cjs"
+      ],
+      "evidence": [
+        "artifacts/v12/t03-avatar.txt",
+        "artifacts/v12/t03-wardrobe.txt",
+        "artifacts/v12/t03-performance.txt",
+        "artifacts/v12/after/avatar-1366.jpg",
+        "artifacts/v12/after/avatar-390.jpg",
+        "artifacts/v12/after/avatar-motion.webm"
+      ]
     },
     {
       "id": "T04",

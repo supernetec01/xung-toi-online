@@ -1,0 +1,4 @@
+-- V10 appearance uses V4 inventory/wallet. Preserve existing item IDs/prices.
+UPDATE catalog_current SET payload=jsonb_set(payload,'{items}',(payload->'items') || COALESCE((SELECT jsonb_agg(n) FROM jsonb_array_elements('[{"id":"hair_honey","name":"Tóc màu mật ong","slot":"hair","icon":"💇","color":"#bc8552","price":110},{"id":"hair_silver","name":"Tóc ánh bạc","slot":"hair","icon":"💇","color":"#9998a0","price":150},{"id":"hair_auburn","name":"Tóc nâu đỏ","slot":"hair","icon":"💇","color":"#a55432","price":110}]'::jsonb) n WHERE NOT EXISTS(SELECT 1 FROM jsonb_array_elements(payload->'items') old WHERE old->>'id'=n->>'id')),'[]'::jsonb));
+UPDATE catalog_current SET version=version+1;
+INSERT INTO catalog_publications(version,payload,reason) SELECT version,payload,'V10 avatar palettes; retain V4 item ownership and ledger' FROM catalog_current;

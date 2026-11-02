@@ -29,8 +29,16 @@ function inspectSave(raw) {
     if (key in raw && !object(raw[key])) issues.push(`Invalid ${key}`);
   if (raw.gender !== undefined && !['male', 'female'].includes(raw.gender))
     issues.push('Invalid avatar gender');
-  if (raw.skin !== undefined && !['#f7cfac', '#d9a77f', '#ae7658'].includes(raw.skin))
+  if (
+    raw.skin !== undefined &&
+    !require('../game_v3/src/avatar-v10.js').SKIN_HEX.includes(raw.skin)
+  )
     issues.push('Invalid avatar palette');
+  if (
+    raw.hairStyle !== undefined &&
+    !require('../game_v3/src/avatar-v10.js').HAIR_STYLES.includes(raw.hairStyle)
+  )
+    issues.push('Invalid hairstyle');
   if (raw.scene !== undefined && !D.scenes[raw.scene]) issues.push('Unknown scene needs mapping');
   for (const key of ['x', 'y'])
     if (raw[key] !== undefined && (!Number.isFinite(raw[key]) || raw[key] < 0 || raw[key] > 100))

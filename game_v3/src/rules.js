@@ -6,6 +6,8 @@
     username: '',
     gender: 'female',
     skin: '#f7cfac',
+    hairStyle: 'auto',
+    appearanceVersion: 0,
     scene: 'courtyard',
     x: 51,
     y: 82,
@@ -76,6 +78,11 @@
         )
           return false;
     }
+    if (
+      raw.hairStyle !== undefined &&
+      !['auto', 'short', 'side', 'bob', 'pony', 'wave', 'curl'].includes(raw.hairStyle)
+    )
+      return false;
     for (const key of ['username', 'gender', 'skin', 'scene', 'tracked'])
       if (key in raw && typeof raw[key] !== 'string') return false;
     if (
@@ -96,6 +103,8 @@
     delete s.donationDemo;
     delete s.donorBoard;
     s.version = 3;
+    if (!['auto', 'short', 'side', 'bob', 'pony', 'wave', 'curl'].includes(s.hairStyle))
+      s.hairStyle = 'auto';
     s.equipped = { ...defaults().equipped, ...s.equipped };
     if (!D.scenes[s.scene]) s.scene = 'courtyard';
     // Ownership survives archive/removal. Unknown IDs are retained for future mapping.

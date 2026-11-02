@@ -488,6 +488,30 @@ window.PARISH_DATA = {
       price: 170,
     },
     { id: 'acc_lily', name: 'Hoa ly nhỏ', slot: 'acc', icon: '🌼', color: '#f7dca6', price: 110 },
+    {
+      id: 'hair_honey',
+      name: 'Tóc màu mật ong',
+      slot: 'hair',
+      icon: '💇',
+      color: '#bc8552',
+      price: 110,
+    },
+    {
+      id: 'hair_silver',
+      name: 'Tóc ánh bạc',
+      slot: 'hair',
+      icon: '💇',
+      color: '#9998a0',
+      price: 150,
+    },
+    {
+      id: 'hair_auburn',
+      name: 'Tóc nâu đỏ',
+      slot: 'hair',
+      icon: '💇',
+      color: '#a55432',
+      price: 110,
+    },
   ],
 };
 
